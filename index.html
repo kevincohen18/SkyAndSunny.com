@@ -35,6 +35,34 @@
       },
     }
   </script>
+  <!-- Scroll Animations CSS -->
+  <style>
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 5rem;
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.active,
+    .reveal-left.active,
+    .reveal-right.active {
+      opacity: 1;
+      transform: translate(0);
+    }
+  </style>
 </head>
 <body class="bg-cream text-charcoal font-body">
 
@@ -90,7 +118,7 @@
       </p>
 
       <!-- Stats -->
-      <div id="stats-container" class="flex flex-wrap justify-center gap-8 md:gap-12 mb-10">
+      <div id="stats-container" class="flex flex-wrap justify-center gap-8 md:gap-12 mb-10 reveal">
         <div class="text-center">
           <span class="block text-3xl md:text-4xl font-heading font-bold text-sunny-yellow counter" data-target="11900" data-suffix="K" data-display="11.9K">0</span>
           <span class="text-sm md:text-base text-charcoal/60 font-semibold">Followers</span>
@@ -115,12 +143,12 @@
   <!-- Meet the Stars Section -->
   <section id="sunny" class="py-20 px-4">
     <div class="max-w-6xl mx-auto">
-      <h2 class="text-3xl md:text-4xl font-heading font-bold text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold text-center mb-12 reveal">
         Meet the Stars
       </h2>
 
       <!-- Sunny Card -->
-      <div class="max-w-4xl mx-auto flex flex-col md:flex-row bg-white rounded-2xl shadow-lg overflow-hidden p-6 md:p-8 gap-6 md:gap-8 mb-12">
+      <div class="max-w-4xl mx-auto flex flex-col md:flex-row bg-white rounded-2xl shadow-lg overflow-hidden p-6 md:p-8 gap-6 md:gap-8 mb-12 reveal-left">
         <!-- Photo Placeholder -->
         <div class="flex-shrink-0 mx-auto md:mx-0">
           <div class="w-48 h-48 md:w-64 md:h-64 rounded-full bg-gradient-to-br from-sunny-yellow to-sunny-green flex items-center justify-center border-4 border-sunny-yellow shadow-md">
@@ -148,7 +176,7 @@
         </div>
       </div>
       <!-- Sky Card -->
-      <div id="sky" class="max-w-4xl mx-auto flex flex-col md:flex-row-reverse bg-white rounded-2xl shadow-lg overflow-hidden p-6 md:p-8 gap-6 md:gap-8">
+      <div id="sky" class="max-w-4xl mx-auto flex flex-col md:flex-row-reverse bg-white rounded-2xl shadow-lg overflow-hidden p-6 md:p-8 gap-6 md:gap-8 reveal-right">
         <!-- Photo Placeholder -->
         <div class="flex-shrink-0 mx-auto md:mx-0">
           <div class="w-48 h-48 md:w-64 md:h-64 rounded-full bg-gradient-to-br from-sky-violet to-sky-deep flex items-center justify-center border-4 border-sky-violet shadow-md">
@@ -182,13 +210,13 @@
   <!-- TikTok Highlights Section -->
   <section id="videos" class="py-20 px-4 bg-gradient-to-b from-cream to-white">
     <div class="max-w-6xl mx-auto">
-      <h2 class="text-3xl md:text-4xl font-heading font-bold text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold text-center mb-12 reveal">
         TikTok Highlights
       </h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Video Card 1 -->
-        <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noopener noreferrer" class="group rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
+        <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noopener noreferrer" class="video-card reveal group rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
           <div class="aspect-video bg-gradient-to-br from-sunny-yellow to-sunny-green flex items-center justify-center relative">
             <div class="w-16 h-16 rounded-full bg-white/80 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
               <span class="text-charcoal text-2xl ml-1">&#9654;</span>
@@ -201,7 +229,7 @@
         </a>
 
         <!-- Video Card 2 -->
-        <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noopener noreferrer" class="group rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
+        <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noopener noreferrer" class="video-card reveal group rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
           <div class="aspect-video bg-gradient-to-br from-sky-violet to-sky-deep flex items-center justify-center relative">
             <div class="w-16 h-16 rounded-full bg-white/80 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
               <span class="text-charcoal text-2xl ml-1">&#9654;</span>
@@ -214,7 +242,7 @@
         </a>
 
         <!-- Video Card 3 -->
-        <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noopener noreferrer" class="group rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
+        <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noopener noreferrer" class="video-card reveal group rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
           <div class="aspect-video bg-gradient-to-br from-sunny-yellow to-sky-violet flex items-center justify-center relative">
             <div class="w-16 h-16 rounded-full bg-white/80 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
               <span class="text-charcoal text-2xl ml-1">&#9654;</span>
@@ -227,7 +255,7 @@
         </a>
 
         <!-- Video Card 4 -->
-        <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noopener noreferrer" class="group rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
+        <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noopener noreferrer" class="video-card reveal group rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
           <div class="aspect-video bg-gradient-to-br from-sunny-green to-sky-blue flex items-center justify-center relative">
             <div class="w-16 h-16 rounded-full bg-white/80 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
               <span class="text-charcoal text-2xl ml-1">&#9654;</span>
@@ -240,7 +268,7 @@
         </a>
 
         <!-- Video Card 5 -->
-        <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noopener noreferrer" class="group rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
+        <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noopener noreferrer" class="video-card reveal group rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
           <div class="aspect-video bg-gradient-to-br from-sky-deep to-sky-violet flex items-center justify-center relative">
             <div class="w-16 h-16 rounded-full bg-white/80 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
               <span class="text-charcoal text-2xl ml-1">&#9654;</span>
@@ -253,7 +281,7 @@
         </a>
 
         <!-- Video Card 6 -->
-        <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noopener noreferrer" class="group rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
+        <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noopener noreferrer" class="video-card reveal group rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
           <div class="aspect-video bg-gradient-to-br from-sunny-yellow to-sunny-green flex items-center justify-center relative">
             <div class="w-16 h-16 rounded-full bg-white/80 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
               <span class="text-charcoal text-2xl ml-1">&#9654;</span>
@@ -386,6 +414,38 @@
     if (statsContainer) {
       statsObserver.observe(statsContainer);
     }
+  </script>
+
+  <!-- Scroll Reveal & Nav Shadow Script -->
+  <script>
+    // Scroll Reveal Observer
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+      revealObserver.observe(el);
+    });
+
+    // Stagger video card animations
+    document.querySelectorAll('.video-card').forEach((card, index) => {
+      card.style.transitionDelay = `${index * 0.1}s`;
+    });
+
+    // Nav shadow on scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('shadow-md');
+      } else {
+        navbar.classList.remove('shadow-md');
+      }
+    });
   </script>
 
 </body>
