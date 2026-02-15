@@ -79,6 +79,39 @@
     </div>
   </nav>
 
+  <!-- Hero Section -->
+  <section id="home" class="min-h-screen flex items-center justify-center text-center pt-24 pb-16 px-4 bg-gradient-to-br from-sunny-yellow/5 via-cream to-sky-violet/5">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-5xl md:text-7xl font-heading font-bold bg-gradient-to-r from-sunny-yellow to-sky-violet bg-clip-text text-transparent leading-tight mb-4">
+        Sky &amp; Sunny
+      </h1>
+      <p class="text-lg md:text-xl text-charcoal/70 mb-10 max-w-2xl mx-auto">
+        Two Green Cheek Conures Taking Over TikTok
+      </p>
+
+      <!-- Stats -->
+      <div id="stats-container" class="flex flex-wrap justify-center gap-8 md:gap-12 mb-10">
+        <div class="text-center">
+          <span class="block text-3xl md:text-4xl font-heading font-bold text-sunny-yellow counter" data-target="11900" data-suffix="K" data-display="11.9K">0</span>
+          <span class="text-sm md:text-base text-charcoal/60 font-semibold">Followers</span>
+        </div>
+        <div class="text-center">
+          <span class="block text-3xl md:text-4xl font-heading font-bold text-sky-violet counter" data-target="882900" data-suffix="K" data-display="882.9K">0</span>
+          <span class="text-sm md:text-base text-charcoal/60 font-semibold">Likes</span>
+        </div>
+        <div class="text-center">
+          <span class="block text-3xl md:text-4xl font-heading font-bold text-sky-deep counter" data-target="13000000" data-suffix="M+" data-display="13M+">0</span>
+          <span class="text-sm md:text-base text-charcoal/60 font-semibold">Views</span>
+        </div>
+      </div>
+
+      <!-- CTA Button -->
+      <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noopener noreferrer" class="inline-block rounded-full px-8 py-3 bg-gradient-to-r from-sunny-yellow to-sunny-green text-white font-bold shadow-lg hover:scale-105 hover:shadow-xl transition-all duration-300 text-lg">
+        Watch on TikTok &rarr;
+      </a>
+    </div>
+  </section>
+
   <!-- Mobile Menu Toggle Script -->
   <script>
     const menuToggle = document.getElementById('menu-toggle');
@@ -114,6 +147,64 @@
         bar3.style.transform = '';
       });
     });
+  </script>
+
+  <!-- Counter Animation Script -->
+  <script>
+    function animateCounters() {
+      const counters = document.querySelectorAll('.counter');
+      counters.forEach(counter => {
+        const display = counter.getAttribute('data-display');
+        const target = parseInt(counter.getAttribute('data-target'));
+        const duration = 2000;
+        const startTime = performance.now();
+
+        function formatNumber(num) {
+          if (target >= 1000000) {
+            const millions = num / 1000000;
+            if (millions >= target / 1000000) return display;
+            return Math.floor(millions) + 'M+';
+          } else if (target >= 1000) {
+            const thousands = num / 1000;
+            if (thousands >= target / 1000) return display;
+            return (Math.floor(thousands * 10) / 10).toFixed(1) + 'K';
+          }
+          return Math.floor(num).toString();
+        }
+
+        function update(currentTime) {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          // Ease out cubic
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = eased * target;
+
+          if (progress < 1) {
+            counter.textContent = formatNumber(current);
+            requestAnimationFrame(update);
+          } else {
+            counter.textContent = display;
+          }
+        }
+
+        requestAnimationFrame(update);
+      });
+    }
+
+    // Intersection Observer for stats
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounters();
+          statsObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    const statsContainer = document.getElementById('stats-container');
+    if (statsContainer) {
+      statsObserver.observe(statsContainer);
+    }
   </script>
 
 </body>
