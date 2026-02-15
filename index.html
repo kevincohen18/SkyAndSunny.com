@@ -38,5 +38,83 @@
 </head>
 <body class="bg-cream text-charcoal font-body">
 
+  <!-- Navigation -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md z-50 transition-shadow duration-300">
+    <div class="max-w-6xl mx-auto flex justify-between items-center px-4 py-3 md:px-6">
+      <!-- Brand -->
+      <a href="#home" class="font-heading font-bold text-xl md:text-2xl bg-gradient-to-r from-sunny-yellow to-sky-violet bg-clip-text text-transparent">
+        Sky &amp; Sunny
+      </a>
+
+      <!-- Desktop Links -->
+      <div class="hidden md:flex items-center gap-6 font-heading font-600">
+        <a href="#home" class="hover:text-sunny-yellow transition-colors">Home</a>
+        <a href="#sunny" class="hover:text-sunny-yellow transition-colors">Sunny</a>
+        <a href="#sky" class="hover:text-sky-violet transition-colors">Sky</a>
+        <a href="#videos" class="hover:text-sunny-yellow transition-colors">Videos</a>
+        <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-full bg-gradient-to-r from-sunny-yellow to-sky-violet text-white font-bold text-sm hover:scale-105 transition-transform">
+          TikTok
+        </a>
+      </div>
+
+      <!-- Mobile Hamburger -->
+      <button id="menu-toggle" class="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span class="block w-6 h-0.5 bg-charcoal transition-all duration-300" id="bar1"></span>
+        <span class="block w-6 h-0.5 bg-charcoal transition-all duration-300" id="bar2"></span>
+        <span class="block w-6 h-0.5 bg-charcoal transition-all duration-300" id="bar3"></span>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden hidden bg-white/95 backdrop-blur-md border-t border-gray-100">
+      <div class="flex flex-col items-center gap-4 py-6 font-heading font-semibold">
+        <a href="#home" class="mobile-link hover:text-sunny-yellow transition-colors">Home</a>
+        <a href="#sunny" class="mobile-link hover:text-sunny-yellow transition-colors">Sunny</a>
+        <a href="#sky" class="mobile-link hover:text-sky-violet transition-colors">Sky</a>
+        <a href="#videos" class="mobile-link hover:text-sunny-yellow transition-colors">Videos</a>
+        <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noopener noreferrer" class="px-6 py-2 rounded-full bg-gradient-to-r from-sunny-yellow to-sky-violet text-white font-bold text-sm hover:scale-105 transition-transform">
+          TikTok
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu Toggle Script -->
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const bar1 = document.getElementById('bar1');
+    const bar2 = document.getElementById('bar2');
+    const bar3 = document.getElementById('bar3');
+
+    menuToggle.addEventListener('click', () => {
+      const isOpen = !mobileMenu.classList.contains('hidden');
+      mobileMenu.classList.toggle('hidden');
+      menuToggle.setAttribute('aria-expanded', !isOpen);
+
+      // Animate hamburger to X
+      if (!isOpen) {
+        bar1.style.transform = 'rotate(45deg) translate(4px, 4px)';
+        bar2.style.opacity = '0';
+        bar3.style.transform = 'rotate(-45deg) translate(4px, -4px)';
+      } else {
+        bar1.style.transform = '';
+        bar2.style.opacity = '1';
+        bar3.style.transform = '';
+      }
+    });
+
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        bar1.style.transform = '';
+        bar2.style.opacity = '1';
+        bar3.style.transform = '';
+      });
+    });
+  </script>
+
 </body>
 </html>
