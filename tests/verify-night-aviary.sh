@@ -32,12 +32,28 @@ test -f "$script"
 for asset in \
   sunny-portrait.webp \
   sky-portrait.webp \
+  sunny-cutout.webp \
+  sky-cutout.webp \
   moment-watermelon.webp \
   moment-strawberries.webp \
   moment-obsessions.webp
 do
   test -f "sandbox/night-aviary/assets/$asset"
   file "sandbox/night-aviary/assets/$asset" | grep -q 'Web/P image'
+done
+
+for cutout in sunny-cutout.webp sky-cutout.webp
+do
+  cutout_path="sandbox/night-aviary/assets/$cutout"
+  cutout_bytes=$(wc -c < "$cutout_path" | tr -d ' ')
+  if [ "$cutout_bytes" -gt 400000 ]; then
+    echo "Hero cutout exceeds 400KB performance budget: $cutout ($cutout_bytes bytes)" >&2
+    exit 1
+  fi
+  if command -v webpinfo >/dev/null 2>&1 && ! webpinfo "$cutout_path" 2>/dev/null | grep -q 'Chunk ALPH'; then
+    echo "Hero cutout lost transparency: $cutout" >&2
+    exit 1
+  fi
 done
 
 require '7214467392791907590' "$page" 'watermelon TikTok mapping'
@@ -56,10 +72,9 @@ require 'class="[^\"]*canopy-back' "$page" 'distant canopy plane'
 require 'class="[^\"]*canopy-middle' "$page" 'middle canopy plane'
 require 'class="[^\"]*canopy-foreground' "$page" 'foreground canopy plane'
 require 'class="habitat-branch"' "$page" 'continuous branch path'
-require 'class="[^\"]*sunny-mask' "$page" 'Sunny subject-following mask'
-require 'class="[^\"]*sky-mask' "$page" 'Sky subject-following mask'
-require 'clipPath id="sunny-clip" clipPathUnits="objectBoundingBox"' "$page" 'smooth Sunny clip path'
-require 'clipPath id="sky-clip" clipPathUnits="objectBoundingBox"' "$page" 'smooth Sky clip path'
+require 'sunny-cutout\.webp' "$page" 'transparent Sunny cutout'
+require 'sky-cutout\.webp' "$page" 'transparent Sky cutout'
+require 'class="resident-cutout"' "$page" 'direct transparent resident rendering'
 require 'symbol id="leaf-spray"' "$page" 'compound botanical leaf motif'
 require 'class="[^\"]*moment-twig' "$page" 'moment-level twig hook'
 require 'data-depth="-' "$page" 'opposing depth plane'
@@ -69,6 +84,10 @@ require 'data-entrance' "$page" 'single canopy entrance hook'
 require 'requestAnimationFrame' "$script" 'frame-throttled depth motion'
 require 'IntersectionObserver' "$script" 'offscreen motion pause'
 require 'pointerleave' "$script" 'pointer-exit motion reset'
+require 'data-face="sunny"' "$page" 'Sunny face safe-zone hook'
+require 'data-face="sky"' "$page" 'Sky face safe-zone hook'
+require 'html:not\(\.js\) \.site-header' "$css" 'JS-off mobile header flow'
+require 'caption-clear' "$page" 'caption clear-zone hook'
 
 star_count=$(grep -o 'class="star"' "$page" | wc -l | tr -d ' ')
 if [ "$star_count" -ne 12 ]; then
@@ -80,6 +99,8 @@ forbid 'Meet the birds|Two portraits, two unmistakable palettes\.' "$page" 'dupl
 forbid 'hero-kicker|meet-section|bird-introduction|flock-bird|hero-perch|perch-divider|moments-layout' "$page" 'brochure/grid class'
 forbid 'data-bird' "$page" 'gull-like motion marks'
 forbid '--mask-(sunny|sky): polygon' "$css" 'jagged polygon portrait mask'
+forbid 'sunny-mask|sky-mask|sunny-clip|sky-clip|portrait-mask' "$page" 'obsolete hero photo mask'
+forbid 'Fraunces|Source Sans 3' "$css" 'unavailable remote-font claims'
 
 # Each real moment remains paired with its exact source image and destination.
 for mapping in \

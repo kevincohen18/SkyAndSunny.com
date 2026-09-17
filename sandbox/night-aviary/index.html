@@ -30,12 +30,6 @@
   <main id="main-content">
     <svg class="scene-definitions" width="0" height="0" aria-hidden="true" focusable="false">
       <defs>
-        <clipPath id="sunny-clip" clipPathUnits="objectBoundingBox">
-          <path d="M.2 .59C.27 .47 .3 .35 .42 .29C.5 .24 .59 .24 .64 .17C.73 .08 .85 .1 .93 .2C1 .29 .98 .46 .91 .58C.88 .66 .82 .71 .75 .74C.81 .79 .8 .85 .72 .87C.64 .89 .57 .87 .49 .83C.39 .8 .3 .72 .2 .59ZM0 .53C.12 .51 .23 .54 .38 .62C.3 .69 .18 .72 0 .66ZM.48 .78C.55 .8 .63 .8 .7 .77C.72 .84 .69 .9 .63 .94C.59 .98 .54 1 .5 .98C.52 .9 .5 .83 .48 .78Z"></path>
-        </clipPath>
-        <clipPath id="sky-clip" clipPathUnits="objectBoundingBox">
-          <path d="M.1 .36C.11 .27 .18 .22 .26 .21C.33 .13 .48 .14 .56 .22C.66 .28 .7 .4 .71 .52C.72 .62 .78 .73 .84 .82C.83 .88 .76 .91 .67 .85C.67 .91 .64 .98 .6 1H.54C.56 .92 .54 .83 .47 .77C.34 .72 .22 .65 .14 .56C.1 .5 .08 .42 .1 .36ZM0 .52C.2 .57 .43 .67 1 .88V.97C.57 .81 .27 .69 0 .61Z"></path>
-        </clipPath>
         <symbol id="leaf-spray" viewBox="0 0 180 140">
           <path class="leaf-stem" d="M14 130C50 102 88 72 164 15"></path>
           <path class="leaf-blade" d="M54 101C20 102 8 84 12 68C38 62 59 73 67 93C64 97 60 99 54 101Z"></path>
@@ -93,26 +87,24 @@
           <h1 id="hero-title"><span>Sky <i>&amp;</i></span><span>Sunny</span></h1>
         </div>
         <div class="residents" aria-label="Portraits of Sunny and Sky">
-          <figure class="resident resident-sunny">
-            <div class="portrait-mask sunny-mask">
-              <img src="assets/sunny-portrait.webp" width="1400" height="1400" alt="Sunny, a small green-and-yellow bird with a rosy tail and visible pink feet.">
-            </div>
+          <figure class="resident resident-sunny" data-face="sunny">
+            <img class="resident-cutout" src="assets/sunny-cutout.webp" width="1366" height="1152" alt="Sunny, a small green-and-yellow bird with a rosy tail and visible pink feet.">
             <figcaption>Sunny</figcaption>
           </figure>
-          <figure class="resident resident-sky">
-            <div class="portrait-mask sky-mask">
-              <img src="assets/sky-portrait.webp" width="1200" height="2134" alt="Sky, a turquoise-and-grey bird resting on a natural diagonal branch.">
-            </div>
+          <figure class="resident resident-sky" data-face="sky">
+            <img class="resident-cutout" src="assets/sky-cutout.webp" width="1024" height="1536" alt="Sky, a turquoise-and-grey bird ready to settle on the shared branch.">
             <figcaption>Sky</figcaption>
           </figure>
         </div>
 
         <svg class="shared-perch" viewBox="0 0 1440 230" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-          <path class="perch-shadow" d="M-40 164C236 114 444 138 658 147C760 152 824 94 924 47C1094 -26 1254 -34 1488 -52L1488 -28C1254 -10 1098 -2 934 67C832 115 766 174 656 169C444 160 236 136 -40 186Z"></path>
-          <path class="perch-main" d="M-40 150C236 100 444 124 658 133C760 138 824 80 924 33C1094 -40 1254 -48 1488 -66L1488 -44C1254 -26 1098 -18 934 53C832 101 766 160 656 155C444 146 236 122 -40 172Z"></path>
-          <path class="branch-edge" d="M-40 150C236 100 444 124 658 133C760 138 824 80 924 33C1094 -40 1254 -48 1488 -66"></path>
+          <path class="perch-shadow" d="M-40 164C236 114 444 138 658 147C760 152 824 131 924 84C1094 44 1254 14 1488 -6L1488 16C1254 34 1098 66 934 108C832 152 766 174 656 169C444 160 236 136 -40 186Z"></path>
+          <path class="perch-main" d="M-40 150C236 100 444 124 658 133C760 138 824 117 924 70C1094 30 1254 0 1488 -20L1488 2C1254 20 1098 52 934 94C832 138 766 160 656 155C444 146 236 122 -40 172Z"></path>
+          <path class="branch-edge" d="M-40 150C236 100 444 124 658 133C760 138 824 117 924 70C1094 30 1254 0 1488 -20"></path>
           <path class="perch-fork" d="M782 137C835 91 872 45 901 4L914 11C885 57 852 105 797 149Z"></path>
           <path class="branch-fissure" d="M188 126L226 139M476 129L514 143M690 136L724 128"></path>
+          <ellipse class="branch-knot" cx="352" cy="128" rx="16" ry="7" transform="rotate(8 352 128)"></ellipse>
+          <ellipse class="branch-knot" cx="836" cy="108" rx="12" ry="5" transform="rotate(-20 836 108)"></ellipse>
         </svg>
         <div class="hero-note">
           <p>Two tiny birds. One very big screen presence.</p>
@@ -144,14 +136,25 @@
       <div class="moments-intro">
         <h2 id="moments-title">Three small encounters after dark.</h2>
       </div>
+      <svg class="moment-foliage moment-foliage-left" viewBox="0 0 340 800" aria-hidden="true" focusable="false">
+        <use href="#leaf-spray" x="-80" y="28" width="300" height="232" transform="rotate(-22 70 144)"></use>
+        <use href="#leaf-spray" x="22" y="244" width="254" height="198" transform="rotate(26 148 344)"></use>
+        <use href="#leaf-spray" x="-98" y="490" width="318" height="246" transform="rotate(-30 62 612)"></use>
+      </svg>
+      <svg class="moment-foliage moment-foliage-right" viewBox="0 0 340 800" aria-hidden="true" focusable="false">
+        <use href="#leaf-spray" x="118" y="40" width="300" height="232" transform="rotate(116 270 156)"></use>
+        <use href="#leaf-spray" x="40" y="270" width="258" height="200" transform="rotate(148 172 370)"></use>
+        <use href="#leaf-spray" x="132" y="500" width="314" height="244" transform="rotate(120 288 622)"></use>
+      </svg>
       <svg class="habitat-branch" viewBox="0 0 1440 2720" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-        <path class="branch-shadow segment-one" d="M-80 92C180 124 384 246 456 470C538 724 364 836 408 1080"></path>
-        <path class="branch-shadow segment-two" d="M408 1080C450 1312 686 1370 876 1502C1070 1636 1184 1908 1058 2172"></path>
-        <path class="branch-shadow segment-three" d="M1058 2172C974 2348 792 2492 708 2780"></path>
-        <path class="branch-main segment-one" d="M-80 76C180 108 384 230 456 454C538 708 364 820 408 1064"></path>
-        <path class="branch-main segment-two" d="M408 1064C450 1296 686 1354 876 1486C1070 1620 1184 1892 1058 2156"></path>
-        <path class="branch-main segment-three" d="M1058 2156C974 2332 792 2476 708 2764"></path>
-        <path class="branch-edge" d="M-80 65C180 97 384 219 456 443C538 697 364 809 408 1053C450 1285 686 1343 876 1475C1070 1609 1184 1881 1058 2145C974 2321 792 2465 708 2753"></path>
+        <path class="branch-shadow segment-one" d="M-80 92C180 124 384 246 456 470C538 724 512 902 600 1080"></path>
+        <path class="branch-shadow segment-two" d="M600 1080C690 1298 820 1370 904 1510C996 1664 924 1900 700 2172"></path>
+        <path class="branch-shadow segment-three" d="M700 2172C626 2350 520 2508 430 2780"></path>
+        <path class="branch-main segment-one" d="M-80 76C180 108 384 230 456 454C538 708 512 886 600 1064"></path>
+        <path class="branch-main segment-two" d="M600 1064C690 1282 820 1354 904 1494C996 1648 924 1884 700 2156"></path>
+        <path class="branch-main segment-three" d="M700 2156C626 2334 520 2492 430 2764"></path>
+        <path class="branch-edge" d="M-80 65C180 97 384 219 456 443C538 697 512 875 600 1053C690 1271 820 1343 904 1483C996 1637 924 1873 700 2145C626 2323 520 2481 430 2753"></path>
+        <path class="branch-mark" d="M300 300L335 324M500 832L470 858M738 1374L774 1392M850 1760L812 1790M590 2378L555 2402"></path>
       </svg>
 
       <div class="moment-sequence">
@@ -162,7 +165,7 @@
             </a>
             <svg class="moment-twig twig-watermelon" viewBox="0 0 300 120" aria-hidden="true" focusable="false"><path d="M-12 98C82 92 154 52 310 18"></path><path d="M150 55C130 32 116 18 98 4"></path></svg>
           </div>
-          <div class="moment-copy">
+          <div class="moment-copy caption-clear">
             <span class="moment-number">01</span>
             <h3>Her life is forever changed</h3>
             <p>Sunny meets a watermelon on screen.</p>
@@ -175,9 +178,9 @@
             <a class="moment-image-link" href="https://www.tiktok.com/@skyandsunny.com/video/7214307952763620613" target="_blank" rel="noreferrer" aria-label="Watch Strawberries on TikTok">
               <img src="assets/moment-strawberries.webp" width="1400" height="851" alt="Sunny facing a tablet that shows bright red strawberries.">
             </a>
-            <svg class="moment-twig twig-strawberries" viewBox="0 0 300 120" aria-hidden="true" focusable="false"><path d="M-12 18C96 28 196 72 312 104"></path><path d="M174 66C198 44 214 24 226 4"></path></svg>
+            <svg class="moment-twig twig-strawberries" viewBox="0 0 300 120" aria-hidden="true" focusable="false"><path d="M-12 18C88 22 182 14 312 30"></path><path d="M154 18C174 8 190 4 206 2"></path></svg>
           </div>
-          <div class="moment-copy">
+          <div class="moment-copy caption-clear">
             <span class="moment-number">02</span>
             <h3>Strawberries</h3>
             <p>A bright red discovery, watched closely.</p>
@@ -192,7 +195,7 @@
             </a>
             <svg class="moment-twig twig-obsessions" viewBox="0 0 300 120" aria-hidden="true" focusable="false"><path d="M-12 96C80 88 178 52 312 10"></path><path d="M118 68C96 42 84 24 76 4"></path></svg>
           </div>
-          <div class="moment-copy">
+          <div class="moment-copy caption-clear">
             <span class="moment-number">03</span>
             <h3>Obsessions</h3>
             <p>Sunny and the little corn character.</p>

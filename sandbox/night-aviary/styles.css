@@ -16,8 +16,9 @@
   --color-moon-edge: rgba(238, 234, 215, 0.34);
   --color-shadow: rgba(0, 0, 0, 0.52);
   --color-menu: rgba(7, 16, 22, 0.96);
-  --font-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
-  --font-body: "Source Sans 3", "Avenir Next", Avenir, "Segoe UI", sans-serif;
+  /* Honest local stacks: this sandbox ships no licensed font files or remote font requests. */
+  --font-display: Georgia, "Times New Roman", Times, serif;
+  --font-body: "Avenir Next", Avenir, "Segoe UI", Helvetica, Arial, sans-serif;
   --size-display: clamp(5rem, 10vw, 9.5rem);
   --size-h2: clamp(3rem, 6vw, 6.5rem);
   --size-h3: clamp(2rem, 3.5vw, 4rem);
@@ -422,28 +423,18 @@ h1 i {
   margin: 0;
 }
 
-.portrait-mask {
+.resident-cutout {
   width: 100%;
   height: 100%;
-  filter: drop-shadow(-0.18rem -0.12rem 0 var(--color-moon-edge)) drop-shadow(var(--shadow-photo));
-}
-
-.portrait-mask img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: saturate(0.94) contrast(1.035);
-}
-
-.sunny-mask {
-  clip-path: url(#sunny-clip);
+  object-fit: contain;
+  filter: saturate(0.94) contrast(1.035) drop-shadow(-0.18rem -0.12rem 0 var(--color-moon-edge)) drop-shadow(var(--shadow-photo));
 }
 
 .resident-sunny {
   top: 19%;
-  left: 48%;
-  width: clamp(21rem, 32vw, 30rem);
-  height: clamp(22rem, 34vw, 32rem);
+  left: 39%;
+  width: clamp(20rem, 30vw, 27rem);
+  aspect-ratio: 1366 / 1152;
 }
 
 .resident-sunny figcaption {
@@ -452,19 +443,11 @@ h1 i {
   color: var(--color-sunny);
 }
 
-.sky-mask {
-  clip-path: url(#sky-clip);
-}
-
-.sky-mask img {
-  object-position: center 42%;
-}
-
 .resident-sky {
   top: 14%;
-  right: 4%;
-  width: clamp(17rem, 25vw, 23rem);
-  height: clamp(31rem, 45vw, 42rem);
+  right: 3%;
+  width: clamp(16rem, 22vw, 21rem);
+  aspect-ratio: 2 / 3;
 }
 
 .resident-sky figcaption {
@@ -482,7 +465,7 @@ h1 i {
 
 .shared-perch {
   position: absolute;
-  top: 48%;
+  top: 44%;
   left: 0;
   z-index: var(--layer-branch);
   width: 100%;
@@ -548,6 +531,12 @@ h1 i {
   stroke: var(--color-bark-dark);
   stroke-linecap: round;
   stroke-width: 4;
+}
+
+.branch-knot {
+  fill: var(--color-bark-dark);
+  stroke: var(--color-bark-edge);
+  stroke-width: 2;
 }
 
 .hero-note {
@@ -622,27 +611,25 @@ h1 i {
   background: var(--color-canvas);
 }
 
-.moments-habitat::before,
-.moments-habitat::after {
-  content: "";
+.moment-foliage {
   position: absolute;
   z-index: var(--layer-back);
-  width: 36rem;
-  height: 64rem;
-  background: var(--color-canopy-middle);
-  opacity: 0.52;
-  clip-path: polygon(0 5%, 42% 0, 68% 18%, 100% 32%, 72% 56%, 94% 82%, 48% 100%, 0 90%);
+  width: min(28vw, 24rem);
+  height: 52rem;
+  color: var(--color-canopy-middle);
+  fill: currentColor;
+  opacity: 0.6;
+  pointer-events: none;
 }
 
-.moments-habitat::before {
+.moment-foliage-left {
   top: 10rem;
-  left: -22rem;
+  left: -11rem;
 }
 
-.moments-habitat::after {
-  right: -23rem;
-  bottom: 8rem;
-  transform: scaleX(-1);
+.moment-foliage-right {
+  right: -11rem;
+  bottom: 10rem;
 }
 
 .moments-intro,
@@ -674,6 +661,13 @@ h2 {
   width: 100%;
   height: calc(100% - 18rem);
   overflow: visible;
+}
+
+.branch-mark {
+  fill: none;
+  stroke: var(--color-bark-dark);
+  stroke-linecap: round;
+  stroke-width: 10;
 }
 
 .moment-sequence {
@@ -863,11 +857,19 @@ h3 {
   }
 
   .resident-sunny {
-    left: 43%;
+    top: 19%;
+    left: 30%;
+    width: clamp(19rem, 40vw, 24rem);
   }
 
   .resident-sky {
-    right: 0;
+    right: 1%;
+    width: clamp(14rem, 30vw, 19rem);
+  }
+
+  .shared-perch {
+    top: 39%;
+    height: 30%;
   }
 
   .front-foliage {
@@ -879,7 +881,7 @@ h3 {
   }
 }
 
-@media (max-width: 48rem) {
+@media (max-width: 52rem) {
   :root {
     --header-height: 4rem;
     --size-display: clamp(3.45rem, 14vw, 6rem);
@@ -890,6 +892,17 @@ h3 {
 
   .site-nav {
     flex-wrap: wrap;
+  }
+
+  html:not(.js) .site-header {
+    position: relative;
+  }
+
+  html:not(.js) .site-menu {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding-inline: 0;
+    background: transparent;
   }
 
   .js .menu-toggle {
@@ -943,17 +956,15 @@ h3 {
   }
 
   .resident-sunny {
-    top: 31%;
-    left: -4%;
-    width: clamp(14rem, 58vw, 22rem);
-    height: clamp(14rem, 60vw, 23rem);
+    top: 27%;
+    left: -2%;
+    width: clamp(13rem, 54vw, 21rem);
   }
 
   .resident-sky {
     top: 28%;
     right: 0;
-    width: clamp(11rem, 45vw, 18rem);
-    height: clamp(20rem, 77vw, 30rem);
+    width: clamp(10rem, 40vw, 17rem);
   }
 
   .resident figcaption {
@@ -971,7 +982,7 @@ h3 {
   }
 
   .shared-perch {
-    top: 44%;
+    top: 38%;
     left: -12%;
     width: 124%;
     height: 28%;
@@ -999,10 +1010,19 @@ h3 {
   }
 
   .habitat-branch {
-    inset: 15rem auto 0 -4rem;
-    width: 26rem;
+    inset: 15rem auto 0 -11rem;
+    width: 14rem;
     height: calc(100% - 15rem);
   }
+
+  .moment-foliage {
+    width: 12rem;
+    height: 34rem;
+    opacity: 0.5;
+  }
+
+  .moment-foliage-left { left: -8rem; }
+  .moment-foliage-right { right: -8rem; }
 
   .moment-sequence {
     gap: 6rem;
@@ -1041,6 +1061,11 @@ h3 {
     width: 48%;
   }
 
+  .twig-strawberries,
+  .twig-obsessions {
+    width: 25%;
+  }
+
   .site-footer {
     grid-template-columns: minmax(0, 1fr);
     align-items: start;
@@ -1063,13 +1088,11 @@ h3 {
   .resident-sunny {
     top: 30%;
     width: 62vw;
-    height: 64vw;
   }
 
   .resident-sky {
     top: 28%;
     width: 48vw;
-    height: 82vw;
   }
 
   .hero-note {

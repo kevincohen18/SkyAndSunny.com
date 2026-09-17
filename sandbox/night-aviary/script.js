@@ -3,7 +3,7 @@ document.documentElement.classList.add("js");
 const menuToggle = document.querySelector("#menu-toggle");
 const siteMenu = document.querySelector("#site-menu");
 const currentYear = document.querySelector("#current-year");
-const mobileMenuQuery = window.matchMedia("(max-width: 48rem)");
+const mobileMenuQuery = window.matchMedia("(max-width: 52rem)");
 
 if (currentYear) {
   currentYear.textContent = String(new Date().getFullYear());
