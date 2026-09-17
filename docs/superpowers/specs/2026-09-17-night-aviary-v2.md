@@ -1,6 +1,6 @@
 # Night Aviary V2 — Moonlit Clearing
 
-**Status:** Approved iteration after V1 visual rejection  
+**Status:** Approved iteration after V1 visual rejection
 **Date:** 2026-09-17
 
 ## Why V1 was rejected
