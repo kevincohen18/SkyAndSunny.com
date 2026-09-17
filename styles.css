@@ -15,6 +15,7 @@
   --color-star: rgba(238, 234, 215, 0.72);
   --color-moon-edge: rgba(238, 234, 215, 0.34);
   --color-shadow: rgba(0, 0, 0, 0.52);
+  --color-contact-shadow: rgba(0, 0, 0, 0.18);
   --color-menu: rgba(7, 16, 22, 0.96);
   /* Honest local stacks: this sandbox ships no licensed font files or remote font requests. */
   --font-display: Georgia, "Times New Roman", Times, serif;
@@ -52,6 +53,7 @@
   --line-branch-edge: clamp(0.12rem, 0.3vw, 0.3rem);
   --focus-width: 0.2rem;
   --focus-offset: 0.3rem;
+  --shadow-contact: 0 0.1875rem 0.375rem var(--color-contact-shadow);
   --layer-back: 1;
   --layer-middle: 2;
   --layer-content: 3;
@@ -65,13 +67,8 @@
   --motion-entrance: 780ms;
   --motion-ease: cubic-bezier(0.2, 0.72, 0.24, 1);
   --entrance-distance: 0.75rem;
-  --twig-distance: 0.25rem;
   --depth-x: 0px;
   --depth-y: 0px;
-  --shadow-photo: 0 1.5rem 4rem var(--color-shadow);
-  --opening-wide: polygon(1% 7%, 97% 0, 100% 88%, 94% 100%, 2% 96%, 0 18%);
-  --opening-wide-reverse: polygon(4% 0, 99% 5%, 100% 94%, 3% 100%, 0 13%);
-  --opening-tall: polygon(7% 0, 95% 3%, 100% 96%, 84% 100%, 1% 94%, 0 10%);
 }
 
 *,
@@ -277,13 +274,16 @@ h3 {
 
 .moon-disc {
   position: absolute;
-  top: 9%;
-  left: 45%;
-  width: clamp(15rem, 25vw, 24rem);
+  top: calc(var(--header-height) + var(--space-6));
+  left: 74%;
+  width: clamp(4.5rem, 6vw, 6rem);
   aspect-ratio: 1;
   border-radius: 50%;
   background: var(--color-moon);
-  opacity: 0.82;
+  opacity: 0.65;
+  transform: translateX(-50%);
+  -webkit-mask: radial-gradient(circle at 27% 38%, transparent 0 57%, black 58%);
+  mask: radial-gradient(circle at 27% 38%, transparent 0 57%, black 58%);
 }
 
 .star-field {
@@ -450,7 +450,7 @@ h1 i {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: saturate(0.94) contrast(1.035) drop-shadow(-0.18rem -0.12rem 0 var(--color-moon-edge)) drop-shadow(var(--shadow-photo));
+  filter: brightness(0.94) saturate(0.9) contrast(1.02) drop-shadow(var(--shadow-contact));
 }
 
 .resident-sunny {
@@ -738,13 +738,9 @@ h2 {
   min-width: 0;
 }
 
-.moment-opening:has(.moment-image-link:focus-visible) {
+.moment-image-link:focus-visible {
   outline: var(--focus-width) solid var(--color-sky);
   outline-offset: var(--focus-offset);
-}
-
-.moment-image-link:focus-visible {
-  outline: none;
 }
 
 .moment-watermelon .moment-opening,
@@ -779,33 +775,75 @@ h2 {
   position: relative;
   z-index: var(--layer-content);
   display: block;
-  background: var(--color-canopy-distant);
-  filter: drop-shadow(var(--shadow-photo));
+  width: 100%;
+  isolation: isolate;
 }
 
 .moment-watermelon .moment-image-link,
 .moment-strawberries .moment-image-link {
-  aspect-ratio: 1400 / 860;
-}
-
-.moment-watermelon .moment-image-link {
-  clip-path: var(--opening-wide);
-}
-
-.moment-strawberries .moment-image-link {
-  clip-path: var(--opening-wide-reverse);
+  aspect-ratio: 8 / 5;
 }
 
 .moment-obsessions .moment-image-link {
-  aspect-ratio: 1400 / 2251;
-  clip-path: var(--opening-tall);
+  aspect-ratio: 4 / 5;
 }
 
-.moment-image-link img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: saturate(0.97) contrast(1.025);
+.moment-context {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: var(--layer-back);
+  width: 42%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: var(--space-2);
+}
+
+.moment-context img {
+  position: absolute;
+  max-width: none;
+  height: auto;
+}
+
+.moment-watermelon .moment-context img {
+  top: 0;
+  left: -133.333%;
+  width: 233.333%;
+}
+
+.moment-strawberries .moment-context img {
+  top: -4.364%;
+  left: -154.545%;
+  width: 254.545%;
+}
+
+.moment-bird {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: var(--layer-content);
+  width: 68%;
+  height: auto;
+  filter: brightness(0.94) saturate(0.9) contrast(1.02) drop-shadow(var(--shadow-contact));
+}
+
+.moment-obsessions .moment-context {
+  right: auto;
+  left: 0;
+  width: 58%;
+  aspect-ratio: 1;
+}
+
+.moment-obsessions .moment-context img {
+  top: -50%;
+  left: -100%;
+  width: 200%;
+}
+
+.moment-obsessions .moment-bird {
+  right: 0;
+  left: auto;
+  width: 72%;
 }
 
 .moment-copy {
@@ -839,35 +877,37 @@ h3 {
 
 .moment-twig {
   position: absolute;
-  z-index: var(--layer-branch);
-  width: min(15rem, 28%);
+  z-index: var(--layer-middle);
+  bottom: 1%;
+  left: 0;
+  width: 58%;
   overflow: visible;
   fill: none;
-  stroke: var(--color-bark);
   stroke-linecap: round;
-  stroke-width: 12;
+  stroke-linejoin: round;
   pointer-events: none;
-  transition: transform var(--motion-fast) var(--motion-ease);
 }
 
-.twig-watermelon {
-  top: 0;
-  left: 0;
+.perch-contact-shadow {
+  stroke: var(--color-contact-shadow);
+  stroke-width: 28;
 }
 
-.twig-strawberries {
-  top: 0;
-  left: 0;
+.perch-contact {
+  stroke: var(--color-bark);
+  stroke-width: 20;
 }
 
-.twig-obsessions {
+.perch-contact-edge {
+  stroke: var(--color-bark-edge);
+  stroke-width: 2;
+}
+
+.moment-obsessions .moment-twig {
   right: 0;
-  bottom: 0;
-}
-
-.moment:hover .moment-twig,
-.moment:focus-within .moment-twig {
-  transform: translateX(var(--twig-distance));
+  bottom: 32%;
+  left: auto;
+  width: 72%;
 }
 
 .site-footer {
@@ -1013,9 +1053,11 @@ h3 {
   }
 
   .moon-disc {
-    top: 20%;
-    left: 25%;
-    width: clamp(14rem, 58vw, 22rem);
+    top: calc(var(--header-height) + var(--space-5));
+    right: var(--gutter);
+    left: auto;
+    width: clamp(2.25rem, 10vw, 2.75rem);
+    transform: none;
   }
 
   .aviary-ribs path {
@@ -1133,22 +1175,16 @@ h3 {
     padding-left: 0;
   }
 
-  .moment-obsessions .moment-opening {
-    width: 78%;
-    margin-left: 8%;
-  }
-
   .moment-copy {
     padding-left: var(--space-5);
   }
 
   .moment-twig {
-    width: 48%;
+    width: 58%;
   }
 
-  .twig-strawberries,
-  .twig-obsessions {
-    width: 25%;
+  .moment-obsessions .moment-twig {
+    width: 72%;
   }
 
   .site-footer {
@@ -1210,9 +1246,7 @@ h3 {
 
   .habitat-plane,
   .js .canopy-foreground[data-entrance],
-  .js.is-ready .canopy-foreground[data-entrance],
-  .moment:hover .moment-twig,
-  .moment:focus-within .moment-twig {
+  .js.is-ready .canopy-foreground[data-entrance] {
     --depth-x: 0px;
     --depth-y: 0px;
     transform: none;

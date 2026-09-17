@@ -60,7 +60,10 @@ for asset in \
   sky-cutout.webp \
   moment-watermelon.webp \
   moment-strawberries.webp \
-  moment-obsessions.webp
+  moment-obsessions.webp \
+  moment-watermelon-cutout.webp \
+  moment-strawberries-cutout.webp \
+  moment-obsessions-cutout.webp
 do
   test -f "$assets/$asset"
   file "$assets/$asset" | grep -q 'Web/P image'
@@ -71,10 +74,37 @@ for referenced_asset in \
   sky-cutout.webp \
   moment-watermelon.webp \
   moment-strawberries.webp \
-  moment-obsessions.webp
+  moment-obsessions.webp \
+  moment-watermelon-cutout.webp \
+  moment-strawberries-cutout.webp \
+  moment-obsessions-cutout.webp
 do
   require "src=\"/assets/$referenced_asset\"" "$page" "root-relative $referenced_asset reference"
 done
+
+moment_cutout_total=0
+for cutout in \
+  moment-watermelon-cutout.webp \
+  moment-strawberries-cutout.webp \
+  moment-obsessions-cutout.webp
+do
+  cutout_path="$assets/$cutout"
+  cutout_bytes=$(wc -c < "$cutout_path" | tr -d ' ')
+  if [ "$cutout_bytes" -gt 350000 ]; then
+    echo "Moment cutout exceeds 350KB performance budget: $cutout ($cutout_bytes bytes)" >&2
+    exit 1
+  fi
+  moment_cutout_total=$((moment_cutout_total + cutout_bytes))
+  if command -v webpinfo >/dev/null 2>&1 && ! webpinfo "$cutout_path" 2>/dev/null | grep -q 'Chunk ALPH'; then
+    echo "Moment cutout lost transparency: $cutout" >&2
+    exit 1
+  fi
+done
+
+if [ "$moment_cutout_total" -gt 1000000 ]; then
+  echo "Moment cutouts exceed 1MB combined performance budget: $moment_cutout_total bytes" >&2
+  exit 1
+fi
 
 for cutout in sunny-cutout.webp sky-cutout.webp
 do
@@ -117,6 +147,13 @@ require 'perch-junction junction-wide' "$page" 'desktop Sky perch junction'
 require 'perch-junction junction-mid' "$page" 'intermediate Sky perch junction'
 require 'perch-junction junction-band' "$page" 'responsive-gap Sky perch junction'
 require 'class="[^\"]*moment-twig' "$page" 'moment-level twig hook'
+require 'class="moment-context" aria-hidden="true"' "$page" 'authentic tablet-context crop'
+require 'class="moment-bird"' "$page" 'transparent moment cutout layer'
+require 'class="moment-twig moment-perch"' "$page" 'small branch contact beneath moment bird'
+require 'loading="lazy" decoding="async"' "$page" 'lazy below-fold moment imagery'
+require '\.moment-image-link:focus-visible' "$css" 'visible focus on outer moment composition'
+require 'brightness\(0\.94\) saturate\(0\.9\) contrast\(1\.02\)' "$css" 'restrained cutout lighting integration'
+require 'mask: radial-gradient' "$css" 'firm-edged crescent mask'
 require 'data-depth="-' "$page" 'opposing depth plane'
 require 'data-depth="[1-6]' "$page" 'foreground depth plane'
 require 'data-moment' "$page" 'branch-connected moment encounters'
@@ -141,25 +178,47 @@ forbid 'data-bird' "$page" 'gull-like motion marks'
 forbid '--mask-(sunny|sky): polygon' "$css" 'jagged polygon portrait mask'
 forbid 'sunny-mask|sky-mask|sunny-clip|sky-clip|portrait-mask' "$page" 'obsolete hero photo mask'
 forbid 'Fraunces|Source Sans 3' "$css" 'unavailable remote-font claims'
+forbid 'clip-path: var\(--opening-' "$css" 'obsolete polygon moment photo crop'
+
+for expected_count in \
+  'class="moment-image-link"|3|linked moment compositions' \
+  'class="moment-context"|3|tablet context crops' \
+  'class="moment-bird"|3|transparent moment birds' \
+  'class="moment-twig moment-perch"|3|moment branch contacts' \
+  'loading="lazy" decoding="async"|6|lazy composition images' \
+  'alt="" loading="lazy" decoding="async"|6|decorative composition image alts'
+do
+  pattern=${expected_count%%|*}
+  remainder=${expected_count#*|}
+  count=${remainder%%|*}
+  label=${expected_count##*|}
+  actual=$(grep -o "$pattern" "$page" | wc -l | tr -d ' ')
+  if [ "$actual" -ne "$count" ]; then
+    echo "Expected $count $label, found $actual" >&2
+    exit 1
+  fi
+done
 
 # Each real moment remains paired with its exact source image and destination.
 for mapping in \
-  'moment-watermelon.webp|7214467392791907590' \
-  'moment-strawberries.webp|7214307952763620613' \
-  'moment-obsessions.webp|7213469583162854662'
+  'moment-watermelon.webp|moment-watermelon-cutout.webp|7214467392791907590' \
+  'moment-strawberries.webp|moment-strawberries-cutout.webp|7214307952763620613' \
+  'moment-obsessions.webp|moment-obsessions-cutout.webp|7213469583162854662'
 do
   asset=${mapping%%|*}
+  rest=${mapping#*|}
+  cutout=${rest%%|*}
   video=${mapping##*|}
-  if ! awk -v asset="$asset" -v video="$video" '
+  if ! awk -v asset="$asset" -v cutout="$cutout" -v video="$video" '
     /<article class="moment/ { block = ""; in_moment = 1 }
     in_moment { block = block $0 "\n" }
     in_moment && /<\/article>/ {
-      if (index(block, asset) && index(block, video)) found = 1
+      if (index(block, asset) && index(block, cutout) && index(block, video)) found = 1
       in_moment = 0
     }
     END { exit(found ? 0 : 1) }
   ' "$page"; then
-    echo "Broken real-media mapping: $asset must link to $video" >&2
+    echo "Broken real-media mapping: $asset + $cutout must link to $video" >&2
     exit 1
   fi
 done
