@@ -70,6 +70,26 @@
   --moment-wide-ratio: 1.63 / 1;
   --moment-tall-ratio: 0.622 / 1;
   --footer-columns: repeat(3, minmax(0, 1fr));
+  --layer-skip-link: 100;
+  --layer-header: 50;
+  --layer-content: 2;
+  --layer-foreground: 3;
+  --layer-motif: 1;
+  --wordmark-perch-rotation: -1deg;
+  --menu-open-angle: 45deg;
+  --hero-perch-bottom: 19%;
+  --hero-perch-rotation: -2deg;
+  --flock-third-left: 54%;
+  --perch-divider-width: 47%;
+  --perch-divider-rotation: 1deg;
+  --moment-strawberries-row: 2;
+  --moment-tall-column: 9 / var(--moment-tall-span);
+  --moment-tall-row: 1 / span 2;
+  --responsive-sky-width: 40%;
+  --responsive-perch-divider-width: 46%;
+  --responsive-moment-tall-width: 72%;
+  --compact-moment-tall-width: 82%;
+  --mobile-sky-copy-row: 2;
   /* Shape, line, depth, and motion. */
   --radius-control: 0.75rem;
   --radius-small-organic: 3.4rem 1.25rem 3.4rem 1.25rem;
@@ -141,7 +161,7 @@ button {
   position: fixed;
   top: var(--space-3);
   left: var(--space-3);
-  z-index: 100;
+  z-index: var(--layer-skip-link);
   padding: var(--space-3) var(--space-4);
   background: var(--color-sunny);
   color: var(--color-canvas-deep);
@@ -155,7 +175,7 @@ button {
 .site-header {
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: var(--layer-header);
   min-height: var(--header-height);
   background: var(--color-header);
   border-bottom: var(--border-thin) solid var(--color-border);
@@ -190,17 +210,11 @@ button {
   left: 0;
   height: var(--border-medium);
   background: var(--color-bark-light);
-  transform: rotate(-1deg);
+  transform: rotate(var(--wordmark-perch-rotation));
 }
-.wordmark-sky {
-  color: var(--color-sky);
-}
-.wordmark-sunny {
-  color: var(--color-sunny);
-}
-.wordmark-ampersand {
-  color: var(--color-text);
-}
+.wordmark-sky { color: var(--color-sky); }
+.wordmark-sunny { color: var(--color-sunny); }
+.wordmark-ampersand { color: var(--color-text); }
 .site-menu {
   display: flex;
   align-items: center;
@@ -255,10 +269,10 @@ button {
   transition: transform var(--motion-fast) var(--motion-ease);
 }
 .menu-toggle[aria-expanded="true"] .menu-icon span:first-child {
-  transform: translateY(var(--space-1)) rotate(45deg);
+  transform: translateY(var(--space-1)) rotate(var(--menu-open-angle));
 }
 .menu-toggle[aria-expanded="true"] .menu-icon span:last-child {
-  transform: translateY(calc(var(--space-1) * -1)) rotate(-45deg);
+  transform: translateY(calc(var(--space-1) * -1)) rotate(calc(var(--menu-open-angle) * -1));
 }
 .hero {
   width: min(100%, var(--content-max));
@@ -272,26 +286,19 @@ button {
 }
 .hero-copy {
   position: relative;
-  z-index: 2;
+  z-index: var(--layer-content);
   max-width: var(--hero-copy-max);
 }
-.hero-kicker,
-.section-heading > p {
+.hero-kicker, .section-heading > p {
   margin: 0 0 var(--space-5);
   color: var(--color-text-muted);
   font-size: var(--font-size-body-large);
   font-weight: var(--font-weight-medium);
 }
-h1,
-h2,
-h3,
-p,
-figure {
+h1, h2, h3, p, figure {
   margin-top: 0;
 }
-h1,
-h2,
-h3 {
+h1, h2, h3 {
   font-family: var(--font-display);
   font-weight: var(--font-weight-regular);
 }
@@ -389,7 +396,7 @@ h3 {
 .portrait-sunny {
   top: var(--space-2);
   left: var(--space-2);
-  z-index: 2;
+  z-index: var(--layer-content);
   width: var(--hero-sunny-width);
   height: var(--hero-sunny-height);
 }
@@ -405,7 +412,7 @@ h3 {
 .portrait-sky {
   right: 0;
   bottom: var(--space-3);
-  z-index: 3;
+  z-index: var(--layer-foreground);
   width: var(--hero-sky-width);
   height: var(--hero-sky-height);
 }
@@ -421,18 +428,18 @@ h3 {
 .hero-perch {
   position: absolute;
   right: calc(var(--gutter) * -1);
-  bottom: 19%;
+  bottom: var(--hero-perch-bottom);
   left: calc(var(--space-7) * -1);
-  z-index: 1;
+  z-index: var(--layer-motif);
   height: var(--perch-thickness);
   background: var(--color-bark);
   border-top: var(--perch-highlight) solid var(--color-bark-light);
   border-radius: var(--radius-small-organic);
-  transform: rotate(-2deg);
+  transform: rotate(var(--hero-perch-rotation));
 }
 .flock-bird {
   position: absolute;
-  z-index: 1;
+  z-index: var(--layer-motif);
   overflow: visible;
   color: var(--color-text-muted);
   fill: none;
@@ -454,7 +461,7 @@ h3 {
 }
 .flock-bird-three {
   top: var(--space-6);
-  left: 54%;
+  left: var(--flock-third-left);
   width: var(--bird-three-width);
 }
 .meet-section,
@@ -518,12 +525,8 @@ h3 {
   color: var(--color-text-muted);
   font-size: var(--font-size-body-large);
 }
-.bird-introduction-sunny h3 {
-  color: var(--color-sunny);
-}
-.bird-introduction-sky h3 {
-  color: var(--color-sky);
-}
+.bird-introduction-sunny h3 { color: var(--color-sunny); }
+.bird-introduction-sky h3 { color: var(--color-sky); }
 .moments-section {
   background: var(--color-canvas-deep);
 }
@@ -535,12 +538,12 @@ h3 {
   position: absolute;
   right: 0;
   bottom: var(--space-6);
-  width: 47%;
+  width: var(--perch-divider-width);
   height: var(--perch-thickness);
   background: var(--color-bark);
   border-top: var(--perch-highlight) solid var(--color-bark-light);
   border-radius: var(--radius-small-organic);
-  transform: rotate(1deg);
+  transform: rotate(var(--perch-divider-rotation));
 }
 .moments-layout {
   display: grid;
@@ -552,17 +555,16 @@ h3 {
 .moment {
   min-width: 0;
 }
-.moment-watermelon,
-.moment-strawberries {
+.moment-watermelon, .moment-strawberries {
   grid-column: var(--moment-wide-span);
 }
 .moment-strawberries {
-  grid-row: 2;
+  grid-row: var(--moment-strawberries-row);
   margin-left: var(--space-7);
 }
 .moment-obsessions {
-  grid-column: 9 / var(--moment-tall-span);
-  grid-row: 1 / span 2;
+  grid-column: var(--moment-tall-column);
+  grid-row: var(--moment-tall-row);
   margin-top: var(--space-9);
 }
 .moment-image-link {
@@ -571,8 +573,7 @@ h3 {
   background: var(--color-surface);
   border-radius: var(--radius-control);
 }
-.moment-watermelon .moment-image-link,
-.moment-strawberries .moment-image-link {
+.moment-watermelon .moment-image-link, .moment-strawberries .moment-image-link {
   aspect-ratio: var(--moment-wide-ratio);
 }
 .moment-obsessions .moment-image-link {
@@ -610,9 +611,7 @@ h3 {
 .moment-copy a:hover {
   color: var(--color-sunny);
 }
-.moment-watermelon h3 {
-  color: var(--color-watermelon);
-}
+.moment-watermelon h3 { color: var(--color-watermelon); }
 .site-footer {
   width: min(100%, var(--content-max));
   margin-inline: auto;
@@ -624,15 +623,14 @@ h3 {
   color: var(--color-text-muted);
   border-top: var(--border-thin) solid var(--color-border);
 }
-.site-footer p {
-  margin: 0;
+.site-footer p { margin: 0; }
+.site-footer p:last-child { text-align: right; }
+.site-footer p a {
+  min-height: var(--target-size);
+  display: inline-flex;
+  align-items: center;
 }
-.site-footer p:last-child {
-  text-align: right;
-}
-.site-footer a:hover {
-  color: var(--color-text);
-}
+.site-footer a:hover { color: var(--color-text); }
 @media (max-width: 64rem) {
   :root {
     --gutter: clamp(1.25rem, 4vw, 3rem);
@@ -643,7 +641,7 @@ h3 {
     gap: var(--space-5);
   }
   .portrait-sky {
-    width: 40%;
+    width: var(--responsive-sky-width);
   }
 }
 @media (max-width: 48rem) {
@@ -704,27 +702,24 @@ h3 {
     grid-template-columns: var(--meet-sunny-columns);
   }
   .bird-introduction-sky .introduction-copy {
-    grid-row: 2;
+    grid-row: var(--mobile-sky-copy-row);
   }
-  .meet-section,
-  .moments-section {
+  .meet-section, .moments-section {
     padding-block: var(--space-9);
   }
   .perch-divider {
     position: relative;
     bottom: auto;
-    width: 46%;
+    width: var(--responsive-perch-divider-width);
     margin-top: var(--space-5);
   }
-  .moment-watermelon,
-  .moment-strawberries,
-  .moment-obsessions {
+  .moment-watermelon, .moment-strawberries, .moment-obsessions {
     grid-column: auto;
     grid-row: auto;
     margin: 0;
   }
   .moment-obsessions {
-    width: 72%;
+    width: var(--responsive-moment-tall-width);
     margin-left: auto;
   }
   .site-footer {
@@ -770,7 +765,7 @@ h3 {
     margin-top: var(--space-9);
   }
   .moment-obsessions {
-    width: 82%;
+    width: var(--compact-moment-tall-width);
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -786,9 +781,13 @@ h3 {
     animation-duration: 0.01ms;
     animation-iteration-count: 1;
   }
-  .skip-link,
-  .site-menu a,
+  .skip-link {
+    transition: none;
+  }
+  .site-menu a:active,
   .button,
+  .button:hover,
+  .button:active,
   .flock-bird,
   .moment img,
   .moment-image-link:hover img,
