@@ -175,7 +175,10 @@ Start a local server from the worktree using `python3 -m http.server 4173`. Open
 - Menu, skip link, internal links, TikTok links, keyboard focus, Escape close, and year work.
 - With JavaScript disabled, core content and navigation remain visible.
 - With reduced motion enabled, the flock is static.
+- At 200% browser zoom, content reflows without clipped text or horizontal page scrolling.
+- With image loading blocked or one image URL temporarily broken in browser tools, the layout remains coherent, alt text is meaningful, and the matching TikTok link remains usable.
 - The browser console has no page errors.
+- Run `npx -y pa11y http://127.0.0.1:4173/sandbox/night-aviary/ --standard WCAG2AA`; resolve every automated WCAG error before review.
 
 Capture full-page screenshots at approximately 1440px, 768px, and 320px into the three required `verification/` paths.
 

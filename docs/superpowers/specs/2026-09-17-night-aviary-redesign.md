@@ -1,6 +1,6 @@
 # SkyAndSunny.com Night Aviary Redesign
 
-**Status:** Direction approved; written-spec review pending  
+**Status:** Direction and written spec approved for sandbox implementation  
 **Date:** 2026-09-17  
 **Approved direction:** “Night Aviary”
 
