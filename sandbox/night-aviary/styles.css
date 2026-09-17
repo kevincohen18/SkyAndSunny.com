@@ -318,6 +318,9 @@ h3 {
   inset: 0;
   width: 100%;
   height: 100%;
+}
+
+.aviary-ribs {
   fill: none;
 }
 
@@ -326,10 +329,15 @@ h3 {
   stroke-width: 1.4;
 }
 
-.back-branches path {
-  stroke: var(--color-canopy-distant);
+.back-branch {
+  fill: var(--color-canopy-distant);
+}
+
+.back-branch-light {
+  fill: none;
+  stroke: rgba(161, 138, 109, 0.18);
   stroke-linecap: round;
-  stroke-width: 48;
+  stroke-width: 2;
 }
 
 .canopy-middle {
@@ -361,6 +369,14 @@ h3 {
   fill: var(--color-bark-dark);
 }
 
+.branch-fill-light,
+.branch-front-light {
+  fill: none;
+  stroke: rgba(161, 138, 109, 0.38);
+  stroke-linecap: round;
+  stroke-width: 2;
+}
+
 .leaf-fill {
   fill: var(--color-canopy-distant);
 }
@@ -376,6 +392,13 @@ h3 {
   fill: inherit;
   stroke: var(--color-moon-edge);
   stroke-width: 0.7;
+}
+
+.leaf-vein {
+  fill: none;
+  stroke: rgba(238, 234, 215, 0.2);
+  stroke-linecap: round;
+  stroke-width: 0.8;
 }
 
 .hero-content {
@@ -518,8 +541,13 @@ h1 i {
 }
 
 .perch-main,
-.perch-fork {
+.perch-fork,
+.perch-junction {
   fill: var(--color-bark);
+}
+
+.junction-mid {
+  display: none;
 }
 
 .shared-perch .branch-edge {
@@ -661,6 +689,27 @@ h2 {
   width: 100%;
   height: calc(100% - 18rem);
   overflow: visible;
+}
+
+.habitat-branch-compact {
+  display: none;
+}
+
+.compact-branch-shadow {
+  fill: var(--color-shadow);
+}
+
+.habitat-branch .compact-branch-main {
+  fill: var(--color-bark);
+  stroke: none;
+}
+
+.compact-branch-edge {
+  stroke-width: 2;
+}
+
+.compact-branch-mark {
+  stroke-width: 5;
 }
 
 .branch-mark {
@@ -872,6 +921,14 @@ h3 {
     height: 30%;
   }
 
+  .junction-wide {
+    display: none;
+  }
+
+  .junction-mid {
+    display: block;
+  }
+
   .front-foliage {
     width: 10vw;
   }
@@ -1009,9 +1066,14 @@ h3 {
     padding-left: 8%;
   }
 
-  .habitat-branch {
-    inset: 15rem auto 0 -11rem;
-    width: 14rem;
+  .habitat-branch:not(.habitat-branch-compact) {
+    display: none;
+  }
+
+  .habitat-branch-compact {
+    display: block;
+    inset: 15rem 0 0;
+    width: 100%;
     height: calc(100% - 15rem);
   }
 
@@ -1093,6 +1155,10 @@ h3 {
   .resident-sky {
     top: 28%;
     width: 48vw;
+  }
+
+  .junction-mid {
+    display: none;
   }
 
   .hero-note {

@@ -30,13 +30,30 @@
   <main id="main-content">
     <svg class="scene-definitions" width="0" height="0" aria-hidden="true" focusable="false">
       <defs>
-        <symbol id="leaf-spray" viewBox="0 0 180 140">
-          <path class="leaf-stem" d="M14 130C50 102 88 72 164 15"></path>
-          <path class="leaf-blade" d="M54 101C20 102 8 84 12 68C38 62 59 73 67 93C64 97 60 99 54 101Z"></path>
-          <path class="leaf-blade" d="M84 78C57 67 50 48 59 34C85 37 99 51 98 70C94 75 90 77 84 78Z"></path>
-          <path class="leaf-blade" d="M107 61C115 34 135 22 152 28C153 50 138 66 116 70C112 68 109 65 107 61Z"></path>
-          <path class="leaf-blade" d="M132 40C139 17 156 6 171 11C172 30 160 44 141 48C137 47 134 44 132 40Z"></path>
-          <path class="leaf-blade" d="M61 101C68 121 88 132 105 124C103 106 91 95 70 92C66 94 63 97 61 101Z"></path>
+        <symbol id="leaf-spray-a" viewBox="0 0 200 160">
+          <path class="leaf-stem" d="M12 148C58 116 102 72 187 13"></path>
+          <path class="leaf-blade" d="M54 116C25 119 8 104 11 83C39 75 61 87 70 105C66 111 61 114 54 116Z"></path>
+          <path class="leaf-vein" d="M20 87C38 94 52 101 65 108"></path>
+          <path class="leaf-blade" d="M83 92C58 81 51 60 62 43C89 48 104 64 101 83C96 89 91 92 83 92Z"></path>
+          <path class="leaf-blade" d="M112 70C116 42 137 26 158 31C162 54 147 71 122 78C117 76 114 74 112 70Z"></path>
+          <path class="leaf-blade" d="M147 42C155 17 176 5 191 12C190 32 177 47 157 52C152 50 149 47 147 42Z"></path>
+        </symbol>
+        <symbol id="leaf-spray-b" viewBox="0 0 200 160">
+          <path class="leaf-stem" d="M18 150C62 124 102 91 177 18"></path>
+          <path class="leaf-blade" d="M54 125C31 132 13 121 11 104C33 92 55 99 67 114C64 120 60 123 54 125Z"></path>
+          <path class="leaf-blade" d="M75 108C57 94 57 76 69 63C90 72 98 87 91 102C86 106 81 108 75 108Z"></path>
+          <path class="leaf-blade" d="M98 90C100 68 116 53 134 55C138 74 127 89 107 96C103 95 100 93 98 90Z"></path>
+          <path class="leaf-blade" d="M126 64C130 41 148 27 166 31C169 50 157 66 136 72C131 70 128 68 126 64Z"></path>
+          <path class="leaf-blade" d="M151 40C155 20 171 9 186 14C187 31 176 43 159 47C155 45 153 43 151 40Z"></path>
+          <path class="leaf-vein" d="M22 145C67 120 109 80 177 20"></path>
+        </symbol>
+        <symbol id="leaf-spray-c" viewBox="0 0 200 160">
+          <path class="leaf-stem" d="M8 146C64 125 116 91 190 30"></path>
+          <path class="leaf-blade" d="M48 128C21 133 5 120 7 101C33 91 53 101 62 117C58 123 54 126 48 128Z"></path>
+          <path class="leaf-blade" d="M82 111C58 108 45 92 51 75C77 71 94 82 99 99C95 105 89 109 82 111Z"></path>
+          <path class="leaf-blade" d="M111 91C116 67 135 55 154 61C155 81 143 94 121 99C117 97 114 95 111 91Z"></path>
+          <path class="leaf-blade" d="M145 64C153 43 172 34 187 41C185 59 173 70 155 72C151 70 148 68 145 64Z"></path>
+          <path class="leaf-vein" d="M15 143C67 123 119 88 188 32"></path>
         </symbol>
       </defs>
     </svg>
@@ -57,27 +74,30 @@
           <path d="M720 82V900"></path>
         </svg>
         <svg class="back-branches" viewBox="0 0 1440 900" preserveAspectRatio="none" focusable="false">
-          <path d="M-40 246C178 228 252 320 386 474"></path>
-          <path d="M1480 174C1248 190 1188 332 1046 466"></path>
-          <path d="M-80 696C184 612 270 638 430 748"></path>
+          <path class="back-branch" d="M-50 219C137 208 257 278 397 462L382 479C246 315 132 249 -50 263Z"></path>
+          <path class="back-branch" d="M1492 151C1291 166 1200 285 1031 455L1048 474C1218 315 1307 203 1492 190Z"></path>
+          <path class="back-branch" d="M-88 672C142 596 285 637 443 741L428 759C272 667 137 632 -88 716Z"></path>
+          <path class="back-branch-light" d="M-32 228C146 220 261 290 389 465M1478 166C1295 181 1208 292 1040 462"></path>
         </svg>
       </div>
 
       <div class="habitat-plane canopy-middle" data-depth="2" aria-hidden="true">
         <svg class="middle-foliage foliage-left" viewBox="0 0 520 900" focusable="false">
-          <path class="branch-fill" d="M-40 770C88 644 140 500 180 278C190 222 218 166 260 118L300 144C254 222 240 302 232 378C218 520 154 688 40 830Z"></path>
+          <path class="branch-fill" d="M-32 862C68 726 118 536 158 310C172 230 202 166 244 112L268 128C230 190 208 256 198 328C164 552 111 741 12 884Z"></path>
+          <path class="branch-fill-light" d="M-8 850C79 716 128 531 168 312C183 234 210 175 251 121"></path>
           <g class="leaf-fill">
-            <use href="#leaf-spray" x="-18" y="94" width="258" height="202" transform="rotate(-20 110 195)"></use>
-            <use href="#leaf-spray" x="98" y="246" width="230" height="180" transform="rotate(24 210 338)"></use>
-            <use href="#leaf-spray" x="-44" y="426" width="282" height="220" transform="rotate(-28 88 536)"></use>
+            <use href="#leaf-spray-a" x="-18" y="94" width="258" height="202" transform="rotate(-17 110 195)"></use>
+            <use href="#leaf-spray-b" x="92" y="250" width="218" height="174" transform="rotate(31 201 337)"></use>
+            <use href="#leaf-spray-c" x="-42" y="430" width="276" height="214" transform="rotate(-25 92 537)"></use>
           </g>
         </svg>
         <svg class="middle-foliage foliage-right" viewBox="0 0 520 900" focusable="false">
-          <path class="branch-fill" d="M560 748C414 660 350 520 326 302C316 218 276 154 222 104L188 138C244 210 258 276 264 356C274 530 344 704 506 818Z"></path>
+          <path class="branch-fill" d="M552 836C430 726 370 548 344 326C334 236 294 164 236 106L211 132C263 196 291 265 299 347C320 561 381 742 526 862Z"></path>
+          <path class="branch-fill-light" d="M531 842C411 724 354 547 331 329C321 243 284 174 225 117"></path>
           <g class="leaf-fill">
-            <use href="#leaf-spray" x="270" y="74" width="270" height="210" transform="rotate(112 404 180)"></use>
-            <use href="#leaf-spray" x="192" y="270" width="242" height="188" transform="rotate(148 316 366)"></use>
-            <use href="#leaf-spray" x="306" y="438" width="280" height="218" transform="rotate(118 446 546)"></use>
+            <use href="#leaf-spray-c" x="270" y="74" width="270" height="210" transform="rotate(109 404 180)"></use>
+            <use href="#leaf-spray-a" x="190" y="270" width="238" height="186" transform="rotate(151 312 364)"></use>
+            <use href="#leaf-spray-b" x="306" y="438" width="280" height="218" transform="rotate(121 446 546)"></use>
           </g>
         </svg>
       </div>
@@ -102,6 +122,10 @@
           <path class="perch-main" d="M-40 150C236 100 444 124 658 133C760 138 824 117 924 70C1094 30 1254 0 1488 -20L1488 2C1254 20 1098 52 934 94C832 138 766 160 656 155C444 146 236 122 -40 172Z"></path>
           <path class="branch-edge" d="M-40 150C236 100 444 124 658 133C760 138 824 117 924 70C1094 30 1254 0 1488 -20"></path>
           <path class="perch-fork" d="M782 137C835 91 872 45 901 4L914 11C885 57 852 105 797 149Z"></path>
+          <path class="perch-junction junction-wide" d="M1045 73C1093 54 1136 19 1175 -12L1186 -5C1145 31 1103 66 1055 86Z"></path>
+          <path class="branch-edge junction-wide junction-edge" d="M1052 76C1098 56 1139 23 1180 -8"></path>
+          <path class="perch-junction junction-mid" d="M892 72C940 83 985 105 1029 117L1035 132C982 122 938 101 887 85Z"></path>
+          <path class="branch-edge junction-mid junction-edge" d="M895 76C943 88 986 109 1032 124"></path>
           <path class="branch-fissure" d="M188 126L226 139M476 129L514 143M690 136L724 128"></path>
           <ellipse class="branch-knot" cx="352" cy="128" rx="16" ry="7" transform="rotate(8 352 128)"></ellipse>
           <ellipse class="branch-knot" cx="836" cy="108" rx="12" ry="5" transform="rotate(-20 836 108)"></ellipse>
@@ -114,19 +138,21 @@
 
       <div class="habitat-plane canopy-foreground" data-depth="4" data-entrance aria-hidden="true">
         <svg class="front-foliage front-left" viewBox="0 0 540 900" focusable="false">
-          <path class="branch-front" d="M-62 910C54 706 92 484 74 208L124 190C164 474 132 706 24 930Z"></path>
+          <path class="branch-front" d="M-42 932C35 760 65 532 57 258L91 221C116 504 95 747 12 944Z"></path>
+          <path class="branch-front-light" d="M-15 924C48 751 77 526 69 256"></path>
           <g class="leaf-front">
-            <use href="#leaf-spray" x="-76" y="58" width="330" height="256" transform="rotate(-24 86 184)"></use>
-            <use href="#leaf-spray" x="20" y="286" width="306" height="238" transform="rotate(28 170 402)"></use>
-            <use href="#leaf-spray" x="-102" y="520" width="352" height="274" transform="rotate(-30 72 656)"></use>
+            <use href="#leaf-spray-b" x="-76" y="58" width="322" height="250" transform="rotate(-21 82 181)"></use>
+            <use href="#leaf-spray-c" x="18" y="286" width="294" height="230" transform="rotate(33 164 398)"></use>
+            <use href="#leaf-spray-a" x="-100" y="520" width="344" height="268" transform="rotate(-27 72 654)"></use>
           </g>
         </svg>
         <svg class="front-foliage front-right" viewBox="0 0 540 900" focusable="false">
-          <path class="branch-front" d="M602 900C476 704 444 468 470 214L420 192C380 462 410 710 520 936Z"></path>
+          <path class="branch-front" d="M590 934C501 760 470 525 482 258L448 222C419 498 444 746 558 948Z"></path>
+          <path class="branch-front-light" d="M566 928C489 751 462 524 473 257"></path>
           <g class="leaf-front">
-            <use href="#leaf-spray" x="294" y="42" width="338" height="262" transform="rotate(114 464 174)"></use>
-            <use href="#leaf-spray" x="218" y="284" width="308" height="240" transform="rotate(148 372 404)"></use>
-            <use href="#leaf-spray" x="310" y="512" width="352" height="274" transform="rotate(118 486 650)"></use>
+            <use href="#leaf-spray-a" x="294" y="42" width="330" height="256" transform="rotate(117 459 171)"></use>
+            <use href="#leaf-spray-b" x="220" y="284" width="298" height="232" transform="rotate(145 369 400)"></use>
+            <use href="#leaf-spray-c" x="310" y="512" width="342" height="266" transform="rotate(122 481 645)"></use>
           </g>
         </svg>
       </div>
@@ -137,14 +163,20 @@
         <h2 id="moments-title">Three small encounters after dark.</h2>
       </div>
       <svg class="moment-foliage moment-foliage-left" viewBox="0 0 340 800" aria-hidden="true" focusable="false">
-        <use href="#leaf-spray" x="-80" y="28" width="300" height="232" transform="rotate(-22 70 144)"></use>
-        <use href="#leaf-spray" x="22" y="244" width="254" height="198" transform="rotate(26 148 344)"></use>
-        <use href="#leaf-spray" x="-98" y="490" width="318" height="246" transform="rotate(-30 62 612)"></use>
+        <use href="#leaf-spray-c" x="-80" y="28" width="300" height="232" transform="rotate(-19 70 144)"></use>
+        <use href="#leaf-spray-a" x="22" y="244" width="254" height="198" transform="rotate(29 148 344)"></use>
+        <use href="#leaf-spray-b" x="-98" y="490" width="318" height="246" transform="rotate(-27 62 612)"></use>
       </svg>
       <svg class="moment-foliage moment-foliage-right" viewBox="0 0 340 800" aria-hidden="true" focusable="false">
-        <use href="#leaf-spray" x="118" y="40" width="300" height="232" transform="rotate(116 270 156)"></use>
-        <use href="#leaf-spray" x="40" y="270" width="258" height="200" transform="rotate(148 172 370)"></use>
-        <use href="#leaf-spray" x="132" y="500" width="314" height="244" transform="rotate(120 288 622)"></use>
+        <use href="#leaf-spray-b" x="118" y="40" width="300" height="232" transform="rotate(113 270 156)"></use>
+        <use href="#leaf-spray-c" x="40" y="270" width="258" height="200" transform="rotate(151 172 370)"></use>
+        <use href="#leaf-spray-a" x="132" y="500" width="314" height="244" transform="rotate(123 288 622)"></use>
+      </svg>
+      <svg class="habitat-branch habitat-branch-compact" viewBox="0 0 390 2720" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <path class="compact-branch-shadow" d="M430 -50C405 145 375 260 363 327C408 365 423 485 423 807C411 901 379 1012 365 1077C408 1120 422 1275 422 1586C410 1710 374 1960 358 2107C407 2150 423 2320 423 2647C414 2708 390 2760 371 2790L398 2790C422 2740 443 2690 445 2638C440 2310 424 2138 385 2098C402 1955 435 1702 444 1580C440 1265 428 1105 391 1068C405 1006 434 895 445 800C440 475 426 350 390 320C402 255 430 140 451 -50Z"></path>
+        <path class="branch-main compact-branch-main" d="M421 -50C398 145 368 260 356 327C401 365 416 485 416 807C404 901 372 1012 358 1077C401 1120 415 1275 415 1586C403 1710 367 1960 351 2107C400 2150 416 2320 416 2647C407 2708 383 2760 364 2790L384 2790C406 2740 427 2690 429 2638C424 2310 408 2138 369 2098C386 1955 419 1702 428 1580C424 1265 412 1105 375 1068C389 1006 418 895 429 800C424 475 410 350 374 320C386 255 414 140 435 -50Z"></path>
+        <path class="branch-edge compact-branch-edge" d="M421 -40C399 150 370 262 358 326C402 367 417 486 417 804M416 812C404 906 373 1012 360 1075M359 1082C402 1124 416 1277 416 1584M415 1591C403 1714 369 1962 353 2105M354 2112C401 2154 417 2321 417 2644C408 2709 385 2758 366 2782"></path>
+        <path class="branch-mark compact-branch-mark" d="M375 276L391 291M374 1015L392 1028M391 1770L374 1788M389 2460L405 2478"></path>
       </svg>
       <svg class="habitat-branch" viewBox="0 0 1440 2720" preserveAspectRatio="none" aria-hidden="true" focusable="false">
         <path class="branch-shadow segment-one" d="M-80 92C180 124 384 246 456 470C538 724 512 902 600 1080"></path>
