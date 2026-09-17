@@ -1,9 +1,11 @@
 #!/bin/sh
 set -eu
 
-page="sandbox/night-aviary/index.html"
-css="sandbox/night-aviary/styles.css"
-script="sandbox/night-aviary/script.js"
+page="index.html"
+css="styles.css"
+script="script.js"
+assets="assets"
+sandbox_page="sandbox/night-aviary/index.html"
 
 require() {
   pattern="$1"
@@ -28,6 +30,28 @@ forbid() {
 test -f "$page"
 test -f "$css"
 test -f "$script"
+test -f "$sandbox_page"
+
+require 'href="/styles\.css"' "$page" 'root-relative production stylesheet'
+require 'src="/script\.js"' "$page" 'root-relative production script'
+require 'href="/styles\.css"' "$sandbox_page" 'sandbox use of production stylesheet'
+require 'src="/script\.js"' "$sandbox_page" 'sandbox use of production script'
+
+if ! cmp -s "$page" "$sandbox_page"; then
+  echo "Sandbox HTML has drifted from the production root" >&2
+  exit 1
+fi
+
+for legacy_copy in \
+  sandbox/night-aviary/styles.css \
+  sandbox/night-aviary/script.js \
+  sandbox/night-aviary/assets
+do
+  if [ -e "$legacy_copy" ]; then
+    echo "Duplicated sandbox production asset remains: $legacy_copy" >&2
+    exit 1
+  fi
+done
 
 for asset in \
   sunny-portrait.webp \
@@ -38,13 +62,23 @@ for asset in \
   moment-strawberries.webp \
   moment-obsessions.webp
 do
-  test -f "sandbox/night-aviary/assets/$asset"
-  file "sandbox/night-aviary/assets/$asset" | grep -q 'Web/P image'
+  test -f "$assets/$asset"
+  file "$assets/$asset" | grep -q 'Web/P image'
+done
+
+for referenced_asset in \
+  sunny-cutout.webp \
+  sky-cutout.webp \
+  moment-watermelon.webp \
+  moment-strawberries.webp \
+  moment-obsessions.webp
+do
+  require "src=\"/assets/$referenced_asset\"" "$page" "root-relative $referenced_asset reference"
 done
 
 for cutout in sunny-cutout.webp sky-cutout.webp
 do
-  cutout_path="sandbox/night-aviary/assets/$cutout"
+  cutout_path="$assets/$cutout"
   cutout_bytes=$(wc -c < "$cutout_path" | tr -d ' ')
   if [ "$cutout_bytes" -gt 400000 ]; then
     echo "Hero cutout exceeds 400KB performance budget: $cutout ($cutout_bytes bytes)" >&2
@@ -136,8 +170,8 @@ if grep -Eqi '11\.9K|882\.9K|13M\+|Greatest Hits|Morning Chaos|Snack Attack|Favo
 fi
 
 if grep -Eqi 'tailwindcss|cdn\.tailwind' "$page"; then
-  echo "Sandbox must not depend on Tailwind CDN" >&2
+  echo "Production must not depend on Tailwind CDN" >&2
   exit 1
 fi
 
-printf 'Night Aviary V2 structural checks passed\n'
+printf 'Night Aviary production structural checks passed\n'

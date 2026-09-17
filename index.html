@@ -1,460 +1,249 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Sky & Sunny - two green cheek conures taking over TikTok with 13M+ views. Follow their adventures!">
-  <title>Sky & Sunny | Green Cheek Conures on TikTok</title>
-
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
-
-  <!-- Tailwind Config -->
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'sunny-yellow': '#F5C518',
-            'sunny-green': '#7EC883',
-            'sky-blue': '#87CEEB',
-            'sky-violet': '#7B68EE',
-            'sky-deep': '#4169E1',
-            'cream': '#FFF9F0',
-            'charcoal': '#2D2D2D',
-          },
-          fontFamily: {
-            heading: ['Quicksand', 'sans-serif'],
-            body: ['Nunito', 'sans-serif'],
-          },
-        },
-      },
-    }
-  </script>
-  <!-- Scroll Animations CSS -->
-  <style>
-    html {
-      scroll-behavior: smooth;
-      scroll-padding-top: 5rem;
-    }
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .reveal-left {
-      opacity: 0;
-      transform: translateX(-30px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .reveal-right {
-      opacity: 0;
-      transform: translateX(30px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .reveal.active,
-    .reveal-left.active,
-    .reveal-right.active {
-      opacity: 1;
-      transform: translate(0);
-    }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Enter Sky and Sunny’s moonlit aviary and watch three authentic moments from their TikTok account.">
+  <title>Sky &amp; Sunny | Night Aviary</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/script.js" defer></script>
 </head>
-<body class="bg-cream text-charcoal font-body overflow-x-hidden">
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
-  <!-- Navigation -->
-  <nav id="navbar" class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md z-50 transition-shadow duration-300">
-    <div class="max-w-6xl mx-auto flex justify-between items-center px-4 py-3 md:px-6">
-      <!-- Brand -->
-      <a href="#home" class="font-heading font-bold text-xl md:text-2xl bg-gradient-to-r from-sunny-yellow to-sky-violet bg-clip-text text-transparent">
-        Sky &amp; Sunny
-      </a>
-
-      <!-- Desktop Links -->
-      <div class="hidden md:flex items-center gap-6 font-heading font-semibold">
-        <a href="#home" class="hover:text-sunny-yellow transition-colors py-2">Home</a>
-        <a href="#sunny" class="hover:text-sunny-yellow transition-colors py-2">Sunny</a>
-        <a href="#sky" class="hover:text-sky-violet transition-colors py-2">Sky</a>
-        <a href="#videos" class="hover:text-sunny-yellow transition-colors py-2">Videos</a>
-        <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-full bg-gradient-to-r from-sunny-yellow to-sky-violet text-white font-bold text-sm hover:scale-105 transition-transform">
-          TikTok
-        </a>
-      </div>
-
-      <!-- Mobile Hamburger -->
-      <button id="menu-toggle" class="md:hidden flex flex-col justify-center items-center w-11 h-11 gap-1.5" aria-label="Toggle navigation menu" aria-expanded="false">
-        <span class="block w-6 h-0.5 bg-charcoal transition-all duration-300" id="bar1"></span>
-        <span class="block w-6 h-0.5 bg-charcoal transition-all duration-300" id="bar2"></span>
-        <span class="block w-6 h-0.5 bg-charcoal transition-all duration-300" id="bar3"></span>
+  <header class="site-header">
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a class="wordmark" href="#top" aria-label="Sky and Sunny, back to top">Sky <span>&amp;</span> Sunny</a>
+      <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">
+        <span>Menu</span>
+        <span class="menu-icon" aria-hidden="true"><span></span><span></span></span>
       </button>
-    </div>
-
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="md:hidden overflow-hidden max-h-0 transition-all duration-300 ease-in-out bg-white/95 backdrop-blur-md border-t border-gray-100">
-      <div class="flex flex-col items-center gap-4 py-6 font-heading font-semibold">
-        <a href="#home" class="mobile-link hover:text-sunny-yellow transition-colors py-2 px-4 min-h-[44px] flex items-center">Home</a>
-        <a href="#sunny" class="mobile-link hover:text-sunny-yellow transition-colors py-2 px-4 min-h-[44px] flex items-center">Sunny</a>
-        <a href="#sky" class="mobile-link hover:text-sky-violet transition-colors py-2 px-4 min-h-[44px] flex items-center">Sky</a>
-        <a href="#videos" class="mobile-link hover:text-sunny-yellow transition-colors py-2 px-4 min-h-[44px] flex items-center">Videos</a>
-        <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noopener noreferrer" class="mobile-link px-6 py-2 rounded-full bg-gradient-to-r from-sunny-yellow to-sky-violet text-white font-bold text-sm hover:scale-105 transition-transform">
-          TikTok
-        </a>
+      <div class="site-menu" id="site-menu">
+        <a href="#residents">The residents</a>
+        <a href="#moments">Their moments</a>
+        <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noreferrer">TikTok</a>
       </div>
-    </div>
-  </nav>
+    </nav>
+  </header>
 
-  <!-- Hero Section -->
-  <section id="home" class="min-h-screen flex items-center justify-center text-center pt-24 pb-16 px-4 bg-gradient-to-br from-sunny-yellow/5 via-cream to-sky-violet/5">
-    <div class="max-w-4xl mx-auto">
-      <h1 class="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-bold bg-gradient-to-r from-sunny-yellow to-sky-violet bg-clip-text text-transparent leading-tight mb-4">
-        Sky &amp; Sunny
-      </h1>
-      <p class="text-lg md:text-xl text-charcoal/70 mb-10 max-w-2xl mx-auto">
-        Two Green Cheek Conures Taking Over TikTok
-      </p>
+  <main id="main-content">
+    <svg class="scene-definitions" width="0" height="0" aria-hidden="true" focusable="false">
+      <defs>
+        <symbol id="leaf-spray-a" viewBox="0 0 200 160">
+          <path class="leaf-stem" d="M12 148C58 116 102 72 187 13"></path>
+          <path class="leaf-blade" d="M54 116C25 119 8 104 11 83C39 75 61 87 70 105C66 111 61 114 54 116Z"></path>
+          <path class="leaf-vein" d="M20 87C38 94 52 101 65 108"></path>
+          <path class="leaf-blade" d="M83 92C58 81 51 60 62 43C89 48 104 64 101 83C96 89 91 92 83 92Z"></path>
+          <path class="leaf-blade" d="M112 70C116 42 137 26 158 31C162 54 147 71 122 78C117 76 114 74 112 70Z"></path>
+          <path class="leaf-blade" d="M147 42C155 17 176 5 191 12C190 32 177 47 157 52C152 50 149 47 147 42Z"></path>
+        </symbol>
+        <symbol id="leaf-spray-b" viewBox="0 0 200 160">
+          <path class="leaf-stem" d="M18 150C62 124 102 91 177 18"></path>
+          <path class="leaf-blade" d="M54 125C31 132 13 121 11 104C33 92 55 99 67 114C64 120 60 123 54 125Z"></path>
+          <path class="leaf-blade" d="M75 108C57 94 57 76 69 63C90 72 98 87 91 102C86 106 81 108 75 108Z"></path>
+          <path class="leaf-blade" d="M98 90C100 68 116 53 134 55C138 74 127 89 107 96C103 95 100 93 98 90Z"></path>
+          <path class="leaf-blade" d="M126 64C130 41 148 27 166 31C169 50 157 66 136 72C131 70 128 68 126 64Z"></path>
+          <path class="leaf-blade" d="M151 40C155 20 171 9 186 14C187 31 176 43 159 47C155 45 153 43 151 40Z"></path>
+          <path class="leaf-vein" d="M22 145C67 120 109 80 177 20"></path>
+        </symbol>
+        <symbol id="leaf-spray-c" viewBox="0 0 200 160">
+          <path class="leaf-stem" d="M8 146C64 125 116 91 190 30"></path>
+          <path class="leaf-blade" d="M48 128C21 133 5 120 7 101C33 91 53 101 62 117C58 123 54 126 48 128Z"></path>
+          <path class="leaf-blade" d="M82 111C58 108 45 92 51 75C77 71 94 82 99 99C95 105 89 109 82 111Z"></path>
+          <path class="leaf-blade" d="M111 91C116 67 135 55 154 61C155 81 143 94 121 99C117 97 114 95 111 91Z"></path>
+          <path class="leaf-blade" d="M145 64C153 43 172 34 187 41C185 59 173 70 155 72C151 70 148 68 145 64Z"></path>
+          <path class="leaf-vein" d="M15 143C67 123 119 88 188 32"></path>
+        </symbol>
+      </defs>
+    </svg>
 
-      <!-- Stats -->
-      <div id="stats-container" class="flex flex-wrap justify-center gap-8 md:gap-12 mb-10 reveal">
-        <div class="text-center">
-          <span class="block text-3xl md:text-4xl font-heading font-bold text-sunny-yellow counter" data-target="11900" data-suffix="K" data-display="11.9K">0</span>
-          <span class="text-sm md:text-base text-charcoal/60 font-semibold">Followers</span>
+    <section class="hero-habitat" id="top" aria-labelledby="hero-title">
+      <div class="habitat-plane canopy-back" data-depth="-2" aria-hidden="true">
+        <div class="moon-disc"></div>
+        <div class="star-field">
+          <span class="star"></span><span class="star"></span><span class="star"></span>
+          <span class="star"></span><span class="star"></span><span class="star"></span>
+          <span class="star"></span><span class="star"></span><span class="star"></span>
+          <span class="star"></span><span class="star"></span><span class="star"></span>
         </div>
-        <div class="text-center">
-          <span class="block text-3xl md:text-4xl font-heading font-bold text-sky-violet counter" data-target="882900" data-suffix="K" data-display="882.9K">0</span>
-          <span class="text-sm md:text-base text-charcoal/60 font-semibold">Likes</span>
-        </div>
-        <div class="text-center">
-          <span class="block text-3xl md:text-4xl font-heading font-bold text-sky-deep counter" data-target="13000000" data-suffix="M+" data-display="13M+">0</span>
-          <span class="text-sm md:text-base text-charcoal/60 font-semibold">Views</span>
-        </div>
-      </div>
-
-      <!-- CTA Button -->
-      <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noopener noreferrer" class="inline-block rounded-full px-8 py-3 min-h-[44px] bg-gradient-to-r from-sunny-yellow to-sunny-green text-white font-bold shadow-lg hover:scale-105 hover:shadow-xl transition-all duration-300 text-base md:text-lg">
-        Watch on TikTok &rarr;
-      </a>
-    </div>
-  </section>
-
-  <!-- Meet the Stars Section -->
-  <section id="sunny" class="py-16 md:py-20 px-4 md:px-6">
-    <div class="max-w-6xl mx-auto">
-      <h2 class="text-3xl md:text-4xl font-heading font-bold text-center mb-12 reveal">
-        Meet the Stars
-      </h2>
-
-      <!-- Sunny Card -->
-      <div class="max-w-4xl mx-auto flex flex-col md:flex-row bg-white rounded-2xl shadow-lg overflow-hidden p-6 md:p-8 gap-6 md:gap-8 mb-12 reveal-left">
-        <!-- Photo Placeholder -->
-        <div class="flex-shrink-0 mx-auto md:mx-0">
-          <div class="w-48 h-48 md:w-64 md:h-64 rounded-full bg-gradient-to-br from-sunny-yellow to-sunny-green flex items-center justify-center border-4 border-sunny-yellow shadow-md">
-            <span class="text-6xl md:text-7xl" role="img" aria-label="Sun emoji representing Sunny the bird">&#9728;&#65039;</span>
-          </div>
-        </div>
-        <!-- Info -->
-        <div class="flex-1 text-center md:text-left">
-          <h3 class="text-2xl md:text-3xl font-heading font-bold mb-2">
-            Sunny <span role="img" aria-label="Star">&#11088;</span>
-          </h3>
-          <span class="inline-block px-3 py-1 rounded-full bg-sunny-yellow/20 text-sunny-yellow font-bold text-sm mb-2">
-            The Star
-          </span>
-          <p class="text-charcoal/60 italic mb-3">Yellow-sided Green Cheek Conure</p>
-          <p class="text-charcoal/80 mb-4 leading-relaxed">
-            The queen of TikTok with 13M+ views. Sunny lights up every room with her yellow-green feathers and big personality.
-          </p>
-          <ul class="space-y-2 text-charcoal/70">
-            <li>&#127871; Favorite snack: millet spray</li>
-            <li>&#127925; Signature move: head bobbing to music</li>
-            <li>&#128520; Mood: always chaotic</li>
-            <li>&#128241; Status: TikTok famous</li>
-          </ul>
-        </div>
-      </div>
-      <!-- Sky Card -->
-      <div id="sky" class="max-w-4xl mx-auto flex flex-col md:flex-row-reverse bg-white rounded-2xl shadow-lg overflow-hidden p-6 md:p-8 gap-6 md:gap-8 reveal-right">
-        <!-- Photo Placeholder -->
-        <div class="flex-shrink-0 mx-auto md:mx-0">
-          <div class="w-48 h-48 md:w-64 md:h-64 rounded-full bg-gradient-to-br from-sky-violet to-sky-deep flex items-center justify-center border-4 border-sky-violet shadow-md">
-            <span class="text-6xl md:text-7xl" role="img" aria-label="Parrot emoji representing Sky the bird">&#129436;</span>
-          </div>
-        </div>
-        <!-- Info -->
-        <div class="flex-1 text-center md:text-left">
-          <h3 class="text-2xl md:text-3xl font-heading font-bold mb-2">
-            Sky <span role="img" aria-label="Feather">&#129718;</span>
-          </h3>
-          <span class="inline-block px-3 py-1 rounded-full bg-sky-violet/20 text-sky-violet font-bold text-sm mb-2">
-            The Co-Star
-          </span>
-          <p class="text-charcoal/60 italic mb-3">Green Cheek Conure (Violet Mutation)</p>
-          <p class="text-charcoal/80 mb-4 leading-relaxed">
-            The chill one. Sky brings the blue vibes and acts as Sunny's loyal sidekick in every TikTok adventure.
-          </p>
-          <ul class="space-y-2 text-charcoal/70">
-            <li>&#129718; Favorite activity: preening</li>
-            <li>&#128170; Signature move: the shoulder perch</li>
-            <li>&#128524; Mood: mysteriously calm</li>
-            <li>&#127775; Role: Sunny's biggest fan</li>
-          </ul>
-        </div>
+        <svg class="aviary-ribs" viewBox="0 0 1440 900" preserveAspectRatio="none" focusable="false">
+          <path d="M92 900C92 324 356 82 720 82S1348 324 1348 900"></path>
+          <path d="M294 900C294 376 478 162 720 162S1146 376 1146 900"></path>
+          <path d="M510 900C510 430 602 242 720 242S930 430 930 900"></path>
+          <path d="M720 82V900"></path>
+        </svg>
+        <svg class="back-branches" viewBox="0 0 1440 900" preserveAspectRatio="none" focusable="false">
+          <path class="back-branch" d="M-50 219C137 208 257 278 397 462L382 479C246 315 132 249 -50 263Z"></path>
+          <path class="back-branch" d="M1492 151C1291 166 1200 285 1031 455L1048 474C1218 315 1307 203 1492 190Z"></path>
+          <path class="back-branch" d="M-88 672C142 596 285 637 443 741L428 759C272 667 137 632 -88 716Z"></path>
+          <path class="back-branch-light" d="M-32 228C146 220 261 290 389 465M1478 166C1295 181 1208 292 1040 462"></path>
+        </svg>
       </div>
 
-    </div>
-  </section>
-
-  <!-- TikTok Highlights Section -->
-  <section id="videos" class="py-16 md:py-20 px-4 md:px-6 bg-gradient-to-b from-cream to-white">
-    <div class="max-w-6xl mx-auto">
-      <h2 class="text-3xl md:text-4xl font-heading font-bold text-center mb-12 reveal">
-        TikTok Highlights
-      </h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Video Card 1 -->
-        <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noopener noreferrer" class="video-card reveal group rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
-          <div class="aspect-video bg-gradient-to-br from-sunny-yellow to-sunny-green flex items-center justify-center relative">
-            <div class="w-16 h-16 rounded-full bg-white/80 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <span class="text-charcoal text-2xl ml-1">&#9654;</span>
-            </div>
-          </div>
-          <div class="p-4">
-            <h3 class="font-heading font-bold text-lg">Sunny's Greatest Hits</h3>
-            <p class="text-charcoal/50 text-sm mt-1">2.9M views</p>
-          </div>
-        </a>
-
-        <!-- Video Card 2 -->
-        <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noopener noreferrer" class="video-card reveal group rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
-          <div class="aspect-video bg-gradient-to-br from-sky-violet to-sky-deep flex items-center justify-center relative">
-            <div class="w-16 h-16 rounded-full bg-white/80 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <span class="text-charcoal text-2xl ml-1">&#9654;</span>
-            </div>
-          </div>
-          <div class="p-4">
-            <h3 class="font-heading font-bold text-lg">Morning Chaos</h3>
-            <p class="text-charcoal/50 text-sm mt-1">3.3M views</p>
-          </div>
-        </a>
-
-        <!-- Video Card 3 -->
-        <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noopener noreferrer" class="video-card reveal group rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
-          <div class="aspect-video bg-gradient-to-br from-sunny-yellow to-sky-violet flex items-center justify-center relative">
-            <div class="w-16 h-16 rounded-full bg-white/80 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <span class="text-charcoal text-2xl ml-1">&#9654;</span>
-            </div>
-          </div>
-          <div class="p-4">
-            <h3 class="font-heading font-bold text-lg">Sky Joins the Party</h3>
-            <p class="text-charcoal/50 text-sm mt-1">2M views</p>
-          </div>
-        </a>
-
-        <!-- Video Card 4 -->
-        <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noopener noreferrer" class="video-card reveal group rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
-          <div class="aspect-video bg-gradient-to-br from-sunny-green to-sky-blue flex items-center justify-center relative">
-            <div class="w-16 h-16 rounded-full bg-white/80 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <span class="text-charcoal text-2xl ml-1">&#9654;</span>
-            </div>
-          </div>
-          <div class="p-4">
-            <h3 class="font-heading font-bold text-lg">Dance Time</h3>
-            <p class="text-charcoal/50 text-sm mt-1">1.5M views</p>
-          </div>
-        </a>
-
-        <!-- Video Card 5 -->
-        <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noopener noreferrer" class="video-card reveal group rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
-          <div class="aspect-video bg-gradient-to-br from-sky-deep to-sky-violet flex items-center justify-center relative">
-            <div class="w-16 h-16 rounded-full bg-white/80 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <span class="text-charcoal text-2xl ml-1">&#9654;</span>
-            </div>
-          </div>
-          <div class="p-4">
-            <h3 class="font-heading font-bold text-lg">Snack Attack</h3>
-            <p class="text-charcoal/50 text-sm mt-1">890K views</p>
-          </div>
-        </a>
-
-        <!-- Video Card 6 -->
-        <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noopener noreferrer" class="video-card reveal group rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
-          <div class="aspect-video bg-gradient-to-br from-sunny-yellow to-sunny-green flex items-center justify-center relative">
-            <div class="w-16 h-16 rounded-full bg-white/80 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <span class="text-charcoal text-2xl ml-1">&#9654;</span>
-            </div>
-          </div>
-          <div class="p-4">
-            <h3 class="font-heading font-bold text-lg">Best Friends</h3>
-            <p class="text-charcoal/50 text-sm mt-1">750K views</p>
-          </div>
-        </a>
+      <div class="habitat-plane canopy-middle" data-depth="2" aria-hidden="true">
+        <svg class="middle-foliage foliage-left" viewBox="0 0 520 900" focusable="false">
+          <path class="branch-fill" d="M-32 862C68 726 118 536 158 310C172 230 202 166 244 112L268 128C230 190 208 256 198 328C164 552 111 741 12 884Z"></path>
+          <path class="branch-fill-light" d="M-8 850C79 716 128 531 168 312C183 234 210 175 251 121"></path>
+          <g class="leaf-fill">
+            <use href="#leaf-spray-a" x="-18" y="94" width="258" height="202" transform="rotate(-17 110 195)"></use>
+            <use href="#leaf-spray-b" x="92" y="250" width="218" height="174" transform="rotate(31 201 337)"></use>
+            <use href="#leaf-spray-c" x="-42" y="430" width="276" height="214" transform="rotate(-25 92 537)"></use>
+          </g>
+        </svg>
+        <svg class="middle-foliage foliage-right" viewBox="0 0 520 900" focusable="false">
+          <path class="branch-fill" d="M552 836C430 726 370 548 344 326C334 236 294 164 236 106L211 132C263 196 291 265 299 347C320 561 381 742 526 862Z"></path>
+          <path class="branch-fill-light" d="M531 842C411 724 354 547 331 329C321 243 284 174 225 117"></path>
+          <g class="leaf-fill">
+            <use href="#leaf-spray-c" x="270" y="74" width="270" height="210" transform="rotate(109 404 180)"></use>
+            <use href="#leaf-spray-a" x="190" y="270" width="238" height="186" transform="rotate(151 312 364)"></use>
+            <use href="#leaf-spray-b" x="306" y="438" width="280" height="218" transform="rotate(121 446 546)"></use>
+          </g>
+        </svg>
       </div>
 
-      <!-- See More Button -->
-      <div class="text-center mt-10">
-        <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noopener noreferrer" class="inline-block rounded-full px-8 py-3 min-h-[44px] bg-gradient-to-r from-sunny-yellow to-sunny-green text-white font-bold shadow-lg hover:scale-105 hover:shadow-xl transition-all duration-300 text-base md:text-lg">
-          See More on TikTok &rarr;
-        </a>
-      </div>
-    </div>
-  </section>
+      <div class="hero-content" id="residents">
+        <div class="hero-title-block">
+          <h1 id="hero-title"><span>Sky <i>&amp;</i></span><span>Sunny</span></h1>
+        </div>
+        <div class="residents" aria-label="Portraits of Sunny and Sky">
+          <figure class="resident resident-sunny" data-face="sunny">
+            <img class="resident-cutout" src="/assets/sunny-cutout.webp" width="1366" height="1152" alt="Sunny, a small green-and-yellow bird with a rosy tail and visible pink feet.">
+            <figcaption>Sunny</figcaption>
+          </figure>
+          <figure class="resident resident-sky" data-face="sky">
+            <img class="resident-cutout" src="/assets/sky-cutout.webp" width="1024" height="1536" alt="Sky, a turquoise-and-grey bird ready to settle on the shared branch.">
+            <figcaption>Sky</figcaption>
+          </figure>
+        </div>
 
-  <!-- Footer -->
-  <footer class="bg-charcoal text-white/80 py-12">
-    <!-- Gradient Line -->
-    <div class="h-1 bg-gradient-to-r from-sunny-yellow to-sky-violet mb-10"></div>
-    <div class="max-w-6xl mx-auto text-center px-4">
-      <p class="text-lg mb-3">
-        Follow
-        <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noopener noreferrer" class="text-sunny-yellow hover:underline font-bold transition-colors">
-          @SkyAndSunny.com
-        </a>
-        on TikTok
-      </p>
-      <p class="text-white/60 mb-2">Made with &#10084;&#65039; for our feathered friends</p>
-      <p class="text-white/40 text-sm mb-4">&copy; 2026 SkyAndSunny.com</p>
-      <p class="text-2xl" aria-hidden="true">&#129436;&#9728;&#65039;</p>
-    </div>
+        <svg class="shared-perch" viewBox="0 0 1440 230" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <path class="perch-shadow" d="M-40 164C236 114 444 138 658 147C760 152 824 131 924 84C1094 44 1254 14 1488 -6L1488 16C1254 34 1098 66 934 108C832 152 766 174 656 169C444 160 236 136 -40 186Z"></path>
+          <path class="perch-main" d="M-40 150C236 100 444 124 658 133C760 138 824 117 924 70C1094 30 1254 0 1488 -20L1488 2C1254 20 1098 52 934 94C832 138 766 160 656 155C444 146 236 122 -40 172Z"></path>
+          <path class="branch-edge" d="M-40 150C236 100 444 124 658 133C760 138 824 117 924 70C1094 30 1254 0 1488 -20"></path>
+          <path class="perch-fork" d="M782 137C835 91 872 45 901 4L914 11C885 57 852 105 797 149Z"></path>
+          <path class="perch-junction junction-wide" d="M1045 73C1093 54 1136 19 1175 -12L1186 -5C1145 31 1103 66 1055 86Z"></path>
+          <path class="branch-edge junction-wide junction-edge" d="M1052 76C1098 56 1139 23 1180 -8"></path>
+          <path class="perch-junction junction-mid" d="M892 72C940 83 985 105 1029 117L1035 132C982 122 938 101 887 85Z"></path>
+          <path class="branch-edge junction-mid junction-edge" d="M895 76C943 88 986 109 1032 124"></path>
+          <path class="perch-junction junction-band" d="M960 78C1018 58 1075 20 1125 -10L1137 -3C1083 30 1025 70 970 90Z"></path>
+          <path class="branch-edge junction-band junction-edge" d="M966 82C1020 61 1077 23 1131 -7"></path>
+          <path class="branch-fissure" d="M188 126L226 139M476 129L514 143M690 136L724 128"></path>
+          <ellipse class="branch-knot" cx="352" cy="128" rx="16" ry="7" transform="rotate(8 352 128)"></ellipse>
+          <ellipse class="branch-knot" cx="836" cy="108" rx="12" ry="5" transform="rotate(-20 836 108)"></ellipse>
+        </svg>
+        <div class="hero-note">
+          <p>Two tiny birds. One very big screen presence.</p>
+          <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noreferrer">Enter their TikTok aviary <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+
+      <div class="habitat-plane canopy-foreground" data-depth="4" data-entrance aria-hidden="true">
+        <svg class="front-foliage front-left" viewBox="0 0 540 900" focusable="false">
+          <path class="branch-front" d="M-42 932C35 760 65 532 57 258L91 221C116 504 95 747 12 944Z"></path>
+          <path class="branch-front-light" d="M-15 924C48 751 77 526 69 256"></path>
+          <g class="leaf-front">
+            <use href="#leaf-spray-b" x="-76" y="58" width="322" height="250" transform="rotate(-21 82 181)"></use>
+            <use href="#leaf-spray-c" x="18" y="286" width="294" height="230" transform="rotate(33 164 398)"></use>
+            <use href="#leaf-spray-a" x="-100" y="520" width="344" height="268" transform="rotate(-27 72 654)"></use>
+          </g>
+        </svg>
+        <svg class="front-foliage front-right" viewBox="0 0 540 900" focusable="false">
+          <path class="branch-front" d="M590 934C501 760 470 525 482 258L448 222C419 498 444 746 558 948Z"></path>
+          <path class="branch-front-light" d="M566 928C489 751 462 524 473 257"></path>
+          <g class="leaf-front">
+            <use href="#leaf-spray-a" x="294" y="42" width="330" height="256" transform="rotate(117 459 171)"></use>
+            <use href="#leaf-spray-b" x="220" y="284" width="298" height="232" transform="rotate(145 369 400)"></use>
+            <use href="#leaf-spray-c" x="310" y="512" width="342" height="266" transform="rotate(122 481 645)"></use>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <section class="moments-habitat" id="moments" aria-labelledby="moments-title">
+      <div class="moments-intro">
+        <h2 id="moments-title">Three small encounters after dark.</h2>
+      </div>
+      <svg class="moment-foliage moment-foliage-left" viewBox="0 0 340 800" aria-hidden="true" focusable="false">
+        <use href="#leaf-spray-c" x="-80" y="28" width="300" height="232" transform="rotate(-19 70 144)"></use>
+        <use href="#leaf-spray-a" x="22" y="244" width="254" height="198" transform="rotate(29 148 344)"></use>
+        <use href="#leaf-spray-b" x="-98" y="490" width="318" height="246" transform="rotate(-27 62 612)"></use>
+      </svg>
+      <svg class="moment-foliage moment-foliage-right" viewBox="0 0 340 800" aria-hidden="true" focusable="false">
+        <use href="#leaf-spray-b" x="118" y="40" width="300" height="232" transform="rotate(113 270 156)"></use>
+        <use href="#leaf-spray-c" x="40" y="270" width="258" height="200" transform="rotate(151 172 370)"></use>
+        <use href="#leaf-spray-a" x="132" y="500" width="314" height="244" transform="rotate(123 288 622)"></use>
+      </svg>
+      <svg class="habitat-branch habitat-branch-compact" viewBox="0 0 390 2720" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <path class="compact-branch-shadow" d="M430 -50C405 145 375 260 363 327C408 365 423 485 423 807C411 901 379 1012 365 1077C408 1120 422 1275 422 1586C410 1710 374 1960 358 2107C407 2150 423 2320 423 2647C414 2708 390 2760 371 2790L398 2790C422 2740 443 2690 445 2638C440 2310 424 2138 385 2098C402 1955 435 1702 444 1580C440 1265 428 1105 391 1068C405 1006 434 895 445 800C440 475 426 350 390 320C402 255 430 140 451 -50Z"></path>
+        <path class="branch-main compact-branch-main" d="M421 -50C398 145 368 260 356 327C401 365 416 485 416 807C404 901 372 1012 358 1077C401 1120 415 1275 415 1586C403 1710 367 1960 351 2107C400 2150 416 2320 416 2647C407 2708 383 2760 364 2790L384 2790C406 2740 427 2690 429 2638C424 2310 408 2138 369 2098C386 1955 419 1702 428 1580C424 1265 412 1105 375 1068C389 1006 418 895 429 800C424 475 410 350 374 320C386 255 414 140 435 -50Z"></path>
+        <path class="branch-edge compact-branch-edge" d="M421 -40C399 150 370 262 358 326C402 367 417 486 417 804M416 812C404 906 373 1012 360 1075M359 1082C402 1124 416 1277 416 1584M415 1591C403 1714 369 1962 353 2105M354 2112C401 2154 417 2321 417 2644C408 2709 385 2758 366 2782"></path>
+        <path class="branch-mark compact-branch-mark" d="M375 276L391 291M374 1015L392 1028M391 1770L374 1788M389 2460L405 2478"></path>
+      </svg>
+      <svg class="habitat-branch" viewBox="0 0 1440 2720" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <path class="branch-shadow segment-one" d="M-80 92C180 124 384 246 456 470C538 724 512 902 600 1080"></path>
+        <path class="branch-shadow segment-two" d="M600 1080C690 1298 820 1370 904 1510C996 1664 924 1900 700 2172"></path>
+        <path class="branch-shadow segment-three" d="M700 2172C626 2350 520 2508 430 2780"></path>
+        <path class="branch-main segment-one" d="M-80 76C180 108 384 230 456 454C538 708 512 886 600 1064"></path>
+        <path class="branch-main segment-two" d="M600 1064C690 1282 820 1354 904 1494C996 1648 924 1884 700 2156"></path>
+        <path class="branch-main segment-three" d="M700 2156C626 2334 520 2492 430 2764"></path>
+        <path class="branch-edge" d="M-80 65C180 97 384 219 456 443C538 697 512 875 600 1053C690 1271 820 1343 904 1483C996 1637 924 1873 700 2145C626 2323 520 2481 430 2753"></path>
+        <path class="branch-mark" d="M300 300L335 324M500 832L470 858M738 1374L774 1392M850 1760L812 1790M590 2378L555 2402"></path>
+      </svg>
+
+      <div class="moment-sequence">
+        <article class="moment moment-watermelon" data-moment>
+          <div class="moment-opening">
+            <a class="moment-image-link" href="https://www.tiktok.com/@skyandsunny.com/video/7214467392791907590" target="_blank" rel="noreferrer" aria-label="Watch Her life is forever changed on TikTok">
+              <img src="/assets/moment-watermelon.webp" width="1400" height="860" alt="Sunny sitting beside a tablet that shows a slice of watermelon.">
+            </a>
+            <svg class="moment-twig twig-watermelon" viewBox="0 0 300 120" aria-hidden="true" focusable="false"><path d="M-12 98C82 92 154 52 310 18"></path><path d="M150 55C130 32 116 18 98 4"></path></svg>
+          </div>
+          <div class="moment-copy caption-clear">
+            <span class="moment-number">01</span>
+            <h3>Her life is forever changed</h3>
+            <p>Sunny meets a watermelon on screen.</p>
+            <a href="https://www.tiktok.com/@skyandsunny.com/video/7214467392791907590" target="_blank" rel="noreferrer">Watch on TikTok <span aria-hidden="true">↗</span></a>
+          </div>
+        </article>
+
+        <article class="moment moment-strawberries" data-moment>
+          <div class="moment-opening">
+            <a class="moment-image-link" href="https://www.tiktok.com/@skyandsunny.com/video/7214307952763620613" target="_blank" rel="noreferrer" aria-label="Watch Strawberries on TikTok">
+              <img src="/assets/moment-strawberries.webp" width="1400" height="851" alt="Sunny facing a tablet that shows bright red strawberries.">
+            </a>
+            <svg class="moment-twig twig-strawberries" viewBox="0 0 300 120" aria-hidden="true" focusable="false"><path d="M-12 18C88 22 182 14 312 30"></path><path d="M154 18C174 8 190 4 206 2"></path></svg>
+          </div>
+          <div class="moment-copy caption-clear">
+            <span class="moment-number">02</span>
+            <h3>Strawberries</h3>
+            <p>A bright red discovery, watched closely.</p>
+            <a href="https://www.tiktok.com/@skyandsunny.com/video/7214307952763620613" target="_blank" rel="noreferrer">Watch on TikTok <span aria-hidden="true">↗</span></a>
+          </div>
+        </article>
+
+        <article class="moment moment-obsessions" data-moment>
+          <div class="moment-opening">
+            <a class="moment-image-link" href="https://www.tiktok.com/@skyandsunny.com/video/7213469583162854662" target="_blank" rel="noreferrer" aria-label="Watch Obsessions on TikTok">
+              <img src="/assets/moment-obsessions.webp" width="1400" height="2251" alt="Sunny looking up at a tablet that shows a small animated corn character.">
+            </a>
+            <svg class="moment-twig twig-obsessions" viewBox="0 0 300 120" aria-hidden="true" focusable="false"><path d="M-12 96C80 88 178 52 312 10"></path><path d="M118 68C96 42 84 24 76 4"></path></svg>
+          </div>
+          <div class="moment-copy caption-clear">
+            <span class="moment-number">03</span>
+            <h3>Obsessions</h3>
+            <p>Sunny and the little corn character.</p>
+            <a href="https://www.tiktok.com/@skyandsunny.com/video/7213469583162854662" target="_blank" rel="noreferrer">Watch on TikTok <span aria-hidden="true">↗</span></a>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="footer-wordmark" href="#top">Sky &amp; Sunny</a>
+    <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noreferrer">@skyandsunny.com on TikTok</a>
+    <p>&copy; <span id="current-year">2026</span> Sky &amp; Sunny</p>
   </footer>
-
-  <!-- Mobile Menu Toggle Script -->
-  <script>
-    const menuToggle = document.getElementById('menu-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const bar1 = document.getElementById('bar1');
-    const bar2 = document.getElementById('bar2');
-    const bar3 = document.getElementById('bar3');
-
-    let menuOpen = false;
-
-    function openMenu() {
-      menuOpen = true;
-      mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
-      menuToggle.setAttribute('aria-expanded', 'true');
-      bar1.style.transform = 'rotate(45deg) translate(4px, 4px)';
-      bar2.style.opacity = '0';
-      bar3.style.transform = 'rotate(-45deg) translate(4px, -4px)';
-    }
-
-    function closeMenu() {
-      menuOpen = false;
-      mobileMenu.style.maxHeight = '0';
-      menuToggle.setAttribute('aria-expanded', 'false');
-      bar1.style.transform = '';
-      bar2.style.opacity = '1';
-      bar3.style.transform = '';
-    }
-
-    menuToggle.addEventListener('click', () => {
-      if (menuOpen) {
-        closeMenu();
-      } else {
-        openMenu();
-      }
-    });
-
-    // Close mobile menu when clicking a link
-    document.querySelectorAll('.mobile-link').forEach(link => {
-      link.addEventListener('click', () => {
-        closeMenu();
-      });
-    });
-  </script>
-
-  <!-- Counter Animation Script -->
-  <script>
-    function animateCounters() {
-      const counters = document.querySelectorAll('.counter');
-      counters.forEach(counter => {
-        const display = counter.getAttribute('data-display');
-        const target = parseInt(counter.getAttribute('data-target'));
-        const duration = 2000;
-        const startTime = performance.now();
-
-        function formatNumber(num) {
-          if (target >= 1000000) {
-            const millions = num / 1000000;
-            if (millions >= target / 1000000) return display;
-            return Math.floor(millions) + 'M+';
-          } else if (target >= 1000) {
-            const thousands = num / 1000;
-            if (thousands >= target / 1000) return display;
-            return (Math.floor(thousands * 10) / 10).toFixed(1) + 'K';
-          }
-          return Math.floor(num).toString();
-        }
-
-        function update(currentTime) {
-          const elapsed = currentTime - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-          // Ease out cubic
-          const eased = 1 - Math.pow(1 - progress, 3);
-          const current = eased * target;
-
-          if (progress < 1) {
-            counter.textContent = formatNumber(current);
-            requestAnimationFrame(update);
-          } else {
-            counter.textContent = display;
-          }
-        }
-
-        requestAnimationFrame(update);
-      });
-    }
-
-    // Intersection Observer for stats
-    const statsObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          animateCounters();
-          statsObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.3 });
-
-    const statsContainer = document.getElementById('stats-container');
-    if (statsContainer) {
-      statsObserver.observe(statsContainer);
-    }
-  </script>
-
-  <!-- Scroll Reveal & Nav Shadow Script -->
-  <script>
-    // Scroll Reveal Observer
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
-      revealObserver.observe(el);
-    });
-
-    // Stagger video card animations
-    document.querySelectorAll('.video-card').forEach((card, index) => {
-      card.style.transitionDelay = `${index * 0.1}s`;
-    });
-
-    // Nav shadow on scroll
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        navbar.classList.add('shadow-md');
-      } else {
-        navbar.classList.remove('shadow-md');
-      }
-    });
-  </script>
-
 </body>
 </html>
