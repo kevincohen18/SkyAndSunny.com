@@ -546,7 +546,8 @@ h1 i {
   fill: var(--color-bark);
 }
 
-.junction-mid {
+.junction-mid,
+.junction-band {
   display: none;
 }
 
@@ -935,6 +936,28 @@ h3 {
 
   .moment-sequence {
     gap: 10rem;
+  }
+}
+
+@media (min-width: 52.0625rem) and (max-width: 63.9375rem) {
+  .resident-sunny {
+    left: 38%;
+  }
+
+  .resident-sky {
+    top: calc(39% - min(24.75vw, 15.675rem));
+  }
+
+  .junction-mid {
+    display: none;
+  }
+
+  .junction-band {
+    display: block;
+  }
+
+  .habitat-branch:not(.habitat-branch-compact) {
+    transform: translateX(-1.25rem);
   }
 }
 
