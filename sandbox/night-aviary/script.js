@@ -51,35 +51,80 @@ if (menuToggle && siteMenu) {
 
 const finePointerQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
 const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-const birds = [...document.querySelectorAll("[data-bird]")];
+const heroHabitat = document.querySelector(".hero-habitat");
+const depthPlanes = heroHabitat ? [...heroHabitat.querySelectorAll("[data-depth]")] : [];
+const entrancePlane = heroHabitat?.querySelector("[data-entrance]");
+let heroIsVisible = true;
+let pointerFrame = 0;
+let latestPointer = null;
 
-if (birds.length > 0) {
-  const clearBirdOffsets = () => {
-    birds.forEach((bird) => {
-      bird.style.removeProperty("--bird-x");
-      bird.style.removeProperty("--bird-y");
-    });
+const clearDepthOffsets = () => {
+  if (pointerFrame) {
+    cancelAnimationFrame(pointerFrame);
+    pointerFrame = 0;
+  }
+  latestPointer = null;
+  document.documentElement.classList.remove("is-depth-active");
+  depthPlanes.forEach((plane) => {
+    plane.style.removeProperty("--depth-x");
+    plane.style.removeProperty("--depth-y");
+  });
+};
+
+const paintDepth = () => {
+  pointerFrame = 0;
+  if (!latestPointer || !heroIsVisible || document.hidden || reducedMotionQuery.matches) return;
+
+  depthPlanes.forEach((plane) => {
+    if (plane.classList.contains("canopy-middle")) return;
+    const depth = Math.max(-2, Math.min(4, Number(plane.dataset.depth) || 0));
+    plane.style.setProperty("--depth-x", `${(latestPointer.x * depth).toFixed(2)}px`);
+    plane.style.setProperty("--depth-y", `${(latestPointer.y * depth).toFixed(2)}px`);
+  });
+  document.documentElement.classList.add("is-depth-active");
+};
+
+const queueDepth = (event) => {
+  latestPointer = {
+    x: Math.max(-1, Math.min(1, (event.clientX / window.innerWidth - 0.5) * 2)),
+    y: Math.max(-1, Math.min(1, (event.clientY / window.innerHeight - 0.5) * 2)),
   };
+  if (!pointerFrame) pointerFrame = requestAnimationFrame(paintDepth);
+};
 
-  const moveBirds = (event) => {
-    if (!finePointerQuery.matches || reducedMotionQuery.matches) {
-      clearBirdOffsets();
-      return;
-    }
+const configureDepth = () => {
+  if (!heroHabitat) return;
+  heroHabitat.removeEventListener("pointermove", queueDepth);
+  heroHabitat.removeEventListener("pointerleave", clearDepthOffsets);
+  clearDepthOffsets();
 
-    const horizontalPosition = (event.clientX / window.innerWidth - 0.5) * 2;
-    const verticalPosition = (event.clientY / window.innerHeight - 0.5) * 2;
-    const cappedX = Math.max(-1, Math.min(1, horizontalPosition));
-    const cappedY = Math.max(-1, Math.min(1, verticalPosition));
+  if (finePointerQuery.matches && !reducedMotionQuery.matches && heroIsVisible && !document.hidden) {
+    heroHabitat.addEventListener("pointermove", queueDepth, { passive: true });
+    heroHabitat.addEventListener("pointerleave", clearDepthOffsets);
+  }
+};
 
-    birds.forEach((bird) => {
-      const depth = Number(bird.dataset.depth) || 0;
-      bird.style.setProperty("--bird-x", `${(cappedX * depth).toFixed(2)}px`);
-      bird.style.setProperty("--bird-y", `${(cappedY * depth).toFixed(2)}px`);
-    });
-  };
+if (heroHabitat && "IntersectionObserver" in window) {
+  const observer = new IntersectionObserver(([entry]) => {
+    heroIsVisible = entry.isIntersecting;
+    configureDepth();
+  });
+  observer.observe(heroHabitat);
+}
 
-  window.addEventListener("pointermove", moveBirds, { passive: true });
-  finePointerQuery.addEventListener("change", clearBirdOffsets);
-  reducedMotionQuery.addEventListener("change", clearBirdOffsets);
+document.addEventListener("visibilitychange", configureDepth);
+finePointerQuery.addEventListener("change", configureDepth);
+reducedMotionQuery.addEventListener("change", configureDepth);
+configureDepth();
+
+if (reducedMotionQuery.matches) {
+  document.documentElement.classList.add("is-ready", "entrance-complete");
+} else {
+  entrancePlane?.addEventListener("transitionend", () => {
+    document.documentElement.classList.add("entrance-complete");
+  }, { once: true });
+  window.setTimeout(() => document.documentElement.classList.add("entrance-complete"), 800);
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => document.documentElement.classList.add("is-ready"));
+  });
 }

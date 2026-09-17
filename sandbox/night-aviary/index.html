@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Meet Sky and Sunny and watch three authentic moments from their TikTok account.">
+  <meta name="description" content="Enter Sky and Sunny’s moonlit aviary and watch three authentic moments from their TikTok account.">
   <title>Sky &amp; Sunny | Night Aviary</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="styles.css">
@@ -14,127 +14,189 @@
 
   <header class="site-header">
     <nav class="site-nav" aria-label="Primary navigation">
-      <a class="wordmark" href="#top" aria-label="Sky and Sunny, back to top">
-        <span class="wordmark-sky">Sky</span>
-        <span class="wordmark-ampersand">&amp;</span>
-        <span class="wordmark-sunny">Sunny</span>
-      </a>
-
+      <a class="wordmark" href="#top" aria-label="Sky and Sunny, back to top">Sky <span>&amp;</span> Sunny</a>
       <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">
         <span>Menu</span>
-        <span class="menu-icon" aria-hidden="true">
-          <span></span>
-          <span></span>
-        </span>
+        <span class="menu-icon" aria-hidden="true"><span></span><span></span></span>
       </button>
-
       <div class="site-menu" id="site-menu">
-        <a href="#meet">Meet the birds</a>
-        <a href="#moments">Featured moments</a>
-        <a class="nav-tiktok" href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noreferrer">TikTok</a>
+        <a href="#residents">The residents</a>
+        <a href="#moments">Their moments</a>
+        <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noreferrer">TikTok</a>
       </div>
     </nav>
   </header>
 
   <main id="main-content">
-    <section class="hero" id="top" aria-labelledby="hero-title">
-      <div class="hero-copy">
-        <p class="hero-kicker">Sunny ☀️ Sky🌌</p>
-        <h1 id="hero-title">Two tiny birds. One very big screen presence.</h1>
-        <p class="hero-intro">Meet Sky and Sunny through the photos and moments that made their corner of TikTok unmistakably theirs.</p>
-        <div class="hero-actions">
-          <a class="button button-primary" href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noreferrer">Watch Sky &amp; Sunny on TikTok</a>
-          <a class="button button-secondary" href="#meet">Meet the birds</a>
+    <svg class="scene-definitions" width="0" height="0" aria-hidden="true" focusable="false">
+      <defs>
+        <clipPath id="sunny-clip" clipPathUnits="objectBoundingBox">
+          <path d="M.2 .59C.27 .47 .3 .35 .42 .29C.5 .24 .59 .24 .64 .17C.73 .08 .85 .1 .93 .2C1 .29 .98 .46 .91 .58C.88 .66 .82 .71 .75 .74C.81 .79 .8 .85 .72 .87C.64 .89 .57 .87 .49 .83C.39 .8 .3 .72 .2 .59ZM0 .53C.12 .51 .23 .54 .38 .62C.3 .69 .18 .72 0 .66ZM.48 .78C.55 .8 .63 .8 .7 .77C.72 .84 .69 .9 .63 .94C.59 .98 .54 1 .5 .98C.52 .9 .5 .83 .48 .78Z"></path>
+        </clipPath>
+        <clipPath id="sky-clip" clipPathUnits="objectBoundingBox">
+          <path d="M.1 .36C.11 .27 .18 .22 .26 .21C.33 .13 .48 .14 .56 .22C.66 .28 .7 .4 .71 .52C.72 .62 .78 .73 .84 .82C.83 .88 .76 .91 .67 .85C.67 .91 .64 .98 .6 1H.54C.56 .92 .54 .83 .47 .77C.34 .72 .22 .65 .14 .56C.1 .5 .08 .42 .1 .36ZM0 .52C.2 .57 .43 .67 1 .88V.97C.57 .81 .27 .69 0 .61Z"></path>
+        </clipPath>
+        <symbol id="leaf-spray" viewBox="0 0 180 140">
+          <path class="leaf-stem" d="M14 130C50 102 88 72 164 15"></path>
+          <path class="leaf-blade" d="M54 101C20 102 8 84 12 68C38 62 59 73 67 93C64 97 60 99 54 101Z"></path>
+          <path class="leaf-blade" d="M84 78C57 67 50 48 59 34C85 37 99 51 98 70C94 75 90 77 84 78Z"></path>
+          <path class="leaf-blade" d="M107 61C115 34 135 22 152 28C153 50 138 66 116 70C112 68 109 65 107 61Z"></path>
+          <path class="leaf-blade" d="M132 40C139 17 156 6 171 11C172 30 160 44 141 48C137 47 134 44 132 40Z"></path>
+          <path class="leaf-blade" d="M61 101C68 121 88 132 105 124C103 106 91 95 70 92C66 94 63 97 61 101Z"></path>
+        </symbol>
+      </defs>
+    </svg>
+
+    <section class="hero-habitat" id="top" aria-labelledby="hero-title">
+      <div class="habitat-plane canopy-back" data-depth="-2" aria-hidden="true">
+        <div class="moon-disc"></div>
+        <div class="star-field">
+          <span class="star"></span><span class="star"></span><span class="star"></span>
+          <span class="star"></span><span class="star"></span><span class="star"></span>
+          <span class="star"></span><span class="star"></span><span class="star"></span>
+          <span class="star"></span><span class="star"></span><span class="star"></span>
+        </div>
+        <svg class="aviary-ribs" viewBox="0 0 1440 900" preserveAspectRatio="none" focusable="false">
+          <path d="M92 900C92 324 356 82 720 82S1348 324 1348 900"></path>
+          <path d="M294 900C294 376 478 162 720 162S1146 376 1146 900"></path>
+          <path d="M510 900C510 430 602 242 720 242S930 430 930 900"></path>
+          <path d="M720 82V900"></path>
+        </svg>
+        <svg class="back-branches" viewBox="0 0 1440 900" preserveAspectRatio="none" focusable="false">
+          <path d="M-40 246C178 228 252 320 386 474"></path>
+          <path d="M1480 174C1248 190 1188 332 1046 466"></path>
+          <path d="M-80 696C184 612 270 638 430 748"></path>
+        </svg>
+      </div>
+
+      <div class="habitat-plane canopy-middle" data-depth="2" aria-hidden="true">
+        <svg class="middle-foliage foliage-left" viewBox="0 0 520 900" focusable="false">
+          <path class="branch-fill" d="M-40 770C88 644 140 500 180 278C190 222 218 166 260 118L300 144C254 222 240 302 232 378C218 520 154 688 40 830Z"></path>
+          <g class="leaf-fill">
+            <use href="#leaf-spray" x="-18" y="94" width="258" height="202" transform="rotate(-20 110 195)"></use>
+            <use href="#leaf-spray" x="98" y="246" width="230" height="180" transform="rotate(24 210 338)"></use>
+            <use href="#leaf-spray" x="-44" y="426" width="282" height="220" transform="rotate(-28 88 536)"></use>
+          </g>
+        </svg>
+        <svg class="middle-foliage foliage-right" viewBox="0 0 520 900" focusable="false">
+          <path class="branch-fill" d="M560 748C414 660 350 520 326 302C316 218 276 154 222 104L188 138C244 210 258 276 264 356C274 530 344 704 506 818Z"></path>
+          <g class="leaf-fill">
+            <use href="#leaf-spray" x="270" y="74" width="270" height="210" transform="rotate(112 404 180)"></use>
+            <use href="#leaf-spray" x="192" y="270" width="242" height="188" transform="rotate(148 316 366)"></use>
+            <use href="#leaf-spray" x="306" y="438" width="280" height="218" transform="rotate(118 446 546)"></use>
+          </g>
+        </svg>
+      </div>
+
+      <div class="hero-content" id="residents">
+        <div class="hero-title-block">
+          <h1 id="hero-title"><span>Sky <i>&amp;</i></span><span>Sunny</span></h1>
+        </div>
+        <div class="residents" aria-label="Portraits of Sunny and Sky">
+          <figure class="resident resident-sunny">
+            <div class="portrait-mask sunny-mask">
+              <img src="assets/sunny-portrait.webp" width="1400" height="1400" alt="Sunny, a small green-and-yellow bird with a rosy tail and visible pink feet.">
+            </div>
+            <figcaption>Sunny</figcaption>
+          </figure>
+          <figure class="resident resident-sky">
+            <div class="portrait-mask sky-mask">
+              <img src="assets/sky-portrait.webp" width="1200" height="2134" alt="Sky, a turquoise-and-grey bird resting on a natural diagonal branch.">
+            </div>
+            <figcaption>Sky</figcaption>
+          </figure>
+        </div>
+
+        <svg class="shared-perch" viewBox="0 0 1440 230" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <path class="perch-shadow" d="M-40 164C236 114 444 138 658 147C760 152 824 94 924 47C1094 -26 1254 -34 1488 -52L1488 -28C1254 -10 1098 -2 934 67C832 115 766 174 656 169C444 160 236 136 -40 186Z"></path>
+          <path class="perch-main" d="M-40 150C236 100 444 124 658 133C760 138 824 80 924 33C1094 -40 1254 -48 1488 -66L1488 -44C1254 -26 1098 -18 934 53C832 101 766 160 656 155C444 146 236 122 -40 172Z"></path>
+          <path class="branch-edge" d="M-40 150C236 100 444 124 658 133C760 138 824 80 924 33C1094 -40 1254 -48 1488 -66"></path>
+          <path class="perch-fork" d="M782 137C835 91 872 45 901 4L914 11C885 57 852 105 797 149Z"></path>
+          <path class="branch-fissure" d="M188 126L226 139M476 129L514 143M690 136L724 128"></path>
+        </svg>
+        <div class="hero-note">
+          <p>Two tiny birds. One very big screen presence.</p>
+          <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noreferrer">Enter their TikTok aviary <span aria-hidden="true">↗</span></a>
         </div>
       </div>
 
-      <div class="hero-portraits" aria-label="Portraits of Sunny and Sky">
-        <svg class="flock-bird flock-bird-one" data-bird data-depth="7" aria-hidden="true" focusable="false" viewBox="0 0 54 24">
-          <path d="M2 18C12 4 20 6 27 16C34 6 42 4 52 18"></path>
+      <div class="habitat-plane canopy-foreground" data-depth="4" data-entrance aria-hidden="true">
+        <svg class="front-foliage front-left" viewBox="0 0 540 900" focusable="false">
+          <path class="branch-front" d="M-62 910C54 706 92 484 74 208L124 190C164 474 132 706 24 930Z"></path>
+          <g class="leaf-front">
+            <use href="#leaf-spray" x="-76" y="58" width="330" height="256" transform="rotate(-24 86 184)"></use>
+            <use href="#leaf-spray" x="20" y="286" width="306" height="238" transform="rotate(28 170 402)"></use>
+            <use href="#leaf-spray" x="-102" y="520" width="352" height="274" transform="rotate(-30 72 656)"></use>
+          </g>
         </svg>
-        <svg class="flock-bird flock-bird-two" data-bird data-depth="11" aria-hidden="true" focusable="false" viewBox="0 0 54 24">
-          <path d="M2 18C12 4 20 6 27 16C34 6 42 4 52 18"></path>
+        <svg class="front-foliage front-right" viewBox="0 0 540 900" focusable="false">
+          <path class="branch-front" d="M602 900C476 704 444 468 470 214L420 192C380 462 410 710 520 936Z"></path>
+          <g class="leaf-front">
+            <use href="#leaf-spray" x="294" y="42" width="338" height="262" transform="rotate(114 464 174)"></use>
+            <use href="#leaf-spray" x="218" y="284" width="308" height="240" transform="rotate(148 372 404)"></use>
+            <use href="#leaf-spray" x="310" y="512" width="352" height="274" transform="rotate(118 486 650)"></use>
+          </g>
         </svg>
-        <svg class="flock-bird flock-bird-three" data-bird data-depth="5" aria-hidden="true" focusable="false" viewBox="0 0 54 24">
-          <path d="M2 18C12 4 20 6 27 16C34 6 42 4 52 18"></path>
-        </svg>
-
-        <figure class="portrait portrait-sunny">
-          <img src="assets/sunny-portrait.webp" width="1400" height="1400" alt="Sunny, a small green-and-yellow bird with damp feathers, standing on a soft grey surface.">
-          <figcaption>Sunny</figcaption>
-        </figure>
-        <figure class="portrait portrait-sky">
-          <img src="assets/sky-portrait.webp" width="1200" height="2134" alt="Sky, a turquoise-and-grey bird with closed eyes, perched on a natural branch.">
-          <figcaption>Sky</figcaption>
-        </figure>
-        <div class="hero-perch" aria-hidden="true"></div>
       </div>
     </section>
 
-    <section class="meet-section" id="meet" aria-labelledby="meet-title">
-      <div class="section-heading">
-        <p>Meet the birds</p>
-        <h2 id="meet-title">Two portraits, two unmistakable palettes.</h2>
+    <section class="moments-habitat" id="moments" aria-labelledby="moments-title">
+      <div class="moments-intro">
+        <h2 id="moments-title">Three small encounters after dark.</h2>
       </div>
+      <svg class="habitat-branch" viewBox="0 0 1440 2720" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <path class="branch-shadow segment-one" d="M-80 92C180 124 384 246 456 470C538 724 364 836 408 1080"></path>
+        <path class="branch-shadow segment-two" d="M408 1080C450 1312 686 1370 876 1502C1070 1636 1184 1908 1058 2172"></path>
+        <path class="branch-shadow segment-three" d="M1058 2172C974 2348 792 2492 708 2780"></path>
+        <path class="branch-main segment-one" d="M-80 76C180 108 384 230 456 454C538 708 364 820 408 1064"></path>
+        <path class="branch-main segment-two" d="M408 1064C450 1296 686 1354 876 1486C1070 1620 1184 1892 1058 2156"></path>
+        <path class="branch-main segment-three" d="M1058 2156C974 2332 792 2476 708 2764"></path>
+        <path class="branch-edge" d="M-80 65C180 97 384 219 456 443C538 697 364 809 408 1053C450 1285 686 1343 876 1475C1070 1609 1184 1881 1058 2145C974 2321 792 2465 708 2753"></path>
+      </svg>
 
-      <article class="bird-introduction bird-introduction-sunny">
-        <div class="introduction-image sunny-image">
-          <img src="assets/sunny-portrait.webp" width="1400" height="1400" alt="Close portrait of Sunny showing green wing feathers, a pale beak, and yellow chest feathers.">
-        </div>
-        <div class="introduction-copy">
-          <h3>Sunny</h3>
-          <p>Green wing feathers, a warm yellow chest, a pale beak, and a rosy tail fill Sunny’s close-up portrait.</p>
-        </div>
-      </article>
-
-      <article class="bird-introduction bird-introduction-sky">
-        <div class="introduction-copy">
-          <h3>Sky</h3>
-          <p>Turquoise and blue feathers catch the light while Sky rests with closed eyes on a natural wood perch.</p>
-        </div>
-        <div class="introduction-image sky-image">
-          <img src="assets/sky-portrait.webp" width="1200" height="2134" alt="Full portrait of Sky showing turquoise wings, blue tail feathers, and a grey head on a wooden perch.">
-        </div>
-      </article>
-    </section>
-
-    <section class="moments-section" id="moments" aria-labelledby="moments-title">
-      <div class="moments-heading">
-        <div class="section-heading">
-          <p>Featured moments</p>
-          <h2 id="moments-title">A small screen, watched closely.</h2>
-        </div>
-        <div class="perch-divider" aria-hidden="true"></div>
-      </div>
-
-      <div class="moments-layout">
-        <article class="moment moment-watermelon">
-          <a class="moment-image-link" href="https://www.tiktok.com/@skyandsunny.com/video/7214467392791907590" target="_blank" rel="noreferrer" aria-label="Watch Her life is forever changed on TikTok">
-            <img src="assets/moment-watermelon.webp" width="1400" height="860" alt="Sunny sitting beside a tablet that shows a slice of watermelon.">
-          </a>
+      <div class="moment-sequence">
+        <article class="moment moment-watermelon" data-moment>
+          <div class="moment-opening">
+            <a class="moment-image-link" href="https://www.tiktok.com/@skyandsunny.com/video/7214467392791907590" target="_blank" rel="noreferrer" aria-label="Watch Her life is forever changed on TikTok">
+              <img src="assets/moment-watermelon.webp" width="1400" height="860" alt="Sunny sitting beside a tablet that shows a slice of watermelon.">
+            </a>
+            <svg class="moment-twig twig-watermelon" viewBox="0 0 300 120" aria-hidden="true" focusable="false"><path d="M-12 98C82 92 154 52 310 18"></path><path d="M150 55C130 32 116 18 98 4"></path></svg>
+          </div>
           <div class="moment-copy">
+            <span class="moment-number">01</span>
             <h3>Her life is forever changed</h3>
-            <a href="https://www.tiktok.com/@skyandsunny.com/video/7214467392791907590" target="_blank" rel="noreferrer">Watch this moment on TikTok</a>
+            <p>Sunny meets a watermelon on screen.</p>
+            <a href="https://www.tiktok.com/@skyandsunny.com/video/7214467392791907590" target="_blank" rel="noreferrer">Watch on TikTok <span aria-hidden="true">↗</span></a>
           </div>
         </article>
 
-        <article class="moment moment-strawberries">
-          <a class="moment-image-link" href="https://www.tiktok.com/@skyandsunny.com/video/7214307952763620613" target="_blank" rel="noreferrer" aria-label="Watch Strawberries on TikTok">
-            <img src="assets/moment-strawberries.webp" width="1400" height="851" alt="Sunny facing a tablet that shows bright red strawberries.">
-          </a>
+        <article class="moment moment-strawberries" data-moment>
+          <div class="moment-opening">
+            <a class="moment-image-link" href="https://www.tiktok.com/@skyandsunny.com/video/7214307952763620613" target="_blank" rel="noreferrer" aria-label="Watch Strawberries on TikTok">
+              <img src="assets/moment-strawberries.webp" width="1400" height="851" alt="Sunny facing a tablet that shows bright red strawberries.">
+            </a>
+            <svg class="moment-twig twig-strawberries" viewBox="0 0 300 120" aria-hidden="true" focusable="false"><path d="M-12 18C96 28 196 72 312 104"></path><path d="M174 66C198 44 214 24 226 4"></path></svg>
+          </div>
           <div class="moment-copy">
+            <span class="moment-number">02</span>
             <h3>Strawberries</h3>
-            <a href="https://www.tiktok.com/@skyandsunny.com/video/7214307952763620613" target="_blank" rel="noreferrer">Watch this moment on TikTok</a>
+            <p>A bright red discovery, watched closely.</p>
+            <a href="https://www.tiktok.com/@skyandsunny.com/video/7214307952763620613" target="_blank" rel="noreferrer">Watch on TikTok <span aria-hidden="true">↗</span></a>
           </div>
         </article>
 
-        <article class="moment moment-obsessions">
-          <a class="moment-image-link" href="https://www.tiktok.com/@skyandsunny.com/video/7213469583162854662" target="_blank" rel="noreferrer" aria-label="Watch Obsessions on TikTok">
-            <img src="assets/moment-obsessions.webp" width="1400" height="2251" alt="Sunny looking up at a tablet that shows a small animated corn character.">
-          </a>
+        <article class="moment moment-obsessions" data-moment>
+          <div class="moment-opening">
+            <a class="moment-image-link" href="https://www.tiktok.com/@skyandsunny.com/video/7213469583162854662" target="_blank" rel="noreferrer" aria-label="Watch Obsessions on TikTok">
+              <img src="assets/moment-obsessions.webp" width="1400" height="2251" alt="Sunny looking up at a tablet that shows a small animated corn character.">
+            </a>
+            <svg class="moment-twig twig-obsessions" viewBox="0 0 300 120" aria-hidden="true" focusable="false"><path d="M-12 96C80 88 178 52 312 10"></path><path d="M118 68C96 42 84 24 76 4"></path></svg>
+          </div>
           <div class="moment-copy">
+            <span class="moment-number">03</span>
             <h3>Obsessions</h3>
-            <a href="https://www.tiktok.com/@skyandsunny.com/video/7213469583162854662" target="_blank" rel="noreferrer">Watch this moment on TikTok</a>
+            <p>Sunny and the little corn character.</p>
+            <a href="https://www.tiktok.com/@skyandsunny.com/video/7213469583162854662" target="_blank" rel="noreferrer">Watch on TikTok <span aria-hidden="true">↗</span></a>
           </div>
         </article>
       </div>
@@ -143,7 +205,7 @@
 
   <footer class="site-footer">
     <a class="footer-wordmark" href="#top">Sky &amp; Sunny</a>
-    <p><a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noreferrer">@skyandsunny.com on TikTok</a></p>
+    <a href="https://www.tiktok.com/@skyandsunny.com" target="_blank" rel="noreferrer">@skyandsunny.com on TikTok</a>
     <p>&copy; <span id="current-year">2026</span> Sky &amp; Sunny</p>
   </footer>
 </body>

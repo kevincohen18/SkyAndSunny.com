@@ -5,6 +5,26 @@ page="sandbox/night-aviary/index.html"
 css="sandbox/night-aviary/styles.css"
 script="sandbox/night-aviary/script.js"
 
+require() {
+  pattern="$1"
+  file="$2"
+  message="$3"
+  if ! grep -Eq -- "$pattern" "$file"; then
+    echo "Missing V2 requirement: $message" >&2
+    exit 1
+  fi
+}
+
+forbid() {
+  pattern="$1"
+  file="$2"
+  message="$3"
+  if grep -Eq -- "$pattern" "$file"; then
+    echo "Rejected V1 structure remains: $message" >&2
+    exit 1
+  fi
+}
+
 test -f "$page"
 test -f "$css"
 test -f "$script"
@@ -20,14 +40,68 @@ do
   file "sandbox/night-aviary/assets/$asset" | grep -q 'Web/P image'
 done
 
-grep -q '7214467392791907590' "$page"
-grep -q '7214307952763620613' "$page"
-grep -q '7213469583162854662' "$page"
-grep -q 'id="menu-toggle"' "$page"
-grep -q 'id="site-menu"' "$page"
-grep -q 'id="current-year"' "$page"
-grep -q 'prefers-reduced-motion: reduce' "$css"
-grep -q ':root' "$css"
+require '7214467392791907590' "$page" 'watermelon TikTok mapping'
+require '7214307952763620613' "$page" 'strawberries TikTok mapping'
+require '7213469583162854662' "$page" 'obsessions TikTok mapping'
+require 'id="menu-toggle"' "$page" 'accessible menu control'
+require 'id="site-menu"' "$page" 'accessible menu target'
+require 'id="current-year"' "$page" 'current-year target'
+require 'prefers-reduced-motion: reduce' "$css" 'reduced-motion rendering'
+require ':root' "$css" 'semantic token layer'
+
+# V2's habitat is structural and must remain obvious without animation.
+require 'class="moon-disc"' "$page" 'firm-edged matte moon'
+require 'class="aviary-ribs"' "$page" 'curved aviary enclosure'
+require 'class="[^\"]*canopy-back' "$page" 'distant canopy plane'
+require 'class="[^\"]*canopy-middle' "$page" 'middle canopy plane'
+require 'class="[^\"]*canopy-foreground' "$page" 'foreground canopy plane'
+require 'class="habitat-branch"' "$page" 'continuous branch path'
+require 'class="[^\"]*sunny-mask' "$page" 'Sunny subject-following mask'
+require 'class="[^\"]*sky-mask' "$page" 'Sky subject-following mask'
+require 'clipPath id="sunny-clip" clipPathUnits="objectBoundingBox"' "$page" 'smooth Sunny clip path'
+require 'clipPath id="sky-clip" clipPathUnits="objectBoundingBox"' "$page" 'smooth Sky clip path'
+require 'symbol id="leaf-spray"' "$page" 'compound botanical leaf motif'
+require 'class="[^\"]*moment-twig' "$page" 'moment-level twig hook'
+require 'data-depth="-' "$page" 'opposing depth plane'
+require 'data-depth="[1-6]' "$page" 'foreground depth plane'
+require 'data-moment' "$page" 'branch-connected moment encounters'
+require 'data-entrance' "$page" 'single canopy entrance hook'
+require 'requestAnimationFrame' "$script" 'frame-throttled depth motion'
+require 'IntersectionObserver' "$script" 'offscreen motion pause'
+require 'pointerleave' "$script" 'pointer-exit motion reset'
+
+star_count=$(grep -o 'class="star"' "$page" | wc -l | tr -d ' ')
+if [ "$star_count" -ne 12 ]; then
+  echo "Expected exactly 12 restrained stars, found $star_count" >&2
+  exit 1
+fi
+
+forbid 'Meet the birds|Two portraits, two unmistakable palettes\.' "$page" 'duplicated Meet section'
+forbid 'hero-kicker|meet-section|bird-introduction|flock-bird|hero-perch|perch-divider|moments-layout' "$page" 'brochure/grid class'
+forbid 'data-bird' "$page" 'gull-like motion marks'
+forbid '--mask-(sunny|sky): polygon' "$css" 'jagged polygon portrait mask'
+
+# Each real moment remains paired with its exact source image and destination.
+for mapping in \
+  'moment-watermelon.webp|7214467392791907590' \
+  'moment-strawberries.webp|7214307952763620613' \
+  'moment-obsessions.webp|7213469583162854662'
+do
+  asset=${mapping%%|*}
+  video=${mapping##*|}
+  if ! awk -v asset="$asset" -v video="$video" '
+    /<article class="moment/ { block = ""; in_moment = 1 }
+    in_moment { block = block $0 "\n" }
+    in_moment && /<\/article>/ {
+      if (index(block, asset) && index(block, video)) found = 1
+      in_moment = 0
+    }
+    END { exit(found ? 0 : 1) }
+  ' "$page"; then
+    echo "Broken real-media mapping: $asset must link to $video" >&2
+    exit 1
+  fi
+done
 
 if grep -Eqi '11\.9K|882\.9K|13M\+|Greatest Hits|Morning Chaos|Snack Attack|Favorite snack|Signature move|Photo Placeholder|Video Card' "$page"; then
   echo "Forbidden placeholder or stale content found" >&2
@@ -39,4 +113,4 @@ if grep -Eqi 'tailwindcss|cdn\.tailwind' "$page"; then
   exit 1
 fi
 
-printf 'Night Aviary structural checks passed\n'
+printf 'Night Aviary V2 structural checks passed\n'
