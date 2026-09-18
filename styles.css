@@ -9,8 +9,15 @@
   --color-sunny: #e7c769;
   --color-sky: #81d3d8;
   --color-bark: #49362a;
+  --color-bark-mid: #624a38;
+  --color-bark-highlight: #90725a;
   --color-bark-dark: #241c17;
+  --color-bark-shadow: #17110e;
   --color-bark-edge: #846d58;
+  --color-hero-haze-moon: rgba(238, 234, 215, 0.075);
+  --color-hero-haze-canopy: rgba(20, 56, 59, 0.18);
+  --color-hero-haze-foreground: rgba(8, 30, 31, 0.78);
+  --color-star-halo: rgba(238, 234, 215, 0.3);
   --color-rib: rgba(186, 201, 195, 0.16);
   --color-star: rgba(238, 234, 215, 0.72);
   --color-moon-edge: rgba(238, 234, 215, 0.34);
@@ -55,7 +62,14 @@
   --focus-width: 0.2rem;
   --focus-offset: 0.3rem;
   --shadow-contact: 0 0.1875rem 0.375rem var(--color-contact-shadow);
-  --shadow-subject-ambient: 0.7rem 0.85rem 1rem rgba(0, 0, 0, 0.52);
+  --shadow-subject-ambient: 0.8rem 0.95rem 1.15rem rgba(0, 0, 0, 0.58);
+  --shadow-support-depth: 0 0.7rem 0.8rem rgba(0, 0, 0, 0.5);
+  --shadow-moon-halo: 0 0 1.25rem rgba(238, 234, 215, 0.42);
+  --blur-distant: 0.1rem;
+  --blur-foreground: 0.2rem;
+  --blur-star: 0.025rem;
+  --hero-wide-inset: 7.75rem;
+  --hero-wide-moon-left: 70%;
   --layer-back: 1;
   --layer-middle: 2;
   --layer-content: 3;
@@ -252,8 +266,8 @@ h3 {
   min-height: max(50rem, 100svh);
   overflow: hidden;
   background:
-    radial-gradient(circle at 70% 19%, rgba(238, 234, 215, 0.055), transparent 24rem),
-    radial-gradient(ellipse at 60% 58%, rgba(20, 56, 59, 0.12), transparent 35rem),
+    radial-gradient(circle at 70% 19%, var(--color-hero-haze-moon), transparent 24rem),
+    radial-gradient(ellipse at 60% 58%, var(--color-hero-haze-canopy), transparent 35rem),
     var(--color-canvas);
 }
 
@@ -277,17 +291,30 @@ h3 {
   z-index: var(--layer-back);
 }
 
-.moon-disc {
+.moon-halo {
   position: absolute;
   top: calc(var(--header-height) + var(--space-6));
   left: 74%;
   width: clamp(4.5rem, 6vw, 6rem);
   aspect-ratio: 1;
+  filter: drop-shadow(var(--shadow-moon-halo));
+  opacity: 0.84;
+  transform: translateX(-50%);
+}
+
+.moon-halo::before {
+  position: absolute;
+  inset: -55%;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--color-hero-haze-moon), transparent 68%);
+  content: "";
+}
+
+.moon-disc {
+  position: absolute;
+  inset: 0;
   border-radius: 50%;
   background: var(--color-moon);
-  filter: drop-shadow(0 0 0.7rem rgba(238, 234, 215, 0.26));
-  opacity: 0.78;
-  transform: translateX(-50%);
   -webkit-mask: radial-gradient(circle at 27% 38%, transparent 0 57%, black 58%);
   mask: radial-gradient(circle at 27% 38%, transparent 0 57%, black 58%);
 }
@@ -302,6 +329,8 @@ h3 {
   width: 0.2rem;
   aspect-ratio: 1;
   background: var(--color-star);
+  box-shadow: 0 0 0.45rem var(--color-star-halo);
+  filter: blur(var(--blur-star));
   transform: rotate(45deg);
 }
 
@@ -350,6 +379,17 @@ h3 {
   z-index: var(--layer-middle);
 }
 
+.canopy-back::after {
+  position: absolute;
+  inset: 43% -5% -10%;
+  background:
+    radial-gradient(ellipse at 17% 100%, var(--color-hero-haze-canopy), transparent 46%),
+    radial-gradient(ellipse at 78% 100%, var(--color-hero-haze-canopy), transparent 48%);
+  content: "";
+  filter: blur(var(--blur-distant));
+  opacity: 0.72;
+}
+
 .middle-foliage,
 .front-foliage {
   position: absolute;
@@ -359,6 +399,8 @@ h3 {
 
 .middle-foliage {
   width: min(42vw, 36rem);
+  filter: blur(var(--blur-distant));
+  opacity: 0.72;
 }
 
 .foliage-left,
@@ -509,7 +551,7 @@ h1 i {
   z-index: var(--layer-middle);
   width: 100%;
   height: 100%;
-  filter: drop-shadow(0 0.65rem 0.65rem rgba(0, 0, 0, 0.46));
+  filter: drop-shadow(var(--shadow-support-depth));
 }
 
 .support-shadow {
@@ -517,9 +559,35 @@ h1 i {
   opacity: 0.72;
 }
 
-.support-wood {
-  fill: var(--color-bark);
+.resident-sunny .support-wood {
+  fill: url(#sunny-bark-gradient);
 }
+
+.resident-sky .support-wood {
+  fill: url(#sky-bark-gradient);
+}
+
+.resident-sunny .support-unified {
+  fill: url(#sunny-bark-gradient);
+}
+
+.support-unified-tablet {
+  display: none;
+}
+
+.support-unified-shadow {
+  fill: var(--color-contact-shadow);
+  opacity: 0.72;
+}
+
+.support-unified-shadow-tablet {
+  display: none;
+}
+
+.support-bark-shadow-stop { stop-color: var(--color-bark-shadow); }
+.support-bark-base-stop { stop-color: var(--color-bark); }
+.support-bark-mid-stop { stop-color: var(--color-bark-mid); }
+.support-bark-highlight-stop { stop-color: var(--color-bark-highlight); }
 
 .support-intermediate {
   display: none;
@@ -538,18 +606,57 @@ h1 i {
   vector-effect: non-scaling-stroke;
 }
 
+.desktop-contact-boundary {
+  stroke: none;
+}
+
+.resident-support .support-boundary[data-support-contour] {
+  stroke: none;
+}
+
+.support-surface-edge,
+.support-depth-edge {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.support-surface-edge {
+  stroke: var(--color-bark-highlight);
+  stroke-opacity: 0.64;
+  stroke-width: 2.5;
+}
+
+.support-depth-edge {
+  stroke: var(--color-bark-shadow);
+  stroke-opacity: 0.86;
+  stroke-width: 3.5;
+}
+
 .support-contact-shadow {
   fill: none;
   stroke: var(--color-subject-contact-shadow);
   stroke-linecap: round;
   stroke-width: 22;
+  filter: blur(0.09rem);
 }
 
 .support-fissure {
   fill: none;
   stroke: var(--color-bark-dark);
   stroke-linecap: round;
-  stroke-width: 7;
+  stroke-linejoin: round;
+  stroke-opacity: 0.8;
+  stroke-width: 6;
+}
+
+.support-grain {
+  fill: none;
+  stroke: var(--color-bark-highlight);
+  stroke-linecap: round;
+  stroke-opacity: 0.34;
+  stroke-width: 3;
 }
 
 .branch-main,
@@ -630,8 +737,22 @@ h1 i {
 
 .front-foliage {
   width: min(12vw, 11rem);
-  filter: blur(0.5px);
-  opacity: 0.96;
+  filter: blur(var(--blur-foreground));
+  opacity: 0.9;
+}
+
+.canopy-foreground::after {
+  position: absolute;
+  right: -8%;
+  bottom: -14%;
+  left: -8%;
+  height: 36%;
+  background:
+    radial-gradient(ellipse at 12% 92%, var(--color-hero-haze-foreground), transparent 43%),
+    radial-gradient(ellipse at 50% 115%, var(--color-hero-haze-foreground), transparent 48%),
+    radial-gradient(ellipse at 89% 95%, var(--color-hero-haze-foreground), transparent 44%);
+  content: "";
+  filter: blur(var(--blur-foreground));
 }
 
 .branch-front {
@@ -1002,6 +1123,28 @@ h3 {
   .support-connector-tablet {
     display: block;
   }
+
+  .support-unified-wide {
+    display: none;
+  }
+
+  .support-unified-tablet {
+    display: block;
+  }
+
+  .support-unified-shadow-wide {
+    display: none;
+  }
+
+  .support-unified-shadow-tablet {
+    display: block;
+  }
+}
+
+@media (min-width: 52.0625rem) {
+  .resident-sunny .support-shadow {
+    display: none;
+  }
 }
 
 @media (min-width: 90.0625rem) {
@@ -1011,16 +1154,16 @@ h3 {
   }
 
   .site-nav {
-    padding-inline: 7.75rem;
+    padding-inline: var(--hero-wide-inset);
   }
 
   .hero-title-block,
   .hero-note {
-    left: 7.75rem;
+    left: var(--hero-wide-inset);
   }
 
-  .moon-disc {
-    left: 70%;
+  .moon-halo {
+    left: var(--hero-wide-moon-left);
   }
 }
 
@@ -1075,7 +1218,7 @@ h3 {
     min-height: max(43rem, 100svh);
   }
 
-  .moon-disc {
+  .moon-halo {
     top: calc(var(--header-height) + var(--space-5));
     right: var(--gutter);
     left: auto;
@@ -1113,6 +1256,14 @@ h3 {
   }
 
   .support-connector {
+    display: none;
+  }
+
+  .support-unified {
+    display: none;
+  }
+
+  .support-unified-shadow {
     display: none;
   }
 

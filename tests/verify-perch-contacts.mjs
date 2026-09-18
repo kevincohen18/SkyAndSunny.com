@@ -262,6 +262,11 @@ for (const [width, height] of viewports) {
       ? sharedSupportPaths.filter((path) => path !== connectorPath).map((path) => [path, connectorPath])
       : [sharedSupportPaths];
     const sharedJoins = joinGroups.map(overlapFor);
+    const unifiedSurface = [...document.querySelectorAll(".resident-support .support-unified")].find(visible);
+    const skyPaintedSupport = sharedSupportPaths.find((path) => path.dataset.sharedSupport === "sky");
+    const renderedHeroJoin = unifiedSurface && skyPaintedSupport
+      ? overlapFor([unifiedSurface, skyPaintedSupport])
+      : null;
     const internalTerminals = [...document.querySelectorAll("[data-internal-terminal]")].filter(visible).map((path) => {
       const [x, y] = path.dataset.internalTerminal.split(",").map(Number);
       const point = toScreen(path, { x, y });
@@ -331,6 +336,7 @@ for (const [width, height] of viewports) {
       sharedHero: {
         pathCount: sharedSupportPaths.length,
         joins: sharedJoins,
+        renderedJoin: renderedHeroJoin,
         joined: sharedJoins.length > 0 && sharedJoins.every((join) => join.samples > 0),
         sunnyLeft: Number(sharedSupportPaths.find((path) => path.dataset.sharedSupport === "sunny")?.getBoundingClientRect().left.toFixed(2)),
         skyRight: Number(sharedSupportPaths.find((path) => path.dataset.sharedSupport === "sky")?.getBoundingClientRect().right.toFixed(2)),
@@ -345,6 +351,32 @@ for (const [width, height] of viewports) {
         subjectContactToken: rootStyle.getPropertyValue("--color-subject-contact-shadow").trim(),
         residentFilters: heroResidentImages.map((image) => getComputedStyle(image).filter),
         contactStrokes: heroContactShadows.map((path) => getComputedStyle(path).stroke),
+      },
+      material: {
+        woodFills: [...document.querySelectorAll(".resident-support .support-wood")]
+          .filter((path) => getComputedStyle(path).display !== "none")
+          .map((path) => getComputedStyle(path).fill),
+        grainStrokes: [...document.querySelectorAll(".resident-support .support-grain")]
+          .filter((path) => getComputedStyle(path).display !== "none")
+          .map((path) => getComputedStyle(path).stroke),
+        paintedJoinContours: [...document.querySelectorAll(".resident-support .support-boundary")]
+          .filter((path) => getComputedStyle(path).display !== "none" && getComputedStyle(path).stroke !== "none")
+          .filter((path) => path.classList.contains("support-connector") || path.dataset.supportContour === "sky")
+          .length,
+        surfaceEdges: [...document.querySelectorAll(".resident-support .support-surface-edge")]
+          .filter((path) => getComputedStyle(path).display !== "none" && getComputedStyle(path).stroke !== "none")
+          .length,
+        unifiedSurfaces: [...document.querySelectorAll(".resident-support .support-unified")]
+          .filter((path) => getComputedStyle(path).display !== "none")
+          .length,
+      },
+      atmosphere: {
+        moonHaloFilter: document.querySelector(".moon-halo")
+          ? getComputedStyle(document.querySelector(".moon-halo")).filter
+          : "missing",
+        moonDiscFilter: getComputedStyle(document.querySelector(".moon-disc")).filter,
+        moonMask: getComputedStyle(document.querySelector(".moon-disc")).maskImage,
+        foregroundFilter: getComputedStyle(document.querySelector(".front-foliage")).filter,
       },
       heroResidents: {
         sunny: {
@@ -381,7 +413,6 @@ for (const [width, height] of viewports) {
     if (actualPadCounts[subject] !== count) viewportFailures.push(`${subject}: expected ${count} pads, got ${actualPadCounts[subject]}`);
   }
   for (const contact of state.contacts) {
-    if (width >= 1700 && !["sunny", "sky"].includes(contact.subject)) continue;
     if (contact.distance > 2) viewportFailures.push(`${contact.subject} pad ${contact.pad}: ${contact.distance}px`);
     if (contact.alpha.exact < 128 || contact.alpha.neighborhoodSolidPixels < 5) viewportFailures.push(`${contact.subject} pad ${contact.pad}: invalid alpha ${contact.alpha.exact}`);
     if (!contact.birdAboveSupport) viewportFailures.push(`${contact.subject}: support is not before bird`);
@@ -396,6 +427,9 @@ for (const [width, height] of viewports) {
   }
   if (state.obsessions.localTwig || !state.obsessions.continuous || !state.obsessions.mainPresent || !state.obsessions.mainFilled) viewportFailures.push("obsessions continuous main branch contract");
   if (![2, 3].includes(state.sharedHero.pathCount) || !state.sharedHero.joined) viewportFailures.push(`hero shared support join ${JSON.stringify(state.sharedHero)}`);
+  if (width > 832 && (!state.sharedHero.renderedJoin || state.sharedHero.renderedJoin.samples < 1)) {
+    viewportFailures.push(`rendered hero support join ${JSON.stringify(state.sharedHero)}`);
+  }
   if (state.sharedHero.internalTerminals.length === 0 || state.sharedHero.internalTerminals.some((terminal) => !terminal.hidden)) viewportFailures.push(`exposed internal support terminal ${JSON.stringify(state.sharedHero.internalTerminals)}`);
   if (state.sharedHero.sunnyLeft > 0.5 || state.sharedHero.skyRight < width - 0.5) viewportFailures.push(`hero support scene-edge continuity ${JSON.stringify(state.sharedHero)}`);
   if (state.sharedHero.labelFeetGap < 8 || !state.sharedHero.captionWoodClear) viewportFailures.push(`Sunny label clearance ${JSON.stringify(state.sharedHero)}`);
@@ -405,6 +439,18 @@ for (const [width, height] of viewports) {
   }
   if (state.shadows.residentFilters.some((filter) => !filter.includes("drop-shadow")) || state.shadows.contactStrokes.length !== 2) {
     viewportFailures.push(`resident ambient/contact treatment ${JSON.stringify(state.shadows)}`);
+  }
+  if (state.material.woodFills.length < 2 || state.material.woodFills.some((fill) => !fill.startsWith("url("))
+    || state.material.grainStrokes.length < 1 || state.material.grainStrokes.some((stroke) => stroke === "none")) {
+    viewportFailures.push(`dimensional support material ${JSON.stringify(state.material)}`);
+  }
+  if (state.material.paintedJoinContours !== 0 || state.material.surfaceEdges < 2
+    || (width > 832 && state.material.unifiedSurfaces !== 1)) {
+    viewportFailures.push(`painted support join continuity ${JSON.stringify(state.material)}`);
+  }
+  if (!state.atmosphere.moonHaloFilter.includes("drop-shadow") || state.atmosphere.moonDiscFilter !== "none"
+    || state.atmosphere.moonMask === "none" || !state.atmosphere.foregroundFilter.includes("blur")) {
+    viewportFailures.push(`atmospheric depth treatment ${JSON.stringify(state.atmosphere)}`);
   }
   if (state.heroResidents.sunny.width !== 1366 || state.heroResidents.sunny.height !== 1152 || state.heroResidents.sky.width !== 1024 || state.heroResidents.sky.height !== 1536) {
     viewportFailures.push(`resident intrinsic dimensions ${JSON.stringify(state.heroResidents)}`);
@@ -426,6 +472,8 @@ for (const [width, height] of viewports) {
     compositions: state.compositions,
     sharedHero: state.sharedHero,
     shadows: state.shadows,
+    material: state.material,
+    atmosphere: state.atmosphere,
     heroResidents: state.heroResidents,
     errors: consoleErrors.length + pageErrors.length + requestFailures.length + badResponses.length,
     failures: viewportFailures,

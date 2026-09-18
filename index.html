@@ -60,7 +60,7 @@
 
     <section class="hero-habitat" id="top" aria-labelledby="hero-title">
       <div class="habitat-plane canopy-back" data-depth="-2" aria-hidden="true">
-        <div class="moon-disc"></div>
+        <div class="moon-halo"><div class="moon-disc"></div></div>
         <div class="star-field">
           <span class="star"></span><span class="star"></span><span class="star"></span>
           <span class="star"></span><span class="star"></span><span class="star"></span>
@@ -111,36 +111,67 @@
             <svg class="resident-support shared-perch" data-support-svg="sunny" viewBox="0 0 1366 1152" aria-hidden="true" focusable="false">
               <defs>
                 <clipPath id="sunny-support-clip" clipPathUnits="userSpaceOnUse"><path d="M-2200 1280C-1200 1200 -300 1160 980 1095C1040 1080 1100 1010 1150 975C1420 850 1850 620 2100 670C2300 760 2450 850 2600 926L2600 1010C2450 930 2300 840 2100 790C1850 760 1500 950 1230 1052C1160 1110 1090 1170 990 1180C300 1240 -900 1300 -2200 1380Z"></path></clipPath>
-                <clipPath id="sunny-wide-trim" clipPathUnits="userSpaceOnUse"><rect x="-3000" y="-1000" width="4260" height="4000"></rect></clipPath>
+                <clipPath id="sunny-wide-trim" clipPathUnits="userSpaceOnUse"><rect x="-3000" y="-1000" width="4230" height="4000"></rect></clipPath>
+                <linearGradient id="sunny-bark-gradient" x1="0" y1="1" x2="0" y2="0">
+                  <stop class="support-bark-shadow-stop" offset="0"></stop>
+                  <stop class="support-bark-base-stop" offset="0.24"></stop>
+                  <stop class="support-bark-mid-stop" offset="0.72"></stop>
+                  <stop class="support-bark-highlight-stop" offset="1"></stop>
+                </linearGradient>
               </defs>
               <path class="support-shadow support-wide" clip-path="url(#sunny-wide-trim)" transform="translate(-5 10)" d="M-2200 1280C-1200 1200 -300 1160 980 1095C1040 1080 1100 1010 1150 975C1420 850 1850 620 2100 670C2320 650 2580 640 2800 650C2580 690 2320 720 2100 740C1850 760 1500 950 1230 1052C1160 1110 1090 1170 990 1180C300 1240 -900 1300 -2200 1380Z"></path>
               <path class="support-shadow support-intermediate" transform="translate(-5 10)" d="M-2200 1280C-1200 1200 -300 1160 980 1095C1040 1080 1100 1010 1150 975C1420 850 1850 620 2100 670C2300 760 2450 850 2600 926C2740 920 2890 900 3000 900C2860 940 2720 980 2600 1010C2450 930 2300 840 2100 790C1850 760 1500 950 1230 1052C1160 1110 1090 1170 990 1180C300 1240 -900 1300 -2200 1380Z"></path>
               <path class="support-shadow support-connector support-connector-wide" transform="translate(-5 10)" d="M1150 975C1420 850 1780 620 2110 510L2200 640C1800 750 1500 980 1230 1052C1200 1060 1170 1020 1150 975Z"></path>
-              <path class="support-shadow support-connector support-connector-tablet" transform="translate(-5 10)" d="M1150 975C1260 910 1420 650 1600 520L1720 620C1530 700 1340 880 1230 1052C1200 1060 1170 1020 1150 975Z"></path>
-              <path class="support-wood support-wide" clip-path="url(#sunny-wide-trim)" data-shared-support="sunny" data-internal-terminal="2800,650" d="M-2200 1280C-1200 1200 -300 1160 980 1095C1040 1080 1100 1010 1150 975C1420 850 1850 620 2100 670C2320 650 2580 640 2800 650C2580 690 2320 720 2100 740C1850 760 1500 950 1230 1052C1160 1110 1090 1170 990 1180C300 1240 -900 1300 -2200 1380Z"></path>
-              <path class="support-wood support-intermediate" data-shared-support="sunny" data-internal-terminal="3000,900" d="M-2200 1280C-1200 1200 -300 1160 980 1095C1040 1080 1100 1010 1150 975C1420 850 1850 620 2100 670C2300 760 2450 850 2600 926C2740 920 2890 900 3000 900C2860 940 2720 980 2600 1010C2450 930 2300 840 2100 790C1850 760 1500 950 1230 1052C1160 1110 1090 1170 990 1180C300 1240 -900 1300 -2200 1380Z"></path>
-              <path class="support-wood support-connector support-connector-wide" data-shared-support="connector" d="M1150 975C1420 850 1780 620 2110 510L2200 640C1800 750 1500 980 1230 1052C1200 1060 1170 1020 1150 975Z"></path>
-              <path class="support-wood support-connector support-connector-tablet" data-shared-support="connector" d="M1150 975C1260 910 1420 650 1600 520L1720 620C1530 700 1340 880 1230 1052C1200 1060 1170 1020 1150 975Z"></path>
+              <path class="support-shadow support-connector support-connector-tablet" transform="translate(-5 10)" d="M1150 975C1260 910 1500 650 1750 520L1900 620C1700 700 1430 880 1230 1052C1200 1060 1170 1020 1150 975Z"></path>
+              <path class="support-unified-shadow support-unified-shadow-wide" transform="translate(-5 10)" d="M-2200 1280C-1200 1200 -300 1160 980 1095C1040 1080 1100 1010 1150 975C1420 850 1780 620 2110 510L2200 640C1800 750 1500 980 1230 1052C1160 1110 1090 1170 990 1180C300 1240 -900 1300 -2200 1380Z"></path>
+              <path class="support-unified-shadow support-unified-shadow-tablet" transform="translate(-5 10)" d="M-2200 1280C-1200 1200 -300 1160 980 1095C1040 1080 1100 1010 1150 975C1260 910 1500 650 1750 520L1900 620C1700 700 1430 880 1230 1052C1160 1110 1090 1170 990 1180C300 1240 -900 1300 -2200 1380Z"></path>
+              <path id="sunny-wide-wood" class="support-wood support-wide" clip-path="url(#sunny-wide-trim)" data-shared-support="sunny" data-internal-terminal="2800,650" d="M-2200 1280C-1200 1200 -300 1160 980 1095C1040 1080 1100 1010 1150 975C1420 850 1850 620 2100 670C2320 650 2580 640 2800 650C2580 690 2320 720 2100 740C1850 760 1500 950 1230 1052C1160 1110 1090 1170 990 1180C300 1240 -900 1300 -2200 1380Z"></path>
+              <path id="sunny-intermediate-wood" class="support-wood support-intermediate" data-shared-support="sunny" data-internal-terminal="3000,900" d="M-2200 1280C-1200 1200 -300 1160 980 1095C1040 1080 1100 1010 1150 975C1420 850 1850 620 2100 670C2300 760 2450 850 2600 926C2740 920 2890 900 3000 900C2860 940 2720 980 2600 1010C2450 930 2300 840 2100 790C1850 760 1500 950 1230 1052C1160 1110 1090 1170 990 1180C300 1240 -900 1300 -2200 1380Z"></path>
+              <path id="sunny-connector-wide-wood" class="support-wood support-connector support-connector-wide" data-shared-support="connector" d="M1150 975C1420 850 1780 620 2110 510L2200 640C1800 750 1500 980 1230 1052C1200 1060 1170 1020 1150 975Z"></path>
+              <path id="sunny-connector-tablet-wood" class="support-wood support-connector support-connector-tablet" data-shared-support="connector" d="M1150 975C1260 910 1500 650 1750 520L1900 620C1700 700 1430 880 1230 1052C1200 1060 1170 1020 1150 975Z"></path>
+              <path class="support-unified support-unified-wide" d="M-2200 1280C-1200 1200 -300 1160 980 1095C1040 1080 1100 1010 1150 975C1420 850 1780 620 2110 510L2200 640C1800 750 1500 980 1230 1052C1160 1110 1090 1170 990 1180C300 1240 -900 1300 -2200 1380Z"></path>
+              <path class="support-unified support-unified-tablet" d="M-2200 1280C-1200 1200 -300 1160 980 1095C1040 1080 1100 1010 1150 975C1260 910 1500 650 1750 520L1900 620C1700 700 1430 880 1230 1052C1160 1110 1090 1170 990 1180C300 1240 -900 1300 -2200 1380Z"></path>
+              <path class="support-surface-edge support-wide" clip-path="url(#sunny-wide-trim)" d="M-2200 1280C-1200 1200 -300 1160 980 1095C1040 1080 1100 1010 1150 975"></path>
+              <path class="support-surface-edge support-intermediate" d="M-2200 1280C-1200 1200 -300 1160 980 1095C1040 1080 1100 1010 1150 975C1420 850 1850 620 2100 670C2300 760 2450 850 2600 926C2740 920 2890 900 3000 900"></path>
+              <path class="support-surface-edge support-connector support-connector-wide" d="M1150 975C1420 850 1780 620 2110 510"></path>
+              <path class="support-surface-edge support-connector support-connector-tablet" d="M1150 975C1260 910 1500 650 1750 520"></path>
+              <path class="support-depth-edge support-wide" clip-path="url(#sunny-wide-trim)" d="M-2200 1380C-900 1300 300 1240 990 1180C1090 1170 1160 1110 1230 1052"></path>
+              <path class="support-depth-edge support-intermediate" d="M-2200 1380C-900 1300 300 1240 990 1180C1090 1170 1160 1110 1230 1052C1500 950 1850 760 2100 790C2300 840 2450 930 2600 1010C2720 980 2860 940 3000 900"></path>
+              <path class="support-depth-edge support-connector support-connector-wide" d="M1230 1052C1500 980 1800 750 2200 640"></path>
+              <path class="support-depth-edge support-connector support-connector-tablet" d="M1230 1052C1430 880 1700 700 1900 620"></path>
               <path class="support-boundary support-wide" clip-path="url(#sunny-wide-trim)" data-support-contour="sunny" data-support-bird=".resident-sunny .resident-cutout" data-support-anchors="980,1095;1150,975" d="M-2200 1280C-1200 1200 -300 1160 980 1095C1040 1080 1100 1010 1150 975C1420 850 1850 620 2100 670C2320 650 2580 640 2800 650"></path>
               <path class="support-boundary support-intermediate" data-support-contour="sunny" data-support-bird=".resident-sunny .resident-cutout" data-support-anchors="980,1095;1150,975" d="M-2200 1280C-1200 1200 -300 1160 980 1095C1040 1080 1100 1010 1150 975C1420 850 1850 620 2100 670C2300 760 2450 850 2600 926C2740 920 2890 900 3000 900"></path>
-              <path class="support-boundary support-connector support-connector-wide" d="M1150 975C1420 850 1780 620 2110 510"></path>
-              <path class="support-boundary support-connector support-connector-tablet" d="M1150 975C1260 910 1420 650 1600 520"></path>
               <path class="support-contact-shadow" clip-path="url(#sunny-support-clip)" d="M934 1103Q974 1119 1018 1101M1110 990Q1148 1002 1190 982"></path>
-              <path class="support-fissure sunny-support-fissure" clip-path="url(#sunny-wide-trim)" d="M620 1140L680 1156M1310 972L1362 958M1510 950L1560 936"></path>
-              <path class="support-fissure support-connector support-connector-wide" d="M1510 860L1570 825M1820 665L1880 632"></path>
-              <path class="support-fissure support-connector support-connector-tablet" d="M1218 785L1260 742M1270 590L1315 555"></path>
+              <path class="support-fissure sunny-support-fissure" clip-path="url(#sunny-wide-trim)" d="M120 1197Q172 1178 224 1190M620 1140Q650 1153 680 1156M820 1116Q852 1099 888 1106M1018 1078Q1052 1068 1080 1042"></path>
+              <path class="support-fissure support-connector support-connector-wide" d="M1310 972Q1336 958 1362 958M1510 860Q1540 838 1570 825M1662 758Q1692 736 1726 724M1820 665Q1850 645 1880 632M1982 590Q2012 574 2048 563"></path>
+              <path class="support-fissure support-connector support-connector-tablet" d="M1218 935Q1240 920 1268 900M1320 826Q1342 800 1366 774M1440 690Q1468 672 1492 651M1552 588Q1576 566 1604 552"></path>
+              <path class="support-grain support-wide" clip-path="url(#sunny-wide-trim)" d="M-160 1231C270 1206 650 1175 944 1142M60 1260C414 1235 710 1207 958 1178"></path>
+              <path class="support-grain support-connector support-connector-wide" d="M1256 1012C1500 900 1770 712 2074 590M1320 1030C1584 918 1818 758 2110 650"></path>
+              <path class="support-grain support-connector support-connector-tablet" d="M1248 1016C1360 900 1490 733 1648 600M1292 1030C1420 914 1542 784 1682 642"></path>
             </svg>
             <img class="resident-cutout" src="/assets/sunny-cutout.webp" width="1366" height="1152" alt="Sunny, a small green-and-yellow bird with a rosy tail and visible pink feet.">
             <figcaption>Sunny</figcaption>
           </figure>
           <figure class="resident resident-sky" data-face="sky">
             <svg class="resident-support" data-support-svg="sky" viewBox="0 0 1024 1536" aria-hidden="true" focusable="false">
-              <defs><clipPath id="sky-support-clip" clipPathUnits="userSpaceOnUse"><path d="M300 850C320 840 340 830 350 824C620 760 980 730 1450 710L1450 825C980 842 650 870 378 924C340 900 320 875 300 850Z"></path></clipPath></defs>
-              <path class="support-shadow" transform="translate(-5 10)" d="M300 850C320 840 340 830 350 824C620 760 980 730 1450 710L1450 825C980 842 650 870 378 924C340 900 320 875 300 850Z"></path>
-              <path class="support-wood" data-shared-support="sky" d="M300 850C320 840 340 830 350 824C620 760 980 730 1450 710L1450 825C980 842 650 870 378 924C340 900 320 875 300 850Z"></path>
+              <defs>
+                <clipPath id="sky-support-clip" clipPathUnits="userSpaceOnUse"><path d="M300 850C320 840 340 830 350 824C620 760 980 730 1450 710L1450 825C980 842 650 870 378 924C340 900 320 875 300 850Z"></path></clipPath>
+                <clipPath id="sky-painted-trim" clipPathUnits="userSpaceOnUse"><rect x="510" y="600" width="1032" height="430"></rect></clipPath>
+                <linearGradient id="sky-bark-gradient" x1="0" y1="1" x2="0" y2="0">
+                  <stop class="support-bark-shadow-stop" offset="0"></stop>
+                  <stop class="support-bark-base-stop" offset="0.24"></stop>
+                  <stop class="support-bark-mid-stop" offset="0.72"></stop>
+                  <stop class="support-bark-highlight-stop" offset="1"></stop>
+                </linearGradient>
+              </defs>
+              <path class="support-shadow" clip-path="url(#sky-painted-trim)" transform="translate(-5 10)" d="M300 850C320 840 340 830 350 824C620 760 980 730 1450 710L1450 825C980 842 650 870 378 924C340 900 320 875 300 850Z"></path>
+              <path id="sky-support-wood" class="support-wood" clip-path="url(#sky-painted-trim)" data-shared-support="sky" d="M300 850C320 840 340 830 350 824C620 760 980 730 1450 710L1450 825C980 842 650 870 378 924C340 900 320 875 300 850Z"></path>
+              <path class="support-surface-edge" d="M650 758C820 738 1080 722 1450 710"></path>
+              <path class="support-depth-edge" d="M650 870C840 850 1090 834 1450 825"></path>
               <path class="support-boundary" data-support-contour="sky" data-support-bird=".resident-sky .resident-cutout" data-support-anchors="350,824" d="M300 850C320 840 340 830 350 824C620 760 980 730 1450 710"></path>
               <path class="support-contact-shadow" clip-path="url(#sky-support-clip)" d="M302 835Q346 852 394 832"></path>
-              <path class="support-fissure" d="M-30 1008L34 1004M650 820L716 808M1060 772L1114 766"></path>
+              <path class="support-fissure" d="M436 868Q468 854 502 856M650 820Q682 806 716 808M842 792Q876 780 910 783M1060 772Q1088 764 1114 766M1250 748Q1282 738 1318 741"></path>
+              <path class="support-grain" d="M386 888C674 826 1014 790 1390 778M430 910C740 852 1048 822 1382 810"></path>
             </svg>
             <img class="resident-cutout" src="/assets/sky-cutout.webp" width="1024" height="1536" alt="Sky, a turquoise-and-grey bird ready to settle on the shared branch.">
             <figcaption>Sky</figcaption>
@@ -198,12 +229,12 @@
       <svg class="habitat-branch" viewBox="0 0 1440 2720" preserveAspectRatio="none" aria-hidden="true" focusable="false">
         <path class="branch-shadow segment-one" d="M-80 92C180 124 384 246 456 470C538 724 512 902 600 1080"></path>
         <path class="branch-shadow segment-two" d="M600 1080C690 1298 820 1370 904 1510C996 1664 884 1948 396 2248"></path>
-        <path class="branch-shadow branch-fill-shadow segment-three" transform="translate(-4 10)" d="M396 2232L402 2263C388 2288 370 2324 376 2370C390 2460 420 2590 430 2753L460 2772C448 2600 420 2440 410 2360C404 2310 418 2280 430 2255L425 2240Z"></path>
+        <path class="branch-shadow branch-fill-shadow segment-three" transform="translate(-4 10)" d="M396 2232L402 2263C388 2288 370 2324 376 2370C390 2460 420 2590 430 2753L460 2772C448 2600 420 2440 410 2360C404 2310 421 2280 438 2255L433 2238Z"></path>
         <path class="branch-main segment-one" d="M-80 76C180 108 384 230 456 454C538 708 512 886 600 1064"></path>
         <path class="branch-main segment-two" data-support-body="obsessions" d="M600 1064C690 1282 820 1354 904 1494C996 1648 884 1932 396 2232"></path>
-        <path class="branch-main segment-three" d="M396 2232L402 2263C388 2288 370 2324 376 2370C390 2460 420 2590 430 2753L460 2772C448 2600 420 2440 410 2360C404 2310 418 2280 430 2255L425 2240Z"></path>
+        <path class="branch-main segment-three" d="M396 2232L402 2263C388 2288 370 2324 376 2370C390 2460 420 2590 430 2753L460 2772C448 2600 420 2440 410 2360C404 2310 421 2280 438 2255L433 2238Z"></path>
         <path class="branch-edge" d="M-80 65C180 97 384 219 456 443C538 697 512 875 600 1053C690 1271 820 1343 904 1483C996 1637 884 1921 396 2221"></path>
-        <path class="support-boundary desktop-contact-boundary" data-support-contour="obsessions" data-support-bird=".moment-obsessions .moment-bird" data-support-owner=".branch-main.segment-three" data-support-anchors="205,800" data-continuous-main="true" d="M396 2232L402 2263"></path>
+        <path class="support-boundary desktop-contact-boundary" data-support-contour="obsessions" data-support-bird=".moment-obsessions .moment-bird" data-support-owner=".branch-main.segment-three" data-support-anchors="205,800" data-continuous-main="true" d="M350 2218L396 2232L402 2263L460 2282"></path>
         <path class="branch-mark" d="M300 300L335 324M500 832L470 858M738 1374L774 1392M850 1760L812 1790M590 2378L555 2402"></path>
       </svg>
 
