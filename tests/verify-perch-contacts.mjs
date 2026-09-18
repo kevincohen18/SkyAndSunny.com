@@ -19,6 +19,13 @@ const viewports = [
   [320, 667], [320, 844],
 ];
 const expectedSubjects = ["sunny", "sky", "watermelon", "strawberries", "obsessions"];
+const expectedPadCounts = {
+  sunny: 2,
+  sky: 1,
+  watermelon: 1,
+  strawberries: 2,
+  obsessions: 1,
+};
 const browser = await chromium.launch({
   headless: true,
   executablePath: process.env.CHROME_PATH || "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
@@ -214,6 +221,51 @@ for (const [width, height] of viewports) {
         },
       };
     });
+    const sharedSupportPaths = [...document.querySelectorAll("[data-shared-support]")].filter(visible);
+    const sharedSupportRects = sharedSupportPaths.map((path) => path.getBoundingClientRect());
+    const sharedIntersection = sharedSupportRects.length === 2 ? {
+      left: Math.max(sharedSupportRects[0].left, sharedSupportRects[1].left),
+      right: Math.min(sharedSupportRects[0].right, sharedSupportRects[1].right),
+      top: Math.max(sharedSupportRects[0].top, sharedSupportRects[1].top),
+      bottom: Math.min(sharedSupportRects[0].bottom, sharedSupportRects[1].bottom),
+    } : null;
+    const sharedHitPoints = [];
+    if (sharedIntersection && sharedIntersection.right > sharedIntersection.left && sharedIntersection.bottom > sharedIntersection.top) {
+      const inverses = sharedSupportPaths.map((path) => path.getScreenCTM()?.inverse());
+      for (let y = sharedIntersection.top; y <= sharedIntersection.bottom; y += 2) {
+        for (let x = sharedIntersection.left; x <= sharedIntersection.right; x += 2) {
+          const insideBoth = sharedSupportPaths.every((path, index) => {
+            if (!inverses[index]) return false;
+            const local = new DOMPoint(x, y).matrixTransform(inverses[index]);
+            return path.isPointInFill(local);
+          });
+          if (insideBoth) sharedHitPoints.push({ x, y });
+        }
+      }
+    }
+    const sunnyFigureRect = document.querySelector(".resident-sunny").getBoundingClientRect();
+    const sunnyCaptionRect = document.querySelector(".resident-sunny figcaption").getBoundingClientRect();
+    const expandedCaptionRect = {
+      left: sunnyCaptionRect.left - 8,
+      right: sunnyCaptionRect.right + 8,
+      top: sunnyCaptionRect.top - 8,
+      bottom: sunnyCaptionRect.bottom + 8,
+    };
+    let captionWoodClear = true;
+    for (let y = expandedCaptionRect.top; y <= expandedCaptionRect.bottom && captionWoodClear; y += 1) {
+      for (let x = expandedCaptionRect.left; x <= expandedCaptionRect.right; x += 1) {
+        if (sharedSupportPaths.some((path) => {
+          const inverse = path.getScreenCTM()?.inverse();
+          if (!inverse) return false;
+          return path.isPointInFill(new DOMPoint(x, y).matrixTransform(inverse));
+        })) {
+          captionWoodClear = false;
+          break;
+        }
+      }
+    }
+    const openBranchShadows = [...document.querySelectorAll(".habitat-branch .branch-shadow:not(.branch-fill-shadow)")];
+    const filledBranchShadows = [...document.querySelectorAll(".habitat-branch .branch-fill-shadow")];
     return {
       contacts,
       compositions,
@@ -226,6 +278,20 @@ for (const [width, height] of viewports) {
         mainPresent: Boolean(obsessionsMain),
         mainFilled: obsessionsMain ? getComputedStyle(obsessionsMain).fill !== "none" : false,
       },
+      sharedHero: {
+        pathCount: sharedSupportPaths.length,
+        overlapSamples: sharedHitPoints.length,
+        overlapWidth: sharedHitPoints.length ? Number((Math.max(...sharedHitPoints.map(({ x }) => x)) - Math.min(...sharedHitPoints.map(({ x }) => x)) + 2).toFixed(2)) : 0,
+        overlapHeight: sharedHitPoints.length ? Number((Math.max(...sharedHitPoints.map(({ y }) => y)) - Math.min(...sharedHitPoints.map(({ y }) => y)) + 2).toFixed(2)) : 0,
+        sunnyLeft: sharedSupportRects[0] ? Number(sharedSupportRects[0].left.toFixed(2)) : null,
+        skyRight: sharedSupportRects[1] ? Number(sharedSupportRects[1].right.toFixed(2)) : null,
+        labelFeetGap: Number((sunnyCaptionRect.top - sunnyFigureRect.bottom).toFixed(2)),
+        captionWoodClear,
+      },
+      shadows: {
+        openFills: openBranchShadows.map((path) => getComputedStyle(path).fill),
+        filledFills: filledBranchShadows.map((path) => getComputedStyle(path).fill),
+      },
       tikTokLinks: [...document.querySelectorAll('a[href*="tiktok.com/@skyandsunny.com/video/"]')].map((link) => link.href),
     };
   }, expectedSubjects);
@@ -235,6 +301,11 @@ for (const [width, height] of viewports) {
   if (state.images.length !== 8 || state.images.some((image) => !image.complete || image.width === 0 || image.height === 0)) viewportFailures.push("image decode");
   if (state.overflow) viewportFailures.push("horizontal overflow");
   if (JSON.stringify(state.subjects) !== JSON.stringify([...expectedSubjects].sort())) viewportFailures.push(`subjects ${state.subjects.join(",")}`);
+  const actualPadCounts = Object.fromEntries(expectedSubjects.map((subject) => [subject, state.contacts.filter((contact) => contact.subject === subject).length]));
+  if (state.contacts.length !== 7) viewportFailures.push(`pad total ${state.contacts.length}`);
+  for (const [subject, count] of Object.entries(expectedPadCounts)) {
+    if (actualPadCounts[subject] !== count) viewportFailures.push(`${subject}: expected ${count} pads, got ${actualPadCounts[subject]}`);
+  }
   for (const contact of state.contacts) {
     if (contact.distance > 2) viewportFailures.push(`${contact.subject} pad ${contact.pad}: ${contact.distance}px`);
     if (contact.alpha.exact < 128 || contact.alpha.neighborhoodSolidPixels < 5) viewportFailures.push(`${contact.subject} pad ${contact.pad}: invalid alpha ${contact.alpha.exact}`);
@@ -249,12 +320,18 @@ for (const [width, height] of viewports) {
     }
   }
   if (state.obsessions.localTwig || !state.obsessions.continuous || !state.obsessions.mainPresent || !state.obsessions.mainFilled) viewportFailures.push("obsessions continuous main branch contract");
+  if (state.sharedHero.pathCount !== 2 || state.sharedHero.overlapSamples === 0) viewportFailures.push(`hero shared support join ${JSON.stringify(state.sharedHero)}`);
+  if (state.sharedHero.sunnyLeft > 0.5 || state.sharedHero.skyRight < width - 0.5) viewportFailures.push(`hero support scene-edge continuity ${JSON.stringify(state.sharedHero)}`);
+  if (state.sharedHero.labelFeetGap < 8 || !state.sharedHero.captionWoodClear) viewportFailures.push(`Sunny label clearance ${JSON.stringify(state.sharedHero)}`);
+  if (state.shadows.openFills.some((fill) => fill !== "none") || state.shadows.filledFills.some((fill) => fill === "none")) viewportFailures.push(`branch shadow fill contract ${JSON.stringify(state.shadows)}`);
   if (state.tikTokLinks.length !== 6) viewportFailures.push("TikTok link count");
   if (consoleErrors.length || pageErrors.length || requestFailures.length || badResponses.length) viewportFailures.push("runtime/network errors");
   const entry = {
     viewport: `${width}x${height}`,
     contacts: state.contacts,
     compositions: state.compositions,
+    sharedHero: state.sharedHero,
+    shadows: state.shadows,
     errors: consoleErrors.length + pageErrors.length + requestFailures.length + badResponses.length,
     failures: viewportFailures,
   };

@@ -464,8 +464,9 @@ h1 i {
 }
 
 .resident-sunny figcaption {
+  top: calc(100% + 2.5rem);
   left: 18%;
-  bottom: -2%;
+  bottom: auto;
   color: var(--color-sunny);
 }
 
@@ -544,6 +545,7 @@ h1 i {
 }
 
 .habitat-branch .branch-shadow {
+  fill: none;
   stroke: var(--color-shadow);
   stroke-width: calc(var(--line-branch) + var(--space-4));
 }
@@ -1071,7 +1073,7 @@ h3 {
 
   .resident-sunny figcaption {
     left: 22%;
-    bottom: 0;
+    bottom: auto;
   }
 
   .resident-sky figcaption {
