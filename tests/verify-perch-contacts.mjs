@@ -120,7 +120,7 @@ for (const [width, height] of viewports) {
         neighborhoodSolidPixels: values.filter((alpha) => alpha >= 128).length,
       };
     };
-    const contours = [...document.querySelectorAll("[data-support-contour]")].filter((path) => visible(path.closest("svg")) && path.getTotalLength() > 0);
+    const contours = [...document.querySelectorAll("[data-support-contour]")].filter((path) => getComputedStyle(path).display !== "none" && visible(path.closest("svg")) && path.getTotalLength() > 0);
     const contacts = contours.flatMap((path) => {
       const subject = path.dataset.supportContour;
       const image = document.querySelector(path.dataset.supportBird);
@@ -243,6 +243,24 @@ for (const [width, height] of viewports) {
         }
       }
     }
+    const internalTerminals = [...document.querySelectorAll("[data-internal-terminal]")].filter(visible).map((path) => {
+      const [x, y] = path.dataset.internalTerminal.split(",").map(Number);
+      const point = toScreen(path, { x, y });
+      const offscreen = point.x <= -4 || point.x >= innerWidth + 4 || point.y <= -4 || point.y >= innerHeight + 4;
+      const otherSupports = sharedSupportPaths.filter((candidate) => candidate !== path);
+      const covered = [[0, 0], [4, 0], [-4, 0], [0, 4], [0, -4], [3, 3], [3, -3], [-3, 3], [-3, -3]].every(([dx, dy]) => otherSupports.some((support) => {
+        const inverse = support.getScreenCTM()?.inverse();
+        if (!inverse) return false;
+        return support.isPointInFill(new DOMPoint(point.x + dx, point.y + dy).matrixTransform(inverse));
+      }));
+      return {
+        support: path.dataset.sharedSupport,
+        point: { x: Number(point.x.toFixed(2)), y: Number(point.y.toFixed(2)) },
+        offscreen,
+        covered,
+        hidden: offscreen || covered,
+      };
+    });
     const sunnyFigureRect = document.querySelector(".resident-sunny").getBoundingClientRect();
     const sunnyCaptionRect = document.querySelector(".resident-sunny figcaption").getBoundingClientRect();
     const expandedCaptionRect = {
@@ -287,6 +305,7 @@ for (const [width, height] of viewports) {
         skyRight: sharedSupportRects[1] ? Number(sharedSupportRects[1].right.toFixed(2)) : null,
         labelFeetGap: Number((sunnyCaptionRect.top - sunnyFigureRect.bottom).toFixed(2)),
         captionWoodClear,
+        internalTerminals,
       },
       shadows: {
         openFills: openBranchShadows.map((path) => getComputedStyle(path).fill),
@@ -321,6 +340,7 @@ for (const [width, height] of viewports) {
   }
   if (state.obsessions.localTwig || !state.obsessions.continuous || !state.obsessions.mainPresent || !state.obsessions.mainFilled) viewportFailures.push("obsessions continuous main branch contract");
   if (state.sharedHero.pathCount !== 2 || state.sharedHero.overlapSamples === 0) viewportFailures.push(`hero shared support join ${JSON.stringify(state.sharedHero)}`);
+  if (state.sharedHero.internalTerminals.length === 0 || state.sharedHero.internalTerminals.some((terminal) => !terminal.hidden)) viewportFailures.push(`exposed internal support terminal ${JSON.stringify(state.sharedHero.internalTerminals)}`);
   if (state.sharedHero.sunnyLeft > 0.5 || state.sharedHero.skyRight < width - 0.5) viewportFailures.push(`hero support scene-edge continuity ${JSON.stringify(state.sharedHero)}`);
   if (state.sharedHero.labelFeetGap < 8 || !state.sharedHero.captionWoodClear) viewportFailures.push(`Sunny label clearance ${JSON.stringify(state.sharedHero)}`);
   if (state.shadows.openFills.some((fill) => fill !== "none") || state.shadows.filledFills.some((fill) => fill === "none")) viewportFailures.push(`branch shadow fill contract ${JSON.stringify(state.shadows)}`);
