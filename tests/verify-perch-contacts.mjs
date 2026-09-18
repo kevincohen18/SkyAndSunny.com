@@ -455,6 +455,60 @@ for (const [width, height] of viewports) {
     };
   }, expectedSubjects);
 
+  let mobileTextureCoverage = null;
+  if (width <= 400) {
+    const probe = await page.evaluate(() => {
+      const support = document.querySelector('[data-support-svg="sunny"]');
+      const source = support.querySelector("#sunny-wide-wood");
+      const texture = support.querySelector(".support-bark-texture-mobile.support-wide");
+
+      const probeStyle = document.createElement("style");
+      probeStyle.textContent = `
+        html, body, .hero-habitat { background: #000 !important; }
+        .site-header, .canopy-back, .canopy-middle, .canopy-foreground,
+        .hero-title-block, .resident-sky, .resident-cutout, .resident figcaption, .hero-note {
+          visibility: hidden !important;
+        }
+        .resident-sunny .resident-support { filter: none !important; }
+        .resident-sunny .resident-support > path:not(#sunny-wide-wood),
+        .resident-sunny .resident-support > use:not(.support-bark-texture-mobile.support-wide) {
+          visibility: hidden !important;
+        }
+        #sunny-wide-wood { fill: #000 !important; stroke: none !important; }
+        .support-bark-texture-mobile.support-wide {
+          display: block !important;
+          filter: none !important;
+          mix-blend-mode: normal !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+        }
+      `;
+      document.head.append(probeStyle);
+      const matrixToScreen = texture.getScreenCTM();
+      const points = [[1350, 950], [1500, 850], [1750, 725]].map(([x, y]) => {
+        const screen = new DOMPoint(x, y).matrixTransform(matrixToScreen);
+        return { local: [x, y], screen: [screen.x, screen.y], insideSupport: source.isPointInFill(new DOMPoint(x, y)) };
+      });
+      return { points };
+    });
+    const screenshot = await page.screenshot({ type: "png" });
+    const pixels = await page.evaluate(async ({ source, points }) => {
+      const image = new Image();
+      image.src = source;
+      await image.decode();
+      const canvas = document.createElement("canvas");
+      canvas.width = image.width;
+      canvas.height = image.height;
+      const context = canvas.getContext("2d", { willReadFrequently: true });
+      context.drawImage(image, 0, 0);
+      return points.map((point) => {
+        const [red, green, blue, alpha] = context.getImageData(Math.round(point.screen[0]), Math.round(point.screen[1]), 1, 1).data;
+        return { ...point, rgba: [red, green, blue, alpha], textureCovered: red + green + blue > 20 && alpha > 200 };
+      });
+    }, { source: `data:image/png;base64,${screenshot.toString("base64")}`, points: probe.points });
+    mobileTextureCoverage = { points: pixels, continuous: pixels.every((point) => point.insideSupport && point.textureCovered) };
+  }
+
   const viewportFailures = [];
   if (response?.status() !== 200) viewportFailures.push(`root status ${response?.status()}`);
   if (state.images.length !== 8 || state.images.some((image) => !image.complete || image.width === 0 || image.height === 0)) viewportFailures.push("image decode");
@@ -509,6 +563,9 @@ for (const [width, height] of viewports) {
     || (width > 832 && state.material.unifiedSurfaces !== 1)) {
     viewportFailures.push(`painted support join continuity ${JSON.stringify(state.material)}`);
   }
+  if (width <= 400 && !mobileTextureCoverage?.continuous) {
+    viewportFailures.push(`mobile connector texture coverage ${JSON.stringify(mobileTextureCoverage)}`);
+  }
   if (!state.atmosphere.moonHaloFilter.includes("drop-shadow") || state.atmosphere.moonDiscFilter !== "none"
     || state.atmosphere.moonMask === "none" || !state.atmosphere.foregroundFilter.includes("blur")
     || state.atmosphere.distantLayers < 2 || state.atmosphere.foregroundLayers < 1
@@ -538,6 +595,7 @@ for (const [width, height] of viewports) {
     sharedHero: state.sharedHero,
     shadows: state.shadows,
     material: state.material,
+    mobileTextureCoverage,
     atmosphere: state.atmosphere,
     heroResidents: state.heroResidents,
     errors: consoleErrors.length + pageErrors.length + requestFailures.length + badResponses.length,
