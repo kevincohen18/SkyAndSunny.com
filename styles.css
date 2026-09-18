@@ -21,6 +21,23 @@
   --color-hero-haze-moon: rgba(238, 234, 215, 0.075);
   --color-hero-haze-canopy: rgba(20, 56, 59, 0.18);
   --color-hero-haze-foreground: rgba(8, 30, 31, 0.78);
+  --color-night-haze: rgba(28, 77, 73, 0.16);
+  --color-night-side-edge: rgba(7, 16, 22, 0.18);
+  --color-night-edge: rgba(7, 16, 22, 0.24);
+  --opacity-night-particles: 0.62;
+  --surface-night-atmosphere:
+    radial-gradient(ellipse at 16% 18%, rgba(18, 55, 54, 0.38), transparent 38%),
+    radial-gradient(ellipse at 82% 38%, rgba(12, 43, 45, 0.36), transparent 42%),
+    linear-gradient(180deg, #071016 0%, #091719 18%, #071016 58%, #061114 100%);
+  --surface-night-particles:
+    radial-gradient(circle at 8% 14%, rgba(238, 234, 215, 0.7) 0 0.09rem, transparent 0.13rem),
+    radial-gradient(circle at 23% 31%, rgba(238, 234, 215, 0.46) 0 0.07rem, transparent 0.11rem),
+    radial-gradient(circle at 44% 12%, rgba(238, 234, 215, 0.62) 0 0.08rem, transparent 0.12rem),
+    radial-gradient(circle at 67% 27%, rgba(238, 234, 215, 0.42) 0 0.06rem, transparent 0.1rem),
+    radial-gradient(circle at 88% 16%, rgba(238, 234, 215, 0.58) 0 0.08rem, transparent 0.12rem),
+    radial-gradient(circle at 74% 63%, rgba(238, 234, 215, 0.42) 0 0.07rem, transparent 0.11rem),
+    radial-gradient(circle at 18% 76%, rgba(238, 234, 215, 0.36) 0 0.06rem, transparent 0.1rem),
+    radial-gradient(circle at 92% 87%, rgba(238, 234, 215, 0.48) 0 0.08rem, transparent 0.12rem);
   --color-star-halo: rgba(238, 234, 215, 0.3);
   --color-rib: rgba(186, 201, 195, 0.16);
   --color-star: rgba(238, 234, 215, 0.72);
@@ -848,7 +865,28 @@ h1 i {
   isolation: isolate;
   overflow: hidden;
   padding: var(--space-10) var(--gutter);
-  background: var(--color-canvas);
+  background: var(--surface-night-atmosphere);
+}
+
+.moments-habitat::before,
+.site-footer::before {
+  position: absolute;
+  inset: 0;
+  background-image: var(--surface-night-particles);
+  content: "";
+  opacity: var(--opacity-night-particles);
+  pointer-events: none;
+}
+
+.moments-habitat::after,
+.site-footer::after {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 12%, var(--color-night-haze), transparent 36%),
+    linear-gradient(90deg, var(--color-night-side-edge), transparent 22%, transparent 78%, var(--color-night-edge));
+  content: "";
+  pointer-events: none;
 }
 
 .moment-foliage {
@@ -1117,6 +1155,7 @@ h3 {
 
 .site-footer {
   position: relative;
+  isolation: isolate;
   min-height: 14rem;
   padding: var(--space-8) var(--gutter);
   display: grid;
@@ -1124,7 +1163,7 @@ h3 {
   align-items: end;
   gap: var(--space-5);
   overflow: hidden;
-  background: var(--color-canvas);
+  background: var(--surface-night-atmosphere);
   color: var(--color-text-quiet);
 }
 
