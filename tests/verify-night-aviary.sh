@@ -120,6 +120,29 @@ do
   fi
 done
 
+# The hero residents are source-specific art, not interchangeable silhouettes.
+# These fingerprints cover the approved alpha-cleaned WebP derivatives and their
+# intrinsic canvases so stale lighting or a padded export fails loudly.
+expected_sunny_sha="427792f781cd5c0b7adee577f852862ad52006b1875ce431c8524be05f807530"
+expected_sky_sha="f84df2eed5653dbd4aad4f42ed470b0851170810a87efb2e67e7ef6a508e44e9"
+actual_sunny_sha=$(shasum -a 256 "$assets/sunny-cutout.webp" | awk '{print $1}')
+actual_sky_sha=$(shasum -a 256 "$assets/sky-cutout.webp" | awk '{print $1}')
+if [ "$actual_sunny_sha" != "$expected_sunny_sha" ] || [ "$actual_sky_sha" != "$expected_sky_sha" ]; then
+  echo "Hero resident asset identity does not match the approved new-lighting derivatives" >&2
+  exit 1
+fi
+
+if command -v webpinfo >/dev/null 2>&1; then
+  webpinfo "$assets/sunny-cutout.webp" 2>/dev/null | grep -q 'Canvas size 1366 x 1152' || {
+    echo "Sunny hero cutout must retain the registered 1366x1152 support canvas" >&2
+    exit 1
+  }
+  webpinfo "$assets/sky-cutout.webp" 2>/dev/null | grep -q 'Canvas size 1024 x 1536' || {
+    echo "Sky hero cutout must retain its 1024x1536 source canvas" >&2
+    exit 1
+  }
+fi
+
 require '7214467392791907590' "$page" 'watermelon TikTok mapping'
 require '7214307952763620613' "$page" 'strawberries TikTok mapping'
 require '7213469583162854662' "$page" 'obsessions TikTok mapping'
@@ -157,6 +180,8 @@ require 'class="moment-support moment-twig moment-perch"' "$page" 'intrinsic mom
 require 'loading="lazy" decoding="async"' "$page" 'lazy below-fold moment imagery'
 require '\.moment-image-link:focus-visible' "$css" 'visible focus on outer moment composition'
 require 'brightness\(0\.94\) saturate\(0\.9\) contrast\(1\.02\)' "$css" 'restrained cutout lighting integration'
+require '--shadow-subject-ambient:' "$css" 'tokenized resident ambient separation shadow'
+require '--color-subject-contact-shadow:' "$css" 'tokenized resident foot contact shadow'
 require 'mask: radial-gradient' "$css" 'firm-edged crescent mask'
 require 'data-depth="-' "$page" 'opposing depth plane'
 require 'data-depth="[1-6]' "$page" 'foreground depth plane'

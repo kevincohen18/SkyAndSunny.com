@@ -11,6 +11,7 @@ const { chromium } = playwrightImport.default ?? playwrightImport;
 const targetURL = process.env.NIGHT_AVIARY_URL || "http://127.0.0.1:4173/";
 const counterfactual = process.argv.includes("--counterfactual-10px");
 const viewports = [
+  [1745, 994],
   [1440, 900], [1440, 1000],
   [1024, 900], [1024, 1000],
   [900, 900], [900, 1000],
@@ -222,31 +223,54 @@ for (const [width, height] of viewports) {
       };
     });
     const sharedSupportPaths = [...document.querySelectorAll("[data-shared-support]")].filter(visible);
-    const sharedSupportRects = sharedSupportPaths.map((path) => path.getBoundingClientRect());
-    const sharedIntersection = sharedSupportRects.length === 2 ? {
-      left: Math.max(sharedSupportRects[0].left, sharedSupportRects[1].left),
-      right: Math.min(sharedSupportRects[0].right, sharedSupportRects[1].right),
-      top: Math.max(sharedSupportRects[0].top, sharedSupportRects[1].top),
-      bottom: Math.min(sharedSupportRects[0].bottom, sharedSupportRects[1].bottom),
-    } : null;
-    const sharedHitPoints = [];
-    if (sharedIntersection && sharedIntersection.right > sharedIntersection.left && sharedIntersection.bottom > sharedIntersection.top) {
-      const inverses = sharedSupportPaths.map((path) => path.getScreenCTM()?.inverse());
-      for (let y = sharedIntersection.top; y <= sharedIntersection.bottom; y += 2) {
-        for (let x = sharedIntersection.left; x <= sharedIntersection.right; x += 2) {
-          const insideBoth = sharedSupportPaths.every((path, index) => {
-            if (!inverses[index]) return false;
-            const local = new DOMPoint(x, y).matrixTransform(inverses[index]);
-            return path.isPointInFill(local);
-          });
-          if (insideBoth) sharedHitPoints.push({ x, y });
+    const overlapFor = (paths) => {
+      const rects = paths.map((path) => path.getBoundingClientRect());
+      const intersection = {
+        left: Math.max(...rects.map((rect) => rect.left)),
+        right: Math.min(...rects.map((rect) => rect.right)),
+        top: Math.max(...rects.map((rect) => rect.top)),
+        bottom: Math.min(...rects.map((rect) => rect.bottom)),
+      };
+      const hitPoints = [];
+      if (intersection.right > intersection.left && intersection.bottom > intersection.top) {
+        const inverses = paths.map((path) => path.getScreenCTM()?.inverse());
+        for (let y = intersection.top; y <= intersection.bottom; y += 2) {
+          for (let x = intersection.left; x <= intersection.right; x += 2) {
+            const insideBoth = paths.every((path, index) => {
+              if (!inverses[index]) return false;
+              const local = new DOMPoint(x, y).matrixTransform(inverses[index]);
+              if (!path.isPointInFill(local)) return false;
+              const clipMatch = getComputedStyle(path).clipPath === "none"
+                ? null
+                : path.getAttribute("clip-path")?.match(/^url\(#(.+)\)$/);
+              const clipShape = clipMatch ? path.ownerSVGElement?.querySelector(`#${CSS.escape(clipMatch[1])} > *`) : null;
+              return !clipShape || clipShape.isPointInFill(local);
+            });
+            if (insideBoth) hitPoints.push({ x, y });
+          }
         }
       }
-    }
+      return {
+        supports: paths.map((path) => path.dataset.sharedSupport),
+        samples: hitPoints.length,
+        width: hitPoints.length ? Number((Math.max(...hitPoints.map(({ x }) => x)) - Math.min(...hitPoints.map(({ x }) => x)) + 2).toFixed(2)) : 0,
+        height: hitPoints.length ? Number((Math.max(...hitPoints.map(({ y }) => y)) - Math.min(...hitPoints.map(({ y }) => y)) + 2).toFixed(2)) : 0,
+      };
+    };
+    const connectorPath = sharedSupportPaths.find((path) => path.dataset.sharedSupport === "connector");
+    const joinGroups = connectorPath
+      ? sharedSupportPaths.filter((path) => path !== connectorPath).map((path) => [path, connectorPath])
+      : [sharedSupportPaths];
+    const sharedJoins = joinGroups.map(overlapFor);
     const internalTerminals = [...document.querySelectorAll("[data-internal-terminal]")].filter(visible).map((path) => {
       const [x, y] = path.dataset.internalTerminal.split(",").map(Number);
       const point = toScreen(path, { x, y });
       const offscreen = point.x <= -4 || point.x >= innerWidth + 4 || point.y <= -4 || point.y >= innerHeight + 4;
+      const terminalClipMatch = getComputedStyle(path).clipPath === "none"
+        ? null
+        : path.getAttribute("clip-path")?.match(/^url\(#(.+)\)$/);
+      const terminalClipShape = terminalClipMatch ? path.ownerSVGElement?.querySelector(`#${CSS.escape(terminalClipMatch[1])} > *`) : null;
+      const clipped = Boolean(terminalClipShape && !terminalClipShape.isPointInFill(new DOMPoint(x, y)));
       const otherSupports = sharedSupportPaths.filter((candidate) => candidate !== path);
       const covered = [[0, 0], [4, 0], [-4, 0], [0, 4], [0, -4], [3, 3], [3, -3], [-3, 3], [-3, -3]].every(([dx, dy]) => otherSupports.some((support) => {
         const inverse = support.getScreenCTM()?.inverse();
@@ -257,11 +281,16 @@ for (const [width, height] of viewports) {
         support: path.dataset.sharedSupport,
         point: { x: Number(point.x.toFixed(2)), y: Number(point.y.toFixed(2)) },
         offscreen,
+        clipped,
         covered,
-        hidden: offscreen || covered,
+        hidden: offscreen || clipped || covered,
       };
     });
     const sunnyFigureRect = document.querySelector(".resident-sunny").getBoundingClientRect();
+    const skyFigureRect = document.querySelector(".resident-sky").getBoundingClientRect();
+    const heroRect = document.querySelector(".hero-content").getBoundingClientRect();
+    const titleRect = document.querySelector(".hero-title-block").getBoundingClientRect();
+    const wordmarkRect = document.querySelector(".wordmark").getBoundingClientRect();
     const sunnyCaptionRect = document.querySelector(".resident-sunny figcaption").getBoundingClientRect();
     const expandedCaptionRect = {
       left: sunnyCaptionRect.left - 8,
@@ -284,6 +313,9 @@ for (const [width, height] of viewports) {
     }
     const openBranchShadows = [...document.querySelectorAll(".habitat-branch .branch-shadow:not(.branch-fill-shadow)")];
     const filledBranchShadows = [...document.querySelectorAll(".habitat-branch .branch-fill-shadow")];
+    const rootStyle = getComputedStyle(document.documentElement);
+    const heroResidentImages = [...document.querySelectorAll(".resident-cutout")];
+    const heroContactShadows = [...document.querySelectorAll(".resident .support-contact-shadow")];
     return {
       contacts,
       compositions,
@@ -298,11 +330,10 @@ for (const [width, height] of viewports) {
       },
       sharedHero: {
         pathCount: sharedSupportPaths.length,
-        overlapSamples: sharedHitPoints.length,
-        overlapWidth: sharedHitPoints.length ? Number((Math.max(...sharedHitPoints.map(({ x }) => x)) - Math.min(...sharedHitPoints.map(({ x }) => x)) + 2).toFixed(2)) : 0,
-        overlapHeight: sharedHitPoints.length ? Number((Math.max(...sharedHitPoints.map(({ y }) => y)) - Math.min(...sharedHitPoints.map(({ y }) => y)) + 2).toFixed(2)) : 0,
-        sunnyLeft: sharedSupportRects[0] ? Number(sharedSupportRects[0].left.toFixed(2)) : null,
-        skyRight: sharedSupportRects[1] ? Number(sharedSupportRects[1].right.toFixed(2)) : null,
+        joins: sharedJoins,
+        joined: sharedJoins.length > 0 && sharedJoins.every((join) => join.samples > 0),
+        sunnyLeft: Number(sharedSupportPaths.find((path) => path.dataset.sharedSupport === "sunny")?.getBoundingClientRect().left.toFixed(2)),
+        skyRight: Number(sharedSupportPaths.find((path) => path.dataset.sharedSupport === "sky")?.getBoundingClientRect().right.toFixed(2)),
         labelFeetGap: Number((sunnyCaptionRect.top - sunnyFigureRect.bottom).toFixed(2)),
         captionWoodClear,
         internalTerminals,
@@ -310,6 +341,30 @@ for (const [width, height] of viewports) {
       shadows: {
         openFills: openBranchShadows.map((path) => getComputedStyle(path).fill),
         filledFills: filledBranchShadows.map((path) => getComputedStyle(path).fill),
+        subjectAmbientToken: rootStyle.getPropertyValue("--shadow-subject-ambient").trim(),
+        subjectContactToken: rootStyle.getPropertyValue("--color-subject-contact-shadow").trim(),
+        residentFilters: heroResidentImages.map((image) => getComputedStyle(image).filter),
+        contactStrokes: heroContactShadows.map((path) => getComputedStyle(path).stroke),
+      },
+      heroResidents: {
+        sunny: {
+          width: document.querySelector(".resident-sunny .resident-cutout").naturalWidth,
+          height: document.querySelector(".resident-sunny .resident-cutout").naturalHeight,
+          topRatio: Number(((sunnyFigureRect.top - heroRect.top) / heroRect.height).toFixed(4)),
+          bottomRatio: Number(((sunnyFigureRect.bottom - heroRect.top) / heroRect.height).toFixed(4)),
+        },
+        sky: {
+          width: document.querySelector(".resident-sky .resident-cutout").naturalWidth,
+          height: document.querySelector(".resident-sky .resident-cutout").naturalHeight,
+          topRatio: Number(((skyFigureRect.top - heroRect.top) / heroRect.height).toFixed(4)),
+          bottomRatio: Number(((skyFigureRect.bottom - heroRect.top) / heroRect.height).toFixed(4)),
+          leftViewportRatio: Number((skyFigureRect.left / innerWidth).toFixed(4)),
+          rightViewportRatio: Number((skyFigureRect.right / innerWidth).toFixed(4)),
+        },
+        wideAlignment: {
+          titleLeft: Number(titleRect.left.toFixed(2)),
+          wordmarkLeft: Number(wordmarkRect.left.toFixed(2)),
+        },
       },
       tikTokLinks: [...document.querySelectorAll('a[href*="tiktok.com/@skyandsunny.com/video/"]')].map((link) => link.href),
     };
@@ -326,6 +381,7 @@ for (const [width, height] of viewports) {
     if (actualPadCounts[subject] !== count) viewportFailures.push(`${subject}: expected ${count} pads, got ${actualPadCounts[subject]}`);
   }
   for (const contact of state.contacts) {
+    if (width >= 1700 && !["sunny", "sky"].includes(contact.subject)) continue;
     if (contact.distance > 2) viewportFailures.push(`${contact.subject} pad ${contact.pad}: ${contact.distance}px`);
     if (contact.alpha.exact < 128 || contact.alpha.neighborhoodSolidPixels < 5) viewportFailures.push(`${contact.subject} pad ${contact.pad}: invalid alpha ${contact.alpha.exact}`);
     if (!contact.birdAboveSupport) viewportFailures.push(`${contact.subject}: support is not before bird`);
@@ -339,11 +395,29 @@ for (const [width, height] of viewports) {
     }
   }
   if (state.obsessions.localTwig || !state.obsessions.continuous || !state.obsessions.mainPresent || !state.obsessions.mainFilled) viewportFailures.push("obsessions continuous main branch contract");
-  if (state.sharedHero.pathCount !== 2 || state.sharedHero.overlapSamples === 0) viewportFailures.push(`hero shared support join ${JSON.stringify(state.sharedHero)}`);
+  if (![2, 3].includes(state.sharedHero.pathCount) || !state.sharedHero.joined) viewportFailures.push(`hero shared support join ${JSON.stringify(state.sharedHero)}`);
   if (state.sharedHero.internalTerminals.length === 0 || state.sharedHero.internalTerminals.some((terminal) => !terminal.hidden)) viewportFailures.push(`exposed internal support terminal ${JSON.stringify(state.sharedHero.internalTerminals)}`);
   if (state.sharedHero.sunnyLeft > 0.5 || state.sharedHero.skyRight < width - 0.5) viewportFailures.push(`hero support scene-edge continuity ${JSON.stringify(state.sharedHero)}`);
   if (state.sharedHero.labelFeetGap < 8 || !state.sharedHero.captionWoodClear) viewportFailures.push(`Sunny label clearance ${JSON.stringify(state.sharedHero)}`);
   if (state.shadows.openFills.some((fill) => fill !== "none") || state.shadows.filledFills.some((fill) => fill === "none")) viewportFailures.push(`branch shadow fill contract ${JSON.stringify(state.shadows)}`);
+  if (!state.shadows.subjectAmbientToken || !state.shadows.subjectContactToken || state.shadows.subjectAmbientToken === state.shadows.subjectContactToken) {
+    viewportFailures.push(`resident shadow tokens ${JSON.stringify(state.shadows)}`);
+  }
+  if (state.shadows.residentFilters.some((filter) => !filter.includes("drop-shadow")) || state.shadows.contactStrokes.length !== 2) {
+    viewportFailures.push(`resident ambient/contact treatment ${JSON.stringify(state.shadows)}`);
+  }
+  if (state.heroResidents.sunny.width !== 1366 || state.heroResidents.sunny.height !== 1152 || state.heroResidents.sky.width !== 1024 || state.heroResidents.sky.height !== 1536) {
+    viewportFailures.push(`resident intrinsic dimensions ${JSON.stringify(state.heroResidents)}`);
+  }
+  const sunnyTopRange = width >= 900 ? [0.235, 0.255] : width > 400 ? [0.255, 0.3] : [0.265, 0.32];
+  if (state.heroResidents.sunny.topRatio < sunnyTopRange[0] || state.heroResidents.sunny.topRatio > sunnyTopRange[1]) {
+    viewportFailures.push(`Sunny normalized placement ${state.heroResidents.sunny.topRatio} outside ${sunnyTopRange.join("-")}`);
+  }
+  if (width >= 1700 && (state.heroResidents.sky.leftViewportRatio < 0.7 || state.heroResidents.sky.rightViewportRatio < 0.92
+    || state.heroResidents.wideAlignment.titleLeft < 115 || state.heroResidents.wideAlignment.titleLeft > 135
+    || state.heroResidents.wideAlignment.wordmarkLeft < 115 || state.heroResidents.wideAlignment.wordmarkLeft > 135)) {
+    viewportFailures.push(`wide target alignment ${JSON.stringify(state.heroResidents)}`);
+  }
   if (state.tikTokLinks.length !== 6) viewportFailures.push("TikTok link count");
   if (consoleErrors.length || pageErrors.length || requestFailures.length || badResponses.length) viewportFailures.push("runtime/network errors");
   const entry = {
@@ -352,6 +426,7 @@ for (const [width, height] of viewports) {
     compositions: state.compositions,
     sharedHero: state.sharedHero,
     shadows: state.shadows,
+    heroResidents: state.heroResidents,
     errors: consoleErrors.length + pageErrors.length + requestFailures.length + badResponses.length,
     failures: viewportFailures,
   };
