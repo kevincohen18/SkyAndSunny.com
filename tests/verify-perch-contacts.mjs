@@ -211,6 +211,29 @@ for (const [width, height] of viewports) {
         anchor: contact.anchor,
         distance: Number(distanceToPaintedSurface(contact.anchor).toFixed(3)),
       }));
+    const sunnyImage = document.querySelector(".resident-sunny .resident-cutout");
+    const sunnyRect = sunnyImage.getBoundingClientRect();
+    const sunnyScale = Math.min(sunnyRect.width / sunnyImage.naturalWidth, sunnyRect.height / sunnyImage.naturalHeight);
+    const sunnyRenderedWidth = sunnyImage.naturalWidth * sunnyScale;
+    const sunnyRenderedHeight = sunnyImage.naturalHeight * sunnyScale;
+    const sunnyOffsetX = (sunnyRect.width - sunnyRenderedWidth) / 2;
+    const sunnyOffsetY = (sunnyRect.height - sunnyRenderedHeight) / 2;
+    const sunnyLoadBearingContacts = [
+      { foot: "left", source: [760, 1080] },
+      { foot: "right", source: [1060, 955] },
+    ].map(({ foot, source: [x, y] }) => {
+      const point = {
+        x: sunnyRect.left + sunnyOffsetX + (x / sunnyImage.naturalWidth) * sunnyRenderedWidth,
+        y: sunnyRect.top + sunnyOffsetY + (y / sunnyImage.naturalHeight) * sunnyRenderedHeight,
+      };
+      return {
+        foot,
+        source: [x, y],
+        anchor: { x: Number(point.x.toFixed(2)), y: Number(point.y.toFixed(2)) },
+        distance: Number(distanceToPaintedSurface(point).toFixed(3)),
+        alpha: sampleAlpha(sunnyImage, x, y),
+      };
+    });
     const obsessionsContour = contours.find((path) => path.dataset.supportContour === "obsessions");
     const obsessionsSVG = obsessionsContour?.closest("svg");
     const obsessionsMain = obsessionsSVG?.querySelector(".branch-main.segment-three");
@@ -366,6 +389,7 @@ for (const [width, height] of viewports) {
     return {
       contacts,
       paintedHeroContacts,
+      sunnyLoadBearingContacts,
       compositions,
       subjects: [...new Set(contacts.map((contact) => contact.subject))].sort(),
       images: [...document.images].map((image) => ({ complete: image.complete, width: image.naturalWidth, height: image.naturalHeight })),
@@ -529,6 +553,10 @@ for (const [width, height] of viewports) {
   for (const contact of state.paintedHeroContacts) {
     if (contact.distance > 2) viewportFailures.push(`${contact.subject} painted support pad ${contact.pad}: ${contact.distance}px`);
   }
+  for (const contact of state.sunnyLoadBearingContacts) {
+    if (contact.distance > 2) viewportFailures.push(`Sunny ${contact.foot} load-bearing foot: ${contact.distance}px`);
+    if (contact.alpha.exact < 128 || contact.alpha.neighborhoodSolidPixels < 5) viewportFailures.push(`Sunny ${contact.foot} load-bearing foot: invalid alpha ${contact.alpha.exact}`);
+  }
   for (const composition of state.compositions) {
     if (!composition.ordered) viewportFailures.push(`${composition.subject}: paint order ${JSON.stringify(composition.paintOrder)}`);
     if (composition.overlap.width < 10 || composition.overlap.height < 4) {
@@ -591,6 +619,7 @@ for (const [width, height] of viewports) {
     viewport: `${width}x${height}`,
     contacts: state.contacts,
     paintedHeroContacts: state.paintedHeroContacts,
+    sunnyLoadBearingContacts: state.sunnyLoadBearingContacts,
     compositions: state.compositions,
     sharedHero: state.sharedHero,
     shadows: state.shadows,
