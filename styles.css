@@ -447,6 +447,9 @@ h1 i {
 }
 
 .resident-cutout {
+  position: relative;
+  z-index: var(--layer-content);
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -481,21 +484,56 @@ h1 i {
 
 .resident figcaption {
   position: absolute;
+  z-index: var(--layer-title);
   font-family: var(--font-display);
   font-size: 1.35rem;
   font-style: italic;
 }
 
-.shared-perch {
+.resident-support,
+.moment-support {
   position: absolute;
-  top: 44%;
-  left: 0;
-  z-index: var(--layer-branch);
-  width: 100%;
-  height: 32%;
-  overflow: visible;
-  fill: none;
   pointer-events: none;
+  overflow: visible;
+}
+
+.resident-support {
+  inset: 0;
+  z-index: var(--layer-middle);
+  width: 100%;
+  height: 100%;
+}
+
+.support-shadow {
+  fill: var(--color-contact-shadow);
+  opacity: 0.72;
+}
+
+.support-wood {
+  fill: var(--color-bark);
+}
+
+.support-boundary {
+  fill: none;
+  stroke: var(--color-bark-edge);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.support-contact-shadow {
+  fill: none;
+  stroke: var(--color-contact-shadow);
+  stroke-linecap: round;
+  stroke-width: 22;
+}
+
+.support-fissure {
+  fill: none;
+  stroke: var(--color-bark-dark);
+  stroke-linecap: round;
+  stroke-width: 7;
 }
 
 .branch-main,
@@ -534,38 +572,6 @@ h1 i {
 .branch-edge {
   stroke: var(--color-bark-edge);
   stroke-width: var(--line-branch-edge);
-}
-
-.perch-shadow {
-  fill: var(--color-shadow);
-}
-
-.perch-main,
-.perch-fork,
-.perch-junction {
-  fill: var(--color-bark);
-}
-
-.junction-mid,
-.junction-band {
-  display: none;
-}
-
-.shared-perch .branch-edge {
-  stroke-width: var(--line-branch-edge);
-}
-
-.branch-fissure {
-  fill: none;
-  stroke: var(--color-bark-dark);
-  stroke-linecap: round;
-  stroke-width: 4;
-}
-
-.branch-knot {
-  fill: var(--color-bark-dark);
-  stroke: var(--color-bark-edge);
-  stroke-width: 2;
 }
 
 .hero-note {
@@ -664,12 +670,12 @@ h1 i {
 .moments-intro,
 .moment-sequence {
   position: relative;
-  z-index: var(--layer-content);
   width: min(100%, var(--content-max));
   margin-inline: auto;
 }
 
 .moments-intro {
+  z-index: var(--layer-content);
   margin-bottom: var(--space-10);
   padding-left: 8%;
 }
@@ -703,6 +709,20 @@ h2 {
 .habitat-branch .compact-branch-main {
   fill: var(--color-bark);
   stroke: none;
+}
+
+.habitat-branch .branch-main.segment-three {
+  fill: var(--color-bark);
+  stroke: none;
+}
+
+.habitat-branch .branch-fill-shadow {
+  fill: var(--color-contact-shadow);
+  stroke: none;
+}
+
+.habitat-branch .support-boundary {
+  stroke-width: 1.5;
 }
 
 .compact-branch-edge {
@@ -743,6 +763,15 @@ h2 {
   outline-offset: var(--focus-offset);
 }
 
+.moment-image-link:focus-visible::after {
+  position: absolute;
+  z-index: var(--layer-front);
+  inset: calc(var(--focus-offset) * -1);
+  border: var(--focus-width) solid var(--color-sky);
+  content: "";
+  pointer-events: none;
+}
+
 .moment-watermelon .moment-opening,
 .moment-strawberries .moment-opening {
   grid-column: span 8;
@@ -773,10 +802,8 @@ h2 {
 
 .moment-image-link {
   position: relative;
-  z-index: var(--layer-content);
   display: block;
   width: 100%;
-  isolation: isolate;
 }
 
 .moment-watermelon .moment-image-link,
@@ -875,39 +902,12 @@ h3 {
   font-size: var(--size-body-large);
 }
 
-.moment-twig {
-  position: absolute;
-  z-index: var(--layer-middle);
-  bottom: 1%;
+.moment-support {
+  bottom: 0;
   left: 0;
-  width: 58%;
-  overflow: visible;
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  pointer-events: none;
-}
-
-.perch-contact-shadow {
-  stroke: var(--color-contact-shadow);
-  stroke-width: 28;
-}
-
-.perch-contact {
-  stroke: var(--color-bark);
-  stroke-width: 20;
-}
-
-.perch-contact-edge {
-  stroke: var(--color-bark-edge);
-  stroke-width: 2;
-}
-
-.moment-obsessions .moment-twig {
-  right: 0;
-  bottom: 32%;
-  left: auto;
-  width: 72%;
+  z-index: var(--layer-middle);
+  width: 68%;
+  aspect-ratio: 1448 / 1086;
 }
 
 .site-footer {
@@ -957,19 +957,6 @@ h3 {
     width: clamp(14rem, 30vw, 19rem);
   }
 
-  .shared-perch {
-    top: 39%;
-    height: 30%;
-  }
-
-  .junction-wide {
-    display: none;
-  }
-
-  .junction-mid {
-    display: block;
-  }
-
   .front-foliage {
     width: 10vw;
   }
@@ -988,17 +975,6 @@ h3 {
     top: calc(39% - min(24.75vw, 15.675rem));
   }
 
-  .junction-mid {
-    display: none;
-  }
-
-  .junction-band {
-    display: block;
-  }
-
-  .habitat-branch:not(.habitat-branch-compact) {
-    transform: translateX(-1.25rem);
-  }
 }
 
 @media (max-width: 52rem) {
@@ -1103,13 +1079,6 @@ h3 {
     bottom: 8%;
   }
 
-  .shared-perch {
-    top: 38%;
-    left: -12%;
-    width: 124%;
-    height: 28%;
-  }
-
   .hero-note {
     right: auto;
     bottom: 3%;
@@ -1179,14 +1148,6 @@ h3 {
     padding-left: var(--space-5);
   }
 
-  .moment-twig {
-    width: 58%;
-  }
-
-  .moment-obsessions .moment-twig {
-    width: 72%;
-  }
-
   .site-footer {
     grid-template-columns: minmax(0, 1fr);
     align-items: start;
@@ -1214,10 +1175,6 @@ h3 {
   .resident-sky {
     top: 28%;
     width: 48vw;
-  }
-
-  .junction-mid {
-    display: none;
   }
 
   .hero-note {

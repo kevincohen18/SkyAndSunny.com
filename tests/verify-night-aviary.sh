@@ -143,13 +143,17 @@ require 'symbol id="leaf-spray-a"' "$page" 'first compound botanical motif'
 require 'symbol id="leaf-spray-b"' "$page" 'second compound botanical motif'
 require 'symbol id="leaf-spray-c"' "$page" 'third compound botanical motif'
 require 'habitat-branch-compact' "$page" 'visible compact connecting branch'
-require 'perch-junction junction-wide' "$page" 'desktop Sky perch junction'
-require 'perch-junction junction-mid' "$page" 'intermediate Sky perch junction'
-require 'perch-junction junction-band' "$page" 'responsive-gap Sky perch junction'
+require 'data-support-svg="sunny"' "$page" 'Sunny intrinsic support coordinate frame'
+require 'data-support-svg="sky"' "$page" 'Sky intrinsic support coordinate frame'
+require 'data-support-svg="watermelon"' "$page" 'watermelon intrinsic support coordinate frame'
+require 'data-support-svg="strawberries"' "$page" 'strawberries intrinsic support coordinate frame'
+require 'data-support-contour="obsessions"' "$page" 'Obsessions continuous habitat support contour'
+require 'data-continuous-main="true"' "$page" 'continuous Obsessions branch hook'
+require 'data-support-owner="\.branch-main\.segment-three"' "$page" 'Obsessions solid branch owner hook'
 require 'class="[^\"]*moment-twig' "$page" 'moment-level twig hook'
 require 'class="moment-context" aria-hidden="true"' "$page" 'authentic tablet-context crop'
 require 'class="moment-bird"' "$page" 'transparent moment cutout layer'
-require 'class="moment-twig moment-perch"' "$page" 'small branch contact beneath moment bird'
+require 'class="moment-support moment-twig moment-perch"' "$page" 'intrinsic moment branch contact beneath bird'
 require 'loading="lazy" decoding="async"' "$page" 'lazy below-fold moment imagery'
 require '\.moment-image-link:focus-visible' "$css" 'visible focus on outer moment composition'
 require 'brightness\(0\.94\) saturate\(0\.9\) contrast\(1\.02\)' "$css" 'restrained cutout lighting integration'
@@ -184,7 +188,7 @@ for expected_count in \
   'class="moment-image-link"|3|linked moment compositions' \
   'class="moment-context"|3|tablet context crops' \
   'class="moment-bird"|3|transparent moment birds' \
-  'class="moment-twig moment-perch"|3|moment branch contacts' \
+  'class="moment-support moment-twig moment-perch"|2|intrinsic moment branch contacts' \
   'loading="lazy" decoding="async"|6|lazy composition images' \
   'alt="" loading="lazy" decoding="async"|6|decorative composition image alts'
 do
@@ -198,6 +202,23 @@ do
     exit 1
   fi
 done
+
+for subject in sunny sky watermelon strawberries; do
+  require "data-support-contour=\"$subject\"" "$page" "$subject designated support contour"
+done
+
+if awk '
+  /<article class="moment moment-obsessions"/ { in_obsessions = 1 }
+  in_obsessions && /moment-perch/ { found = 1 }
+  in_obsessions && /<\/article>/ { in_obsessions = 0 }
+  END { exit(found ? 0 : 1) }
+' "$page"; then
+  echo "Obsessions must sit on the continuous habitat branch, not a local twig" >&2
+  exit 1
+fi
+
+forbid 'perch-junction|junction-wide|junction-mid|junction-band' "$page" 'height-drifting hero junction workaround'
+forbid '\.moment-obsessions \.moment-twig' "$css" 'Obsessions local twig styling'
 
 # Each real moment remains paired with its exact source image and destination.
 for mapping in \
