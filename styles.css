@@ -14,6 +14,10 @@
   --color-bark-dark: #241c17;
   --color-bark-shadow: #17110e;
   --color-bark-edge: #846d58;
+  --color-bark-texture: rgba(25, 17, 12, 0.64);
+  --color-bark-ridge: rgba(197, 163, 126, 0.3);
+  --color-vegetation-distant: rgba(18, 54, 53, 0.54);
+  --color-vegetation-foreground: rgba(4, 20, 21, 0.9);
   --color-hero-haze-moon: rgba(238, 234, 215, 0.075);
   --color-hero-haze-canopy: rgba(20, 56, 59, 0.18);
   --color-hero-haze-foreground: rgba(8, 30, 31, 0.78);
@@ -68,6 +72,8 @@
   --blur-distant: 0.1rem;
   --blur-foreground: 0.2rem;
   --blur-star: 0.025rem;
+  --blur-undergrowth-distant: 0.34rem;
+  --blur-undergrowth-foreground: 0.58rem;
   --hero-wide-inset: 7.75rem;
   --hero-wide-moon-left: 70%;
   --layer-back: 1;
@@ -390,6 +396,25 @@ h3 {
   opacity: 0.72;
 }
 
+.distant-undergrowth {
+  position: absolute;
+  bottom: -9%;
+  width: min(39vw, 42rem);
+  height: 68%;
+  fill: var(--color-vegetation-distant);
+  filter: blur(var(--blur-undergrowth-distant));
+  opacity: 0.74;
+}
+
+.distant-undergrowth-left {
+  left: -7%;
+}
+
+.distant-undergrowth-right {
+  right: -7%;
+  transform: scaleX(-1);
+}
+
 .middle-foliage,
 .front-foliage {
   position: absolute;
@@ -559,6 +584,10 @@ h1 i {
   opacity: 0.72;
 }
 
+.support-wood {
+  fill: var(--color-bark);
+}
+
 .resident-sunny .support-wood {
   fill: url(#sunny-bark-gradient);
 }
@@ -569,6 +598,32 @@ h1 i {
 
 .resident-sunny .support-unified {
   fill: url(#sunny-bark-gradient);
+}
+
+.support-bark-texture {
+  fill: var(--color-bark-texture);
+  mix-blend-mode: multiply;
+  opacity: 0.94;
+  pointer-events: none;
+}
+
+.resident-sunny .support-bark-texture {
+  filter: url(#sunny-bark-relief);
+}
+
+.resident-sky .support-bark-texture {
+  filter: url(#sky-bark-relief);
+}
+
+.support-bark-texture-mobile {
+  display: none;
+}
+
+.support-irregular-highlight {
+  fill: none;
+  stroke: var(--color-bark-ridge);
+  stroke-linecap: round;
+  stroke-width: 7;
 }
 
 .support-unified-tablet {
@@ -753,6 +808,18 @@ h1 i {
     radial-gradient(ellipse at 89% 95%, var(--color-hero-haze-foreground), transparent 44%);
   content: "";
   filter: blur(var(--blur-foreground));
+}
+
+.foreground-undergrowth {
+  position: absolute;
+  right: -7%;
+  bottom: -18%;
+  left: -7%;
+  width: 114%;
+  height: 51%;
+  fill: var(--color-vegetation-foreground);
+  filter: blur(var(--blur-undergrowth-foreground));
+  opacity: 0.9;
 }
 
 .branch-front {
@@ -1234,6 +1301,13 @@ h3 {
     width: 46vw;
   }
 
+  .distant-undergrowth {
+    bottom: -3%;
+    width: 58vw;
+    height: 55%;
+    opacity: 0.6;
+  }
+
   .front-foliage {
     width: 7vw;
   }
@@ -1257,6 +1331,14 @@ h3 {
 
   .support-connector {
     display: none;
+  }
+
+  .support-bark-texture-unified {
+    display: none;
+  }
+
+  .support-bark-texture-mobile.support-wide {
+    display: block;
   }
 
   .support-unified {

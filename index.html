@@ -79,6 +79,22 @@
           <path class="back-branch" d="M-88 672C142 596 285 637 443 741L428 759C272 667 137 632 -88 716Z"></path>
           <path class="back-branch-light" d="M-32 228C146 220 261 290 389 465M1478 166C1295 181 1208 292 1040 462"></path>
         </svg>
+        <svg class="distant-undergrowth distant-undergrowth-left" viewBox="0 0 520 900" focusable="false">
+          <g>
+            <use href="#leaf-spray-c" x="-78" y="286" width="344" height="270" transform="rotate(-23 94 421)"></use>
+            <use href="#leaf-spray-a" x="104" y="398" width="318" height="252" transform="rotate(17 263 524)"></use>
+            <use href="#leaf-spray-b" x="-35" y="535" width="374" height="292" transform="rotate(-13 152 681)"></use>
+            <use href="#leaf-spray-c" x="235" y="558" width="330" height="258" transform="rotate(39 400 687)"></use>
+          </g>
+        </svg>
+        <svg class="distant-undergrowth distant-undergrowth-right" viewBox="0 0 520 900" focusable="false">
+          <g>
+            <use href="#leaf-spray-a" x="-56" y="322" width="330" height="258" transform="rotate(-19 109 451)"></use>
+            <use href="#leaf-spray-b" x="128" y="414" width="300" height="238" transform="rotate(24 278 533)"></use>
+            <use href="#leaf-spray-c" x="-42" y="558" width="370" height="288" transform="rotate(-17 143 702)"></use>
+            <use href="#leaf-spray-a" x="244" y="584" width="316" height="248" transform="rotate(37 402 708)"></use>
+          </g>
+        </svg>
       </div>
 
       <div class="habitat-plane canopy-middle" data-depth="2" aria-hidden="true">
@@ -118,6 +134,12 @@
                   <stop class="support-bark-mid-stop" offset="0.72"></stop>
                   <stop class="support-bark-highlight-stop" offset="1"></stop>
                 </linearGradient>
+                <filter id="sunny-bark-relief" x="-8%" y="-12%" width="116%" height="124%" color-interpolation-filters="sRGB">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.025 0.075" numOctaves="4" seed="19" result="bark-noise"></feTurbulence>
+                  <feDisplacementMap in="SourceGraphic" in2="bark-noise" scale="5" xChannelSelector="R" yChannelSelector="B" result="bark-edge"></feDisplacementMap>
+                  <feColorMatrix in="bark-noise" type="matrix" values="0 0 0 0 .12 0 0 0 0 .08 0 0 0 0 .05 1.7 0 0 0 -.45" result="bark-tone"></feColorMatrix>
+                  <feComposite in="bark-tone" in2="bark-edge" operator="in"></feComposite>
+                </filter>
               </defs>
               <path class="support-shadow support-wide" clip-path="url(#sunny-wide-trim)" transform="translate(-5 10)" d="M-2200 1280C-1200 1200 -300 1160 980 1095C1040 1080 1100 1010 1150 975C1420 850 1850 620 2100 670C2320 650 2580 640 2800 650C2580 690 2320 720 2100 740C1850 760 1500 950 1230 1052C1160 1110 1090 1170 990 1180C300 1240 -900 1300 -2200 1380Z"></path>
               <path class="support-shadow support-intermediate" transform="translate(-5 10)" d="M-2200 1280C-1200 1200 -300 1160 980 1095C1040 1080 1100 1010 1150 975C1420 850 1850 620 2100 670C2300 760 2450 850 2600 926C2740 920 2890 900 3000 900C2860 940 2720 980 2600 1010C2450 930 2300 840 2100 790C1850 760 1500 950 1230 1052C1160 1110 1090 1170 990 1180C300 1240 -900 1300 -2200 1380Z"></path>
@@ -129,8 +151,14 @@
               <path id="sunny-intermediate-wood" class="support-wood support-intermediate" data-shared-support="sunny" data-internal-terminal="3000,900" d="M-2200 1280C-1200 1200 -300 1160 980 1095C1040 1080 1100 1010 1150 975C1420 850 1850 620 2100 670C2300 760 2450 850 2600 926C2740 920 2890 900 3000 900C2860 940 2720 980 2600 1010C2450 930 2300 840 2100 790C1850 760 1500 950 1230 1052C1160 1110 1090 1170 990 1180C300 1240 -900 1300 -2200 1380Z"></path>
               <path id="sunny-connector-wide-wood" class="support-wood support-connector support-connector-wide" data-shared-support="connector" d="M1150 975C1420 850 1780 620 2110 510L2200 640C1800 750 1500 980 1230 1052C1200 1060 1170 1020 1150 975Z"></path>
               <path id="sunny-connector-tablet-wood" class="support-wood support-connector support-connector-tablet" data-shared-support="connector" d="M1150 975C1260 910 1500 650 1750 520L1900 620C1700 700 1430 880 1230 1052C1200 1060 1170 1020 1150 975Z"></path>
-              <path class="support-unified support-unified-wide" d="M-2200 1280C-1200 1200 -300 1160 980 1095C1040 1080 1100 1010 1150 975C1420 850 1780 620 2110 510L2200 640C1800 750 1500 980 1230 1052C1160 1110 1090 1170 990 1180C300 1240 -900 1300 -2200 1380Z"></path>
-              <path class="support-unified support-unified-tablet" d="M-2200 1280C-1200 1200 -300 1160 980 1095C1040 1080 1100 1010 1150 975C1260 910 1500 650 1750 520L1900 620C1700 700 1430 880 1230 1052C1160 1110 1090 1170 990 1180C300 1240 -900 1300 -2200 1380Z"></path>
+              <path id="sunny-unified-wide" class="support-unified support-unified-wide" d="M-2200 1280C-1200 1200 -300 1160 980 1095C1040 1080 1100 1010 1150 975C1420 850 1780 620 2110 510L2200 640C1800 750 1500 980 1230 1052C1160 1110 1090 1170 990 1180C300 1240 -900 1300 -2200 1380Z"></path>
+              <path id="sunny-unified-tablet" class="support-unified support-unified-tablet" d="M-2200 1280C-1200 1200 -300 1160 980 1095C1040 1080 1100 1010 1150 975C1260 910 1500 650 1750 520L1900 620C1700 700 1430 880 1230 1052C1160 1110 1090 1170 990 1180C300 1240 -900 1300 -2200 1380Z"></path>
+              <use class="support-bark-texture support-bark-texture-unified support-unified-wide" href="#sunny-unified-wide"></use>
+              <use class="support-bark-texture support-bark-texture-unified support-unified-tablet" href="#sunny-unified-tablet"></use>
+              <use class="support-bark-texture support-bark-texture-mobile support-wide" href="#sunny-wide-wood"></use>
+              <use class="support-bark-texture support-bark-texture-mobile support-intermediate" href="#sunny-intermediate-wood"></use>
+              <path class="support-irregular-highlight support-wide" d="M-120 1216C202 1191 522 1167 822 1136M1260 1004C1498 889 1770 700 2054 590"></path>
+              <path class="support-irregular-highlight support-intermediate" d="M-120 1216C202 1191 522 1167 822 1136M1252 1003C1474 841 1665 700 1874 606"></path>
               <path class="support-surface-edge support-wide" clip-path="url(#sunny-wide-trim)" d="M-2200 1280C-1200 1200 -300 1160 980 1095C1040 1080 1100 1010 1150 975"></path>
               <path class="support-surface-edge support-intermediate" d="M-2200 1280C-1200 1200 -300 1160 980 1095C1040 1080 1100 1010 1150 975C1420 850 1850 620 2100 670C2300 760 2450 850 2600 926C2740 920 2890 900 3000 900"></path>
               <path class="support-surface-edge support-connector support-connector-wide" d="M1150 975C1420 850 1780 620 2110 510"></path>
@@ -163,10 +191,21 @@
                   <stop class="support-bark-mid-stop" offset="0.72"></stop>
                   <stop class="support-bark-highlight-stop" offset="1"></stop>
                 </linearGradient>
+                <filter id="sky-bark-relief" x="-8%" y="-12%" width="116%" height="124%" color-interpolation-filters="sRGB">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.028 0.08" numOctaves="4" seed="31" result="bark-noise"></feTurbulence>
+                  <feDisplacementMap in="SourceGraphic" in2="bark-noise" scale="5" xChannelSelector="R" yChannelSelector="B" result="bark-edge"></feDisplacementMap>
+                  <feColorMatrix in="bark-noise" type="matrix" values="0 0 0 0 .12 0 0 0 0 .08 0 0 0 0 .05 1.7 0 0 0 -.45" result="bark-tone"></feColorMatrix>
+                  <feComposite in="bark-tone" in2="bark-edge" operator="in"></feComposite>
+                </filter>
               </defs>
+              <path class="support-shadow" transform="translate(-5 10)" d="M258 930C278 882 314 840 350 824C404 811 466 804 526 794L526 882C468 895 421 909 378 924C332 933 292 935 258 930Z"></path>
               <path class="support-shadow" clip-path="url(#sky-painted-trim)" transform="translate(-5 10)" d="M300 850C320 840 340 830 350 824C620 760 980 730 1450 710L1450 825C980 842 650 870 378 924C340 900 320 875 300 850Z"></path>
+              <path id="sky-contact-saddle" class="support-wood support-contact-saddle" d="M258 930C278 882 314 840 350 824C404 811 466 804 526 794L526 882C468 895 421 909 378 924C332 933 292 935 258 930Z"></path>
               <path id="sky-support-wood" class="support-wood" clip-path="url(#sky-painted-trim)" data-shared-support="sky" d="M300 850C320 840 340 830 350 824C620 760 980 730 1450 710L1450 825C980 842 650 870 378 924C340 900 320 875 300 850Z"></path>
-              <path class="support-surface-edge" d="M650 758C820 738 1080 722 1450 710"></path>
+              <use class="support-bark-texture" href="#sky-contact-saddle"></use>
+              <use class="support-bark-texture" href="#sky-support-wood"></use>
+              <path class="support-irregular-highlight" d="M350 824C404 812 466 804 522 795M710 752C902 734 1130 720 1398 712"></path>
+              <path class="support-surface-edge" d="M350 824C404 811 466 804 526 794M650 758C820 738 1080 722 1450 710"></path>
               <path class="support-depth-edge" d="M650 870C840 850 1090 834 1450 825"></path>
               <path class="support-boundary" data-support-contour="sky" data-support-bird=".resident-sky .resident-cutout" data-support-anchors="350,824" d="M300 850C320 840 340 830 350 824C620 760 980 730 1450 710"></path>
               <path class="support-contact-shadow" clip-path="url(#sky-support-clip)" d="M302 835Q346 852 394 832"></path>
@@ -184,6 +223,15 @@
       </div>
 
       <div class="habitat-plane canopy-foreground" data-depth="4" data-entrance aria-hidden="true">
+        <svg class="foreground-undergrowth" viewBox="0 0 1440 460" preserveAspectRatio="none" focusable="false">
+          <g>
+            <use href="#leaf-spray-a" x="-120" y="92" width="420" height="328" transform="rotate(-19 90 256)"></use>
+            <use href="#leaf-spray-c" x="184" y="170" width="350" height="276" transform="rotate(13 359 308)"></use>
+            <use href="#leaf-spray-b" x="514" y="212" width="382" height="298" transform="rotate(-10 705 361)"></use>
+            <use href="#leaf-spray-a" x="858" y="170" width="360" height="282" transform="rotate(18 1038 311)"></use>
+            <use href="#leaf-spray-c" x="1170" y="84" width="420" height="328" transform="rotate(23 1380 248)"></use>
+          </g>
+        </svg>
         <svg class="front-foliage front-left" viewBox="0 0 540 900" focusable="false">
           <path class="branch-front" d="M-42 932C35 760 65 532 57 258L91 221C116 504 95 747 12 944Z"></path>
           <path class="branch-front-light" d="M-15 924C48 751 77 526 69 256"></path>

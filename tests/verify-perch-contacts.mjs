@@ -169,6 +169,48 @@ for (const [width, height] of viewports) {
         };
       });
     });
+    const paintedHeroSurfaces = [...document.querySelectorAll(".resident-support .support-unified, .resident-support .support-wood")]
+      .filter(visible)
+      .filter((path) => {
+        const style = getComputedStyle(path);
+        return style.fill !== "none" && style.fill !== "rgba(0, 0, 0, 0)" && Number.parseFloat(style.opacity) > 0;
+      });
+    const pointInsidePaintedSurface = (path, point) => {
+      const inverse = path.getScreenCTM()?.inverse();
+      if (!inverse) return false;
+      const local = new DOMPoint(point.x, point.y).matrixTransform(inverse);
+      if (!path.isPointInFill(local)) return false;
+      const clipMatch = path.getAttribute("clip-path")?.match(/^url\(#(.+)\)$/);
+      const clipShape = clipMatch ? path.ownerSVGElement?.querySelector(`#${CSS.escape(clipMatch[1])} > *`) : null;
+      return !clipShape || clipShape.isPointInFill(local);
+    };
+    const distanceToPaintedSurface = (anchor) => {
+      if (paintedHeroSurfaces.some((path) => pointInsidePaintedSurface(path, anchor))) return 0;
+      let best = Number.POSITIVE_INFINITY;
+      for (let radius = 1; radius <= 64 && radius <= best; radius += 1) {
+        for (let offset = -radius; offset <= radius; offset += 1) {
+          for (const point of [
+            { x: anchor.x + offset, y: anchor.y - radius },
+            { x: anchor.x + offset, y: anchor.y + radius },
+            { x: anchor.x - radius, y: anchor.y + offset },
+            { x: anchor.x + radius, y: anchor.y + offset },
+          ]) {
+            if (paintedHeroSurfaces.some((path) => pointInsidePaintedSurface(path, point))) {
+              best = Math.min(best, Math.hypot(point.x - anchor.x, point.y - anchor.y));
+            }
+          }
+        }
+      }
+      return best;
+    };
+    const paintedHeroContacts = contacts
+      .filter((contact) => ["sunny", "sky"].includes(contact.subject))
+      .map((contact) => ({
+        subject: contact.subject,
+        pad: contact.pad,
+        anchor: contact.anchor,
+        distance: Number(distanceToPaintedSurface(contact.anchor).toFixed(3)),
+      }));
     const obsessionsContour = contours.find((path) => path.dataset.supportContour === "obsessions");
     const obsessionsSVG = obsessionsContour?.closest("svg");
     const obsessionsMain = obsessionsSVG?.querySelector(".branch-main.segment-three");
@@ -323,6 +365,7 @@ for (const [width, height] of viewports) {
     const heroContactShadows = [...document.querySelectorAll(".resident .support-contact-shadow")];
     return {
       contacts,
+      paintedHeroContacts,
       compositions,
       subjects: [...new Set(contacts.map((contact) => contact.subject))].sort(),
       images: [...document.images].map((image) => ({ complete: image.complete, width: image.naturalWidth, height: image.naturalHeight })),
@@ -369,6 +412,12 @@ for (const [width, height] of viewports) {
         unifiedSurfaces: [...document.querySelectorAll(".resident-support .support-unified")]
           .filter((path) => getComputedStyle(path).display !== "none")
           .length,
+        textureFilters: [...document.querySelectorAll(".resident-support .support-bark-texture")]
+          .filter(visible)
+          .map((path) => getComputedStyle(path).filter),
+        nonHeroWoodFills: [...document.querySelectorAll(".moment-support .support-wood")]
+          .filter((path) => getComputedStyle(path).display !== "none")
+          .map((path) => getComputedStyle(path).fill),
       },
       atmosphere: {
         moonHaloFilter: document.querySelector(".moon-halo")
@@ -377,6 +426,10 @@ for (const [width, height] of viewports) {
         moonDiscFilter: getComputedStyle(document.querySelector(".moon-disc")).filter,
         moonMask: getComputedStyle(document.querySelector(".moon-disc")).maskImage,
         foregroundFilter: getComputedStyle(document.querySelector(".front-foliage")).filter,
+        distantLayers: [...document.querySelectorAll(".distant-undergrowth")].filter(visible).length,
+        foregroundLayers: [...document.querySelectorAll(".foreground-undergrowth")].filter(visible).length,
+        distantFilters: [...document.querySelectorAll(".distant-undergrowth")].filter(visible).map((layer) => getComputedStyle(layer).filter),
+        lowerFilters: [...document.querySelectorAll(".foreground-undergrowth")].filter(visible).map((layer) => getComputedStyle(layer).filter),
       },
       heroResidents: {
         sunny: {
@@ -419,6 +472,9 @@ for (const [width, height] of viewports) {
     if (contact.subject === "obsessions" && !contact.ownerContainsSupport) viewportFailures.push("obsessions contour is not on solid main branch");
     if (contact.subject === "obsessions" && (contact.pathRatio < 0.05 || contact.pathRatio > 0.95)) viewportFailures.push("obsessions contact is at branch endpoint");
   }
+  for (const contact of state.paintedHeroContacts) {
+    if (contact.distance > 2) viewportFailures.push(`${contact.subject} painted support pad ${contact.pad}: ${contact.distance}px`);
+  }
   for (const composition of state.compositions) {
     if (!composition.ordered) viewportFailures.push(`${composition.subject}: paint order ${JSON.stringify(composition.paintOrder)}`);
     if (composition.overlap.width < 10 || composition.overlap.height < 4) {
@@ -441,15 +497,23 @@ for (const [width, height] of viewports) {
     viewportFailures.push(`resident ambient/contact treatment ${JSON.stringify(state.shadows)}`);
   }
   if (state.material.woodFills.length < 2 || state.material.woodFills.some((fill) => !fill.startsWith("url("))
-    || state.material.grainStrokes.length < 1 || state.material.grainStrokes.some((stroke) => stroke === "none")) {
+    || state.material.grainStrokes.length < 1 || state.material.grainStrokes.some((stroke) => stroke === "none")
+    || state.material.textureFilters.length < 2 || state.material.textureFilters.some((filter) => !filter.startsWith("url("))) {
     viewportFailures.push(`dimensional support material ${JSON.stringify(state.material)}`);
+  }
+  if (state.material.nonHeroWoodFills.length < 2
+    || state.material.nonHeroWoodFills.some((fill) => fill === "none" || fill === "rgb(0, 0, 0)" || fill === "rgba(0, 0, 0, 0)")) {
+    viewportFailures.push(`nonhero support bark fill ${JSON.stringify(state.material.nonHeroWoodFills)}`);
   }
   if (state.material.paintedJoinContours !== 0 || state.material.surfaceEdges < 2
     || (width > 832 && state.material.unifiedSurfaces !== 1)) {
     viewportFailures.push(`painted support join continuity ${JSON.stringify(state.material)}`);
   }
   if (!state.atmosphere.moonHaloFilter.includes("drop-shadow") || state.atmosphere.moonDiscFilter !== "none"
-    || state.atmosphere.moonMask === "none" || !state.atmosphere.foregroundFilter.includes("blur")) {
+    || state.atmosphere.moonMask === "none" || !state.atmosphere.foregroundFilter.includes("blur")
+    || state.atmosphere.distantLayers < 2 || state.atmosphere.foregroundLayers < 1
+    || state.atmosphere.distantFilters.some((filter) => !filter.includes("blur"))
+    || state.atmosphere.lowerFilters.some((filter) => !filter.includes("blur"))) {
     viewportFailures.push(`atmospheric depth treatment ${JSON.stringify(state.atmosphere)}`);
   }
   if (state.heroResidents.sunny.width !== 1366 || state.heroResidents.sunny.height !== 1152 || state.heroResidents.sky.width !== 1024 || state.heroResidents.sky.height !== 1536) {
@@ -469,6 +533,7 @@ for (const [width, height] of viewports) {
   const entry = {
     viewport: `${width}x${height}`,
     contacts: state.contacts,
+    paintedHeroContacts: state.paintedHeroContacts,
     compositions: state.compositions,
     sharedHero: state.sharedHero,
     shadows: state.shadows,
