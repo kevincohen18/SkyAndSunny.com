@@ -294,6 +294,18 @@ h3 {
     var(--color-canvas);
 }
 
+.hero-habitat::after {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  z-index: var(--layer-middle);
+  height: clamp(11rem, 22vw, 22rem);
+  background: linear-gradient(180deg, transparent 0%, rgba(7, 16, 22, 0.16) 72%, rgba(7, 16, 22, 0.28) 100%);
+  content: "";
+  pointer-events: none;
+}
+
 .scene-definitions {
   position: absolute;
 }
@@ -745,8 +757,9 @@ h1 i {
 }
 
 .habitat-branch .branch-main {
-  stroke: var(--color-bark);
+  stroke: var(--color-bark-mid);
   stroke-width: var(--line-branch);
+  filter: url(#moment-bark-relief);
 }
 
 .habitat-branch .segment-two {
@@ -766,7 +779,8 @@ h1 i {
 }
 
 .branch-edge {
-  stroke: var(--color-bark-edge);
+  stroke: var(--color-bark-highlight);
+  stroke-opacity: 0.72;
   stroke-width: var(--line-branch-edge);
 }
 
@@ -950,13 +964,15 @@ h2 {
 }
 
 .habitat-branch .compact-branch-main {
-  fill: var(--color-bark);
+  fill: var(--color-bark-mid);
   stroke: none;
+  filter: url(#moment-bark-relief);
 }
 
 .habitat-branch .branch-main.segment-three {
-  fill: var(--color-bark);
+  fill: var(--color-bark-mid);
   stroke: none;
+  filter: url(#moment-bark-relief);
 }
 
 .habitat-branch .branch-fill-shadow {
@@ -1153,6 +1169,11 @@ h3 {
   aspect-ratio: 1448 / 1086;
 }
 
+.moment-support .support-wood {
+  fill: url(#sunny-bark-gradient);
+  filter: url(#moment-bark-relief);
+}
+
 .site-footer {
   position: relative;
   isolation: isolate;
@@ -1182,6 +1203,211 @@ h3 {
 .site-footer p {
   margin-bottom: 0;
   text-align: right;
+}
+
+/* Cinematic moment scenes: each encounter gets a focal composition of its own. */
+.moments-habitat {
+  padding-block: 0 var(--space-10);
+  background:
+    linear-gradient(180deg, #071016 0, #071016 4rem, rgba(7, 16, 22, 0.82) 10rem, transparent 19rem),
+    var(--surface-night-atmosphere);
+}
+
+.moments-intro {
+  position: relative;
+  min-height: min(72svh, 48rem);
+  display: grid;
+  align-items: end;
+  margin-bottom: 0;
+  padding: 8rem 8% 9rem;
+}
+
+.moments-intro::after {
+  position: absolute;
+  top: -12rem;
+  right: -8%;
+  left: -8%;
+  z-index: 0;
+  height: 22rem;
+  background: linear-gradient(180deg, transparent 0%, rgba(7, 16, 22, 0.16) 45%, transparent 100%);
+  content: "";
+  pointer-events: none;
+}
+
+.moments-intro::before {
+  position: relative;
+  z-index: 1;
+  display: block;
+  margin-bottom: var(--space-5);
+  color: var(--color-sky);
+  content: "THEIR MOMENTS  /  AFTER DARK";
+  font-size: var(--size-small);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.moments-intro h2 {
+  position: relative;
+  z-index: 1;
+  max-width: 10ch;
+  font-size: clamp(4rem, 8.2vw, 8rem);
+}
+
+.moment-sequence {
+  gap: 0;
+}
+
+.moment {
+  --scene-accent: var(--color-sunny);
+  --scene-wash: rgba(28, 77, 73, 0.18);
+  position: relative;
+  min-height: min(92svh, 58rem);
+  padding-block: 5rem;
+}
+
+.moment::before {
+  position: absolute;
+  z-index: var(--layer-back);
+  inset: 8% -16%;
+  background:
+    radial-gradient(ellipse at 50% 50%, var(--scene-wash), transparent 64%),
+    linear-gradient(90deg, transparent 10%, rgba(7, 16, 22, 0.22) 50%, transparent 90%);
+  content: "";
+  pointer-events: none;
+}
+
+.moment::after {
+  position: absolute;
+  z-index: var(--layer-back);
+  right: 8%;
+  bottom: 9%;
+  left: 8%;
+  border-bottom: 1px solid rgba(186, 201, 195, 0.14);
+  content: "";
+  pointer-events: none;
+}
+
+.moment-watermelon {
+  --scene-accent: #f0cd66;
+  --scene-wash: rgba(150, 71, 53, 0.23);
+}
+
+.moment-strawberries {
+  --scene-accent: #df9a94;
+  --scene-wash: rgba(114, 50, 65, 0.23);
+}
+
+.moment-obsessions {
+  --scene-accent: #e7c96d;
+  --scene-wash: rgba(126, 100, 46, 0.2);
+}
+
+.moment-opening {
+  z-index: var(--layer-content);
+  grid-column: span 8;
+  grid-row: 1;
+}
+
+.moment-watermelon .moment-opening,
+.moment-strawberries .moment-opening,
+.moment-obsessions .moment-opening {
+  grid-column: span 8;
+}
+
+.moment-strawberries .moment-opening {
+  grid-column: 5 / span 8;
+}
+
+.moment-obsessions .moment-opening {
+  grid-column: 2 / span 5;
+}
+
+.moment-image-link {
+  overflow: visible;
+}
+
+.moment-watermelon .moment-image-link,
+.moment-strawberries .moment-image-link {
+  aspect-ratio: 8 / 5;
+}
+
+.moment-obsessions .moment-image-link {
+  aspect-ratio: 4 / 5;
+}
+
+.moment-context {
+  width: 42%;
+  border-radius: 0;
+  box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.28);
+  filter: saturate(0.82) brightness(0.72);
+  opacity: 0.92;
+}
+
+.moment-obsessions .moment-context {
+  width: 58%;
+}
+
+.moment-bird {
+  width: 68%;
+  filter: brightness(0.96) saturate(0.96) contrast(1.04) drop-shadow(var(--shadow-ambient)) drop-shadow(var(--shadow-contact));
+}
+
+.moment-obsessions .moment-bird {
+  width: 72%;
+}
+
+.moment-copy {
+  z-index: var(--layer-front);
+  grid-column: 8 / span 4;
+  grid-row: 1;
+  align-self: end;
+  padding: 0 0 4rem 2rem;
+}
+
+.moment-strawberries .moment-copy {
+  grid-column: 2 / span 4;
+  grid-row: 1;
+  align-self: start;
+  padding: 4rem 2rem 0 0;
+}
+
+.moment-obsessions .moment-copy {
+  grid-column: 9 / span 3;
+  grid-row: 1;
+  align-self: center;
+  padding-left: 1rem;
+}
+
+.moment-number {
+  margin-bottom: var(--space-4);
+  color: var(--scene-accent);
+  font-size: var(--size-small);
+  letter-spacing: 0.16em;
+}
+
+.moment-number::after {
+  display: inline-block;
+  width: 3.5rem;
+  margin-left: 0.75rem;
+  border-top: 1px solid currentColor;
+  content: "";
+  vertical-align: middle;
+}
+
+.moment-copy h3 {
+  max-width: 8ch;
+  margin-bottom: var(--space-5);
+  font-size: clamp(2.5rem, 4.3vw, 5rem);
+}
+
+.moment-copy p {
+  max-width: 19ch;
+  color: var(--color-text);
+}
+
+.moment-copy > a {
+  color: var(--scene-accent);
 }
 
 @media (max-width: 64rem) {
@@ -1520,6 +1746,80 @@ h3 {
 
   .moment {
     padding-left: var(--space-4);
+  }
+}
+
+@media (max-width: 52rem) {
+  .moments-intro {
+    min-height: min(45svh, 28rem);
+    padding: 5rem 8% 4rem;
+  }
+
+  .moments-intro h2 {
+    max-width: 9ch;
+    font-size: clamp(3.3rem, 14vw, 5.2rem);
+  }
+
+  .moment {
+    min-height: 0;
+    padding-block: 4rem 5rem;
+  }
+
+  .moment::before {
+    inset: 5% -30%;
+  }
+
+  .moment-opening,
+  .moment-watermelon .moment-opening,
+  .moment-strawberries .moment-opening,
+  .moment-obsessions .moment-opening {
+    grid-column: 1;
+    grid-row: auto;
+    transform: none;
+  }
+
+  .moment-watermelon .moment-image-link,
+  .moment-strawberries .moment-image-link {
+    aspect-ratio: 8 / 5;
+  }
+
+  .moment-obsessions .moment-image-link {
+    aspect-ratio: 4 / 5;
+  }
+
+  .moment-context {
+    width: 42%;
+  }
+
+  .moment-obsessions .moment-context {
+    width: 58%;
+  }
+
+  .moment-bird,
+  .moment-obsessions .moment-bird {
+    width: 68%;
+  }
+
+  .moment-obsessions .moment-bird {
+    width: 72%;
+  }
+
+  .moment-copy,
+  .moment-strawberries .moment-copy,
+  .moment-obsessions .moment-copy {
+    grid-column: 1;
+    grid-row: auto;
+    align-self: auto;
+    padding: 0 var(--space-5) 0 10%;
+  }
+
+  .moment-copy h3 {
+    max-width: 9ch;
+    font-size: clamp(2.4rem, 10vw, 4rem);
+  }
+
+  .moment-copy p {
+    max-width: 24ch;
   }
 }
 

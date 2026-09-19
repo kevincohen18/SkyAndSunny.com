@@ -55,6 +55,12 @@
           <path class="leaf-blade" d="M145 64C153 43 172 34 187 41C185 59 173 70 155 72C151 70 148 68 145 64Z"></path>
           <path class="leaf-vein" d="M15 143C67 123 119 88 188 32"></path>
         </symbol>
+        <filter id="moment-bark-relief" x="-8%" y="-12%" width="116%" height="124%" color-interpolation-filters="sRGB">
+          <feTurbulence type="fractalNoise" baseFrequency="0.04 0.04" numOctaves="3" seed="27" result="moment-grain"></feTurbulence>
+          <feColorMatrix in="moment-grain" type="matrix" values="0 0 0 0 .34 0 0 0 0 .2 0 0 0 0 .1 0.7 0 0 0 0" result="moment-grain-tone"></feColorMatrix>
+          <feComposite in="moment-grain-tone" in2="SourceGraphic" operator="in" result="moment-grain-clip"></feComposite>
+          <feBlend in="SourceGraphic" in2="moment-grain-clip" mode="overlay"></feBlend>
+        </filter>
       </defs>
     </svg>
 
