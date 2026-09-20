@@ -1220,13 +1220,18 @@ h3 {
     var(--surface-night-atmosphere);
 }
 
+.moments-habitat::after {
+  background:
+    linear-gradient(180deg, var(--color-canvas) 0%, rgba(7, 16, 22, 0.94) 1.5rem, transparent 8rem),
+    radial-gradient(ellipse at 50% 12%, var(--color-night-haze), transparent 36%),
+    linear-gradient(90deg, var(--color-night-side-edge), transparent 22%, transparent 78%, var(--color-night-edge));
+}
+
 .moments-intro {
   position: relative;
   min-height: min(72svh, 48rem);
-  display: grid;
-  align-items: end;
   margin-bottom: 0;
-  padding: 8rem 8% 9rem;
+  padding: 5rem 8% 12rem;
 }
 
 .moments-intro::after {
@@ -1787,7 +1792,7 @@ h3 {
 @media (max-width: 52rem) {
   .moments-intro {
     min-height: min(45svh, 28rem);
-    padding: 5rem 8% 4rem;
+    padding: 1rem 8% 8rem;
   }
 
   .moments-intro h2 {
