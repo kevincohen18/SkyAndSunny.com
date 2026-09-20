@@ -299,9 +299,9 @@ h3 {
   right: 0;
   bottom: -1px;
   left: 0;
-  z-index: var(--layer-middle);
+  z-index: var(--layer-front);
   height: clamp(11rem, 22vw, 22rem);
-  background: linear-gradient(180deg, transparent 0%, rgba(7, 16, 22, 0.16) 72%, rgba(7, 16, 22, 0.28) 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(7, 16, 22, 0.3) 60%, var(--color-canvas) 100%);
   content: "";
   pointer-events: none;
 }
@@ -1186,6 +1186,13 @@ h3 {
   overflow: hidden;
   background: var(--surface-night-atmosphere);
   color: var(--color-text-quiet);
+}
+
+.site-footer::after {
+  background:
+    linear-gradient(180deg, #061114 0%, rgba(6, 17, 20, 0.94) 1.5rem, transparent 8rem),
+    radial-gradient(ellipse at 50% 12%, var(--color-night-haze), transparent 36%),
+    linear-gradient(90deg, var(--color-night-side-edge), transparent 22%, transparent 78%, var(--color-night-edge));
 }
 
 .site-footer > * {
