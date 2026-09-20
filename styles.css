@@ -1304,7 +1304,6 @@ h3 {
 }
 
 .moment-opening {
-  z-index: var(--layer-content);
   grid-column: span 8;
   grid-row: 1;
 }
