@@ -1,0 +1,10 @@
+{
+  "name": "Sky & Sunny | Night Aviary",
+  "short_name": "Sky & Sunny",
+  "description": "Enter Sky and Sunny’s moonlit aviary and watch three authentic moments from their TikTok account.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#071016",
+  "theme_color": "#071016",
+  "icons": []
+}

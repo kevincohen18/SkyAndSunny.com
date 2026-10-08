@@ -126,3 +126,9 @@ if (reducedMotionQuery.matches) {
   window.setTimeout(() => document.documentElement.classList.add("entrance-complete"), 600);
   requestAnimationFrame(() => document.documentElement.classList.add("is-ready"));
 }
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/sw.js").catch(() => {});
+  });
+}
