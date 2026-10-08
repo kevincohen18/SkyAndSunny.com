@@ -123,8 +123,6 @@ if (reducedMotionQuery.matches) {
   entrancePlane?.addEventListener("transitionend", () => {
     document.documentElement.classList.add("entrance-complete");
   }, { once: true });
-  window.setTimeout(() => document.documentElement.classList.add("entrance-complete"), 800);
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => document.documentElement.classList.add("is-ready"));
-  });
+  window.setTimeout(() => document.documentElement.classList.add("entrance-complete"), 600);
+  requestAnimationFrame(() => document.documentElement.classList.add("is-ready"));
 }
